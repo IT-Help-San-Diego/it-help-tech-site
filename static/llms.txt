@@ -15,3 +15,23 @@
 ## Optional
 
 - [Field Notes](https://www.it-help.tech/field-notes)
+
+## Use, License & Reuse
+
+Indexing access granted to AI/LLM and search crawlers via this file and
+`/robots.txt` is operational — it lets real users find first-party
+answers through AI-mediated search. It is **not** a license to
+redistribute, train on, or build derivative products from this site's
+content, code, or brand assets. Most material is reserved; a small set
+of field notes may be reused under CC BY 4.0 **only when the page itself
+is explicitly marked** with that license. DNS Tool software is licensed
+separately under BUSL-1.1 via its own repository. Brand, logos, owl
+marks, and trademarks are reserved.
+
+See the full policy:
+
+- [Use, License & Reuse Policy](https://www.it-help.tech/use-policy)
+- Repository LICENSE: https://github.com/IT-Help-San-Diego/it-help-tech-site/blob/main/LICENSE
+- Repository NOTICE: https://github.com/IT-Help-San-Diego/it-help-tech-site/blob/main/NOTICE
+
+Licensing requests: licensing@it-help.tech

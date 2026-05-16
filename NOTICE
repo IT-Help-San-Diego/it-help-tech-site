@@ -1,0 +1,28 @@
+IT Help San Diego Inc. — NOTICE
+
+This product/site bundles work owned by IT Help San Diego Inc. and work
+owned by third parties. The terms differ. See LICENSE for the full
+breakdown and https://www.it-help.tech/use-policy/ for the human-readable
+version.
+
+Component summary:
+
+  IT Help San Diego Inc. corporate content & code  — All rights reserved
+  /field-notes/ articles                           — Reserved; CC BY 4.0
+                                                     only where the page
+                                                     itself is explicitly
+                                                     marked.
+  DNS Tool references                              — BUSL-1.1 via the
+                                                     DNS Tool repository
+                                                     (dns-tool-intel).
+  Immutable Fact AI / The Real Bot path            — Reserved commercial.
+  Brand, logos, owl marks, trademarks              — All rights reserved.
+  Abridge theme (themes/abridge/)                  — See themes/abridge/LICENSE.
+  Node devDependencies                             — Each retains its own
+                                                     upstream license.
+
+AI / LLM crawlers: indexing access granted via robots.txt and llms.txt
+does not grant reuse, training, or derivative-product rights. See
+LICENSE §7.
+
+Contact: licensing@it-help.tech

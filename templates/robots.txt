@@ -2,6 +2,12 @@
 User-Agent: *
 Disallow: /
 {%- else %}
+# Indexing access is operational, not a reuse license.
+# See https://www.it-help.tech/use-policy/ for what reuse is and isn't
+# permitted. AI / LLM crawlers: access does not grant training,
+# redistribution, or derivative-product rights. Contact:
+# licensing@it-help.tech
+
 # Default: allow all crawlers
 User-agent: *
 Allow: /

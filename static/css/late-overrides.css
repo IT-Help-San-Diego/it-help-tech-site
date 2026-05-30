@@ -469,8 +469,8 @@ html.switch .location {
     white-space: nowrap;
     margin: 0;
     color: var(--neutral-white);
-    /* Match the highlight weight (700) so "IT research" reads with the
-       same visual presence as "in motion" — owner noted the white words
+    /* Match the highlight weight (700) so "IT research that" reads with the
+       same visual presence as "solves" — owner noted the white words
        looked thin next to the bolded gold phrase. Same weight on both
        segments produces a unified line, with the gold accent doing the
        emphasis work via color, not weight. */

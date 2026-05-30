@@ -34,7 +34,7 @@ jobs:
           node-version: '20'
 
       - name: Install Zola
-        uses: taiki-e/install-action@d9be7d8cda89035c9c843f78bd44d4f72d8403d4 # v2
+        uses: taiki-e/install-action@481c34c1cf3a84c68b5e46f4eccfc82af798415a # v2
         with:
           tool: zola
 
@@ -92,7 +92,7 @@ jobs:
       - name: Copy images and root files
         run: |
           cp -r static/images public/
-          cp static/ithelp-logo-sig-seablue.html static/ithelp-logo-sig-gold.html static/ithelp-anilogo.html static/red-plus.ico static/bimi-logo.svg public/
+          cp static/ithelp-logo-sig-seablue.html static/ithelp-logo-sig-gold.html static/ithelp-logo-sig-research.html static/ithelp-anilogo.html static/red-plus.ico static/bimi-logo.svg public/
 
       - name: Verify no external subresources (security-relevant)
         # Original COEP require-corp safety net (Sub-4-bis). require-corp was

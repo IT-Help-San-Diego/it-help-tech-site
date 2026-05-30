@@ -212,3 +212,19 @@ The single source of truth for design tokens is `static/css/tokens.css` (CSS cus
 - Logo markup: `templates/partials/hero_logo.html`
 - Hero logo behavior: `static/js/hero-logo.js`
 - Evolution log: `PROJECT_EVOLUTION_LOG.md`
+- Email signature (canonical copy-paste source): `static/ithelp-logo-sig-research.html`
+- `/signature` reference page + install guide: `content/signature.md`, styled by `static/css/signature.css`
+
+## Email Signature
+
+The email signature is a self-contained artifact, **not** part of the website's
+token system. It has its own fixed palette (dark `#111827` ground, `#c8a878`
+muted gold, `#c42a2a` brand red) hardcoded as literal hex in
+`static/ithelp-logo-sig-research.html` — literal hex is mandatory because email
+clients (Gmail, Outlook, Apple Mail) cannot resolve CSS `var()` tokens. The
+standalone file is the single source of truth users copy from; it gets the
+relaxed signatures CSP automatically via its `ithelp-logo-sig-*` filename. The
+`/signature` page renders a scoped preview that mirrors that palette
+(`static/css/signature.css`, namespaced under `.sig-preview`). When signature
+content changes, edit both the standalone file and the preview block in
+`content/signature.md`.

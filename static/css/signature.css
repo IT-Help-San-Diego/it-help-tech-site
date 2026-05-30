@@ -1,0 +1,113 @@
+/* ------------------------------------------------------------------ *
+ * /signature page — email-signature reference + install guide.
+ *
+ * Scope: every rule here is namespaced under .sig-page (the page intro,
+ * actions, and install steps) or .sig-preview (the embedded, exact replica
+ * of the email signature). Nothing leaks to the rest of the site.
+ *
+ * The .sig-* component rules below are a deliberate, scoped copy of the
+ * self-contained styles in /ithelp-logo-sig-research.html — that standalone
+ * file remains the canonical copy-paste source (it must stay self-contained
+ * so Safari can inline computed styles on copy). When the signature CONTENT
+ * changes (title, phone, links), edit BOTH this preview block and the
+ * standalone file. The styling rarely changes; the content is what drifts.
+ * ------------------------------------------------------------------ */
+
+.sig-page__intro {
+  max-width: 60ch;
+  margin: 0 0 1.75rem;
+}
+
+/* ---- Live preview frame -------------------------------------------- */
+.sig-preview {
+  background-color: #111827;
+  border: 1px solid rgba(var(--brand-gold-rgb), 0.25);
+  border-radius: 14px;
+  padding: 22px;
+  margin: 0 0 1.5rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Exact signature replica (mirrors /ithelp-logo-sig-research.html). */
+.sig-preview .sig-table { border-collapse:separate; border-spacing:0; background-color:#111827; border-radius:10px; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif; width:560px; max-width:560px; }
+.sig-preview .sig-gold-bar { height:3px; background:linear-gradient(90deg,#c8a878,#d4af37,#c8a878); font-size:0; line-height:0; }
+.sig-preview .sig-body-cell { padding:14px; vertical-align:middle; background-color:#111827; }
+.sig-preview .sig-inner-table { border-collapse:collapse; width:100%; }
+.sig-preview .sig-avatar-cell { width:142px; padding:0; vertical-align:middle; background-color:#111827; }
+.sig-preview .sig-avatar-link { text-decoration:none; display:block; }
+.sig-preview .sig-avatar-img { display:block; border:0; outline:0; }
+.sig-preview .sig-divider-cell { width:1px; background-color:rgba(200,168,120,0.25); font-size:0; line-height:0; }
+.sig-preview .sig-content-cell { vertical-align:middle; padding-left:14px; background-color:#111827; }
+.sig-preview .sig-brand { font-size:18px; font-weight:800; letter-spacing:-0.5px; margin:0 0 3px 0; line-height:1.1; }
+.sig-preview .sig-brand-gold { color:#c8a878; }
+.sig-preview .sig-brand-red { color:#c42a2a; }
+.sig-preview .sig-brand-location { color:#6b7280; font-size:11px; letter-spacing:1.8px; font-weight:700; }
+.sig-preview .sig-tagline { font-size:10px; color:#6b7280; margin:0 0 8px 0; font-style:italic; line-height:1.3; letter-spacing:0.3px; }
+.sig-preview .sig-details { font-size:12px; color:#d1d5db; line-height:1.5; margin:0; }
+.sig-preview .sig-name { color:#e5e7eb; }
+.sig-preview .sig-muted { color:#6b7280; }
+.sig-preview .sig-role { color:#9ca3af; }
+.sig-preview .sig-link { color:#c8a878; text-decoration:none; }
+.sig-preview .sig-link:hover { text-decoration:underline; }
+.sig-preview .sig-gap { height:8px; font-size:0; line-height:0; }
+.sig-preview .sig-address { border-top:1px solid rgba(200,168,120,0.18); padding-top:8px; font-size:11px; color:#6b7280; line-height:1.4; margin:0; }
+.sig-preview .sig-company { color:#9ca3af; font-weight:600; }
+.sig-preview .sig-sep { color:#374151; }
+.sig-preview .sig-bottom-bar { height:1px; background-color:rgba(200,168,120,0.18); font-size:0; line-height:0; }
+
+/* ---- Actions ------------------------------------------------------- */
+.sig-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  margin: 0 0 2.5rem;
+}
+
+.sig-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.2rem;
+  border-radius: 10px;
+  font-weight: 700;
+  text-decoration: none;
+  border: 1px solid transparent;
+  line-height: 1;
+}
+
+.sig-btn--primary {
+  background: var(--brand-gold-solid, #D2B56F);
+  color: var(--brand-gold-ink, #16120A);
+}
+
+.sig-btn--primary:hover {
+  background: var(--brand-gold, #C2A15A);
+  text-decoration: none;
+}
+
+.sig-btn__ext { font-weight: 400; }
+
+/* ---- Install / notes sections -------------------------------------- */
+.sig-section { margin: 0 0 2.25rem; }
+
+.sig-section__title {
+  font-size: 1.05rem;
+  letter-spacing: 0.02em;
+  margin: 0 0 0.85rem;
+}
+
+.sig-page kbd {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.85em;
+  padding: 0.15em 0.45em;
+  border-radius: 5px;
+  border: 1px solid rgba(var(--brand-gold-rgb), 0.35);
+  background: rgba(var(--brand-gold-rgb), 0.08);
+}
+
+.sig-page ol,
+.sig-page ul { max-width: 70ch; }
+
+.sig-page li { margin-bottom: 0.55rem; }

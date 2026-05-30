@@ -641,6 +641,19 @@ Purpose: Track meaningful AI/developer changes with enough context to roll back 
 - Why: Previous attempts (border-color transparent → border 0 → box-shadow none) treated symptoms. The architect's deeper analysis identified that the surface color mismatch IS the seam — eliminating the color step is the only definitive fix. The capability query pattern (hover/pointer instead of just min-width) correctly handles iPad landscape, which exceeds 960px but is a touch device and shouldn't get the glass treatment.
 - Rollback: revert this PR.
 
+### 2026-05-29 (Hero · Tagline rewrite to "IT research that solves.")
+- Actor: AI (Replit Agent)
+- Severity: LOW (hero copy only; zero structural, CSS, or layout change)
+- Trigger: Owner direction — "We have to change the IT research in motion. I like it, but research in motion is already a failed company name." ("Research In Motion" = BlackBerry's former corporate identity.) In follow-up the owner clarified two constraints: keep the word "research," foreground the problem-solver identity ("the biggest thing I do is solve problems"), but honor the standing humility rule ("I don't want to brag or sound like I think I'm the best").
+- Files:
+  - `templates/partials/hero_logo.html` — tagline copy changed to `IT research that <span class="highlight">solves</span>.` (highlight phrase moved from `in motion` to `solves`). Comment block updated with the rationale.
+  - `STYLE_GUIDE.md` — hero tagline rule updated: copy is now `IT research that solves.`, gold highlight is `solves`; added explicit guard against `in motion` (RIM collision) and against superlatives (humility rule).
+  - `static/css/late-overrides.css` — comment-only update; the `.tagline-text` weight-matching rationale referenced the old phrases (`IT research` / `in motion`), now reads `IT research that` / `solves`. No CSS values changed.
+- Change: Single-line hero pill copy retired `IT research in motion.` in favor of `IT research that solves.` The H1 directly below (`We solve tech problems. No monthly retainers.`) is unchanged and still carries the literal SEO proposition. Markup structure (`.tagline` → `.tagline-border` → `.tagline-text` → single `.highlight` span) is identical; only the text nodes and the highlighted segment changed, so the existing pill geometry, gold border, weight-matching, and light/dark treatments all apply unchanged.
+- Why: "Research In Motion" is a defunct company name and an unwanted brand association. The replacement keeps "research" (the method) and adds the owner's core identity as a problem-solver (the outcome) while avoiding verbatim duplication of the H1 below it — pill = character, H1 = offer. "solves" is a function statement (what the work does), not a superlative, satisfying the owner humility rule that the previous candidate set was screened against.
+- Gates: No script/CSP/header/token changes; Lighthouse and Observatory posture unaffected. `white-space: nowrap` on `.tagline-text` is preserved — verified the longer string still fits the pill on mobile without wrap or overflow. `zola build` clean.
+- Rollback: revert this PR.
+
 ### 2026-04-17 (Hero · Tagline rewrite to "IT research in motion." + mobile topbar seam fix)
 - Actor: AI (Replit Agent)
 - Severity: LOW (copy + decorative-border fix; zero structural change)

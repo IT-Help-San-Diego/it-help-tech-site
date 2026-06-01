@@ -43,15 +43,22 @@
 .sig-preview .sig-brand-gold { color:#c8a878; }
 .sig-preview .sig-brand-red { color:#c42a2a; }
 .sig-preview .sig-brand-location { color:#6b7280; font-size:11px; letter-spacing:1.8px; font-weight:700; }
-.sig-preview .sig-tagline { font-size:10px; color:#6b7280; margin:0 0 8px 0; font-style:italic; line-height:1.3; letter-spacing:0.3px; }
+/* `#6b7280` on `#111827` is 3.67:1 — fails WCAG AA for normal text (4.5:1
+   threshold). `#9ca3af` lands at 5.75:1 on the same background, restoring
+   AA compliance for the in-page preview without flattening the visual
+   hierarchy against `--text-primary`. The actual email-signature file at
+   /ithelp-logo-sig-research.html keeps `#6b7280` because that signature
+   is pasted into mail clients with light backgrounds where the contrast
+   math is different — do not chase parity between the two surfaces. */
+.sig-preview .sig-tagline { font-size:10px; color:#9ca3af; margin:0 0 8px 0; font-style:italic; line-height:1.3; letter-spacing:0.3px; }
 .sig-preview .sig-details { font-size:12px; color:#d1d5db; line-height:1.5; margin:0; }
 .sig-preview .sig-name { color:#e5e7eb; }
-.sig-preview .sig-muted { color:#6b7280; }
+.sig-preview .sig-muted { color:#9ca3af; }
 .sig-preview .sig-role { color:#9ca3af; }
 .sig-preview .sig-link { color:#c8a878; text-decoration:none; }
 .sig-preview .sig-link:hover { text-decoration:underline; }
 .sig-preview .sig-gap { height:8px; font-size:0; line-height:0; }
-.sig-preview .sig-address { border-top:1px solid rgba(200,168,120,0.18); padding-top:8px; font-size:11px; color:#6b7280; line-height:1.4; margin:0; }
+.sig-preview .sig-address { border-top:1px solid rgba(200,168,120,0.18); padding-top:8px; font-size:11px; color:#9ca3af; line-height:1.4; margin:0; }
 .sig-preview .sig-company { color:#9ca3af; font-weight:600; }
 .sig-preview .sig-sep { color:#374151; }
 .sig-preview .sig-bottom-bar { height:1px; background-color:rgba(200,168,120,0.18); font-size:0; line-height:0; }

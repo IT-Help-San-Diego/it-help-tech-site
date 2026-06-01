@@ -95,17 +95,25 @@ a.ftr-node:hover {
     letter-spacing: 0.02em;
 }
 
-/* --- Connectors (vertical/horizontal lines drawn between nodes) --- */
+/* --- Connectors (vertical/horizontal lines drawn between nodes) ---
+   The connectors form the visible "corporate tree" graphic that links
+   Delaware -> California, Consulting -> DNS Tool, and the parent rows to
+   the 4-column leaf grid. At the original 0.18 alpha on #0D1117 the
+   lines were near-invisible, so the tree shape didn't register at all
+   and the badges looked like floating disconnected pills. Bumping to
+   0.6 makes the tree branches clearly readable as structural lines
+   while staying in the same muted-gold family as the brand accents —
+   the tree feels intentional and architectural, not loud. */
 .ftr-vline {
     width: 1px;
     height: 12px;
-    background: rgba(200, 149, 106, 0.18);
+    background: rgba(200, 149, 106, 0.6);
     flex-shrink: 0;
 }
 
 .ftr-hline {
     height: 1px;
-    background: rgba(200, 149, 106, 0.18);
+    background: rgba(200, 149, 106, 0.6);
     flex-shrink: 0;
 }
 
@@ -125,7 +133,9 @@ a.ftr-node:hover {
     top: 0;
     bottom: 0;
     width: 1px;
-    background: rgba(200, 149, 106, 0.18);
+    /* Central spine of the org tree — same 0.6 alpha as the arms so the
+       whole tree reads as one continuous graphic. */
+    background: rgba(200, 149, 106, 0.6);
 }
 
 .ftr-org-reg {
@@ -139,14 +149,14 @@ a.ftr-node:hover {
 
 .ftr-org-reg-left  { display: flex; align-items: center; align-self: flex-end;   margin-right: 50%; }
 .ftr-org-reg-right { display: flex; align-items: center; align-self: flex-start; margin-left:  50%; }
-.ftr-org-reg-arm   { width: 12px; height: 1px; background: rgba(200, 149, 106, 0.18); flex-shrink: 0; }
+.ftr-org-reg-arm   { width: 12px; height: 1px; background: rgba(200, 149, 106, 0.6); flex-shrink: 0; }
 
 .ftr-org-dept            { z-index: 1; display: flex; align-items: flex-start; }
 .ftr-org-dept-left       { flex: 1; display: flex; justify-content: flex-end; }
 .ftr-org-dept-left-col   { display: flex; flex-direction: column; align-items: center; }
 .ftr-org-dept-left-top   { display: flex; align-items: center; }
 .ftr-org-dept-right      { flex: 1; display: flex; align-items: center; }
-.ftr-org-dept-arm        { width: 16px; height: 1px; background: rgba(200, 149, 106, 0.18); flex-shrink: 0; }
+.ftr-org-dept-arm        { width: 16px; height: 1px; background: rgba(200, 149, 106, 0.6); flex-shrink: 0; }
 
 /* --- 4-column connector bar above the link grid --- */
 .ftr-grid-connector {
@@ -166,12 +176,12 @@ a.ftr-node:hover {
     top: 0;
     height: 12px;
     width: 1px;
-    background: rgba(200, 149, 106, 0.18);
+    background: rgba(200, 149, 106, 0.6);
 }
 
 .ftr-grid-bar {
     height: 1px;
-    background: rgba(200, 149, 106, 0.18);
+    background: rgba(200, 149, 106, 0.6);
     align-self: stretch;
     margin: 0 calc(12.5% - 0.375rem);
 }

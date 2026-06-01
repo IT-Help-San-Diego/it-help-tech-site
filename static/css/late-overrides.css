@@ -1663,33 +1663,30 @@ img.img-centered-520 {
 
     /* Opt-in escape hatch. Apply class="full-bleed" to any element inside
        <article> that should span the wider <main> column instead of being
-       constrained to the prose measure. Used by:
-         - rate tables and scope tables that need horizontal room
-         - pre/code blocks (long shell commands shouldn't wrap mid-token)
-         - large figures and the .how-we-work 2x2 card grid
-         - the signature preview (already 560px fixed, fits inside 68ch
-           so it doesn't need the hatch — listed for safety)
-       The 50vw / -50vw trick re-anchors to the viewport edges; the
-       max-width:1008px ceiling keeps full-bleed elements aligned with
-       the original main column width on screens where main is wider
-       than the viewport-centered 68ch column. */
+       constrained to the prose measure. Auto-applied to elements that
+       always want full width: the .how-we-work card grid, tables, pre
+       code blocks, the .post-image hero portrait, and standalone
+       figures tagged .full-bleed.
+
+       Technique: position:relative + left:50% + translateX(-50%) anchors
+       the element to the horizontal center of the parent and then pulls
+       it back by half its OWN width. Combined with a declared width
+       (not max-width) wider than the parent, this is the only reliable
+       way to break out of a max-width-constrained ancestor in modern
+       CSS without negative margins. The width:min(1008px, ...) ceiling
+       caps the break-out at the original <main> column width so we
+       don't drift wider than the page's structural grid. */
     article > .full-bleed,
     article > table,
     article > pre,
-    article > .how-we-work {
-        max-width: min(1008px, calc(100vw - 2 * var(--s1, 1rem)));
-        margin-left: 50%;
-        transform: translateX(-50%);
-    }
-
-    /* Inline images inside paragraphs should stay inside the prose column;
-       only .post-image (the article hero portrait wrapper) and standalone
-       figures break out. */
+    article > .how-we-work,
     article > .post-image,
     article > figure.full-bleed {
-        max-width: min(1008px, calc(100vw - 2 * var(--s1, 1rem)));
-        margin-left: 50%;
+        position: relative;
+        width: min(1008px, calc(100vw - 2 * var(--s1, 1rem)));
+        left: 50%;
         transform: translateX(-50%);
+        max-width: none;
     }
 
     /* Match Apple's 1.47x line-height on developer docs while meeting the

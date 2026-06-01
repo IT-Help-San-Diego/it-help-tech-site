@@ -1,15 +1,15 @@
 +++
-title       = "Mac IT Support San Diego (La Jolla) | IT Help San Diego"
-description = "Apple-centric IT, deep-research diagnostics for La Jolla & San Diego. macOS first; Unix, Linux, Windows too. No hardware sales, no retainers."
+title       = "La Jolla Apple IT Consultant · Senior Mac & Network Help"
+description = "Senior Apple-centric IT consultant for La Jolla and the wider San Diego — Mac first, with Linux and Windows, Wi‑Fi, DNS and email security in mixed environments. By appointment, on-site or remote. 27 years. No hardware repair, no monthly retainers."
 
 [extra]
-seo_title       = "Mac IT Support San Diego"
-og_title        = "Mac IT Support San Diego (La Jolla) | IT Help San Diego"
-og_description  = "Apple-centric IT, deep-research diagnostics for La Jolla & San Diego. macOS first; Unix, Linux, Windows too. No hardware sales, no retainers."
+seo_title       = "La Jolla Apple IT Consultant · Senior Mac & Network Help"
+og_title        = "La Jolla Apple IT Consultant · Senior Mac & Network Help"
+og_description  = "Senior Apple-centric IT consultant for La Jolla and the wider San Diego — Mac first, with Linux and Windows, Wi‑Fi, DNS and email security in mixed environments. By appointment, on-site or remote. 27 years. No hardware repair, no monthly retainers."
 og_image        = "/images/og-home.png"
 
-twitter_title       = "Mac IT Support San Diego (La Jolla) | IT Help San Diego"
-twitter_description = "Apple-centric IT, deep-research diagnostics for La Jolla & San Diego. macOS first; Unix, Linux, Windows too. No hardware sales, no retainers."
+twitter_title       = "La Jolla Apple IT Consultant · Senior Mac & Network Help"
+twitter_description = "Senior Apple-centric IT consultant for La Jolla and the wider San Diego — Mac first, with Linux and Windows, Wi‑Fi, DNS and email security in mixed environments. By appointment, on-site or remote. 27 years. No hardware repair, no monthly retainers."
 twitter_image       = "/images/og-home.png"
 twitter_card        = "summary_large_image"
 +++

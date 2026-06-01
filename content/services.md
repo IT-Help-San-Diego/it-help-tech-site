@@ -1,15 +1,15 @@
 ---
-title: On-site IT Services San Diego (La Jolla) | IT Help San Diego
+title: Apple IT Consulting Services · La Jolla & San Diego
 path: services
-description: "Apple-centric on-site IT services across San Diego: Mac and Wi‑Fi troubleshooting, DNS/email deliverability, cybersecurity, and data recovery. No retainers."
+description: "Engagements with a senior Apple-centric IT consultant in La Jolla, on-site or remote across San Diego. Mac first, with Linux and Windows, Wi‑Fi, DNS and email security in mixed environments. By appointment. No hardware repair, no monthly retainers, no affiliate hardware sales."
 extra:
-  seo_title: "On-site IT Services San Diego"
+  seo_title: "Apple IT Consulting Services · La Jolla & San Diego"
   skip_image: true
   skip_author: true
-  og_description: "Apple‑centric on‑site IT services: Mac & Wi‑Fi troubleshooting, DNS/email security, data recovery—no monthly retainers."
-  twitter_description: "Apple‑centric on‑site IT services: Mac & Wi‑Fi troubleshooting, DNS/email security, data recovery—no monthly retainers."
-  og_title: "On-site IT Services San Diego (La Jolla) | IT Help San Diego"
-  twitter_title: "On-site IT Services San Diego (La Jolla) | IT Help San Diego"
+  og_description: "Engagements with a senior Apple-centric IT consultant in La Jolla, on-site or remote across San Diego. Mac first, with Linux and Windows, Wi‑Fi, DNS and email security in mixed environments. By appointment. No hardware repair, no monthly retainers."
+  twitter_description: "Engagements with a senior Apple-centric IT consultant in La Jolla, on-site or remote across San Diego. Mac first, with Linux and Windows, Wi‑Fi, DNS and email security in mixed environments. By appointment. No hardware repair, no monthly retainers."
+  og_title: "Apple IT Consulting Services · La Jolla & San Diego"
+  twitter_title: "Apple IT Consulting Services · La Jolla & San Diego"
 ---
 
 <script type="application/ld+json">
@@ -353,6 +353,28 @@ extra:
 
 
 Seven service pillars, organized by the problem they solve. Across all seven, the model is the same: you bring a mission, problem, or research goal; we engage, solve it, and bill only for work performed. No retainers, no lock-in, no padded hours. This structure gives clients access to senior-level engineering when needed, without an ongoing contract.
+
+## Scope {#scope}
+
+### What this practice covers
+
+* **macOS and iOS at the system level** — storage, sync, performance, migration, keychain, Mail, iCloud. The top of the stack and the platform this practice is built around.
+* **Linux at the system level** — including DNS, mail, and open-source infrastructure work. The [DNS Tool](/dns-tool/) and [field notes](/field-notes/) are the public version of this work.
+* **Windows in mixed environments** where identity, networking, or email overlap with the Mac or Linux side. A Wi‑Fi or DNS problem in a Windows office is still our problem.
+* **Wi‑Fi and wired network design and troubleshooting** — Cat6A/Cat8, mesh design, RF measurement — across all three platforms.
+* **DNS and email-deliverability work** — SPF, DKIM, DMARC, MTA-STS, DNSSEC.
+* **Cybersecurity hardening, ethical remote support, forensic data extraction** for legal matters.
+* **Recovery of recoverable data** without sending drives to a clean room — honest scope agreed upfront.
+
+### What this practice does not cover
+
+* **Physical device repair of any kind** — no cracked screens, no failed batteries, no liquid damage, no charging ports, no hinges, no keyboards.
+* **Hardware sales** — we do not resell devices and we do not earn affiliate commissions on what we recommend.
+* **Monthly support retainers or managed-service contracts** — see the [Managed Agent](/managed-agent/) page for the device-maintenance layer that is the closest thing this practice offers, and the math that makes it different.
+* **Same-day emergency callouts for non-clients** — by appointment only.
+* **Walk-in service** — by appointment only.
+
+For physical-screen, battery, or port work, we refer to a vetted local technician. For device replacement we offer existing clients an on-site concierge pickup-and-migrate from Apple.
 
 ## Mac & Apple Ecosystem {#mac}
 

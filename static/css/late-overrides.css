@@ -999,7 +999,12 @@ html:not(.switch) h6 a.gold-link:active {
         backdrop-filter: saturate(160%) blur(14px);
         border-bottom: 1px solid rgba(210, 181, 111, 0.38);
         transform: translateZ(0);
-        will-change: backdrop-filter;
+        /* `will-change: backdrop-filter` is not a valid will-change value;
+           browsers silently coerce it to `auto`, so it never delivered the
+           compositing hint it appeared to. `transform` is the canonical
+           Safari GPU-promotion hint and is what the translateZ(0) above
+           actually depends on. */
+        will-change: transform;
     }
     @supports (background: color-mix(in oklab, red, blue)) {
         .topbar {
@@ -1051,7 +1056,9 @@ html:not(.switch) h6 a.gold-link:active {
             border-bottom: 0;
             box-shadow: none;
             transform: translateZ(0);
-            will-change: backdrop-filter;
+            /* See note in the desktop topbar rule above — `transform` is the
+               valid will-change value; `backdrop-filter` is not. */
+            will-change: transform;
         }
     }
 }

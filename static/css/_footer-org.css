@@ -203,6 +203,16 @@ a.ftr-node:hover {
     border: 1px solid rgba(48, 54, 61, 0.4);
     border-radius: var(--radius-xl, 10px);
     padding: 0.85rem 0.9rem;
+    /* Safari refuses to paint backdrop-filter unless the element creates an
+       explicit stacking context. translateZ(0) is the cheapest way to do
+       that without changing layout, and it pairs with `will-change:
+       transform` so the compositor keeps the layer on the GPU. Without
+       this, the frosted blur degrades to a flat rgba background in
+       Safari while Chrome/Firefox composite it correctly — the kind of
+       silent cross-engine drift that's hard to spot until a Mac client
+       sees it. */
+    transform: translateZ(0);
+    will-change: transform;
     transition: border-color var(--transition-medium, 250ms ease),
                 background var(--transition-medium, 250ms ease);
 }

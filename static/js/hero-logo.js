@@ -391,7 +391,52 @@ function nearestNodeIndexes(state, fromIndex, maxDistSq, limit) {
   return result;
 }
 
-function drawMobileDarkLink(state, drawnPairs, indexA, indexB, maxDistSq) {
+function drawMobileDarkSequenceLinks(state, maxDistSq) {
+  if (!state.touchDarkBoost || state.nodes.length < 6) {
+    return;
+  }
+  drawDeliberatePairLinks(state, maxDistSq, true);
+}
+
+// Shared deliberate-pair line algorithm. Originally introduced for mobile
+// dark mode (iPhone) where the touchDarkBoost branch gave visibly cleaner
+// triangulation than the desktop O(n^2) distance-fade. Promoted to also
+// run on desktop dark mode 2026-06-01: the desktop distance-fade was
+// producing line alpha ~0.02 at the user's current hero size, leaving the
+// 'computer-science' lattice nearly invisible in macOS Safari. Deliberate
+// pairs (nearest neighbors + Fibonacci-offset siblings) draw far fewer
+// edges than O(n^2) but each one paints at a usable alpha, which matches
+// the iPhone result the brand owner already approves of.
+function drawDeliberatePairLinks(state, maxDistSq, touchDarkBoost) {
+  if (state.nodes.length < 6) {
+    return;
+  }
+
+  const localMaxDistSq = maxDistSq * 0.5;
+  const fibMaxDistSq = maxDistSq * 0.62;
+  const fibOffsets = [2, 3, 5];
+  const drawnPairs = new Set();
+
+  for (const [index] of state.nodes.entries()) {
+    const nearestLimit = index % 2 === 0 ? 2 : 1;
+    for (const neighborIndex of nearestNodeIndexes(state, index, localMaxDistSq, nearestLimit)) {
+      drawDeliberateLink(state, drawnPairs, index, neighborIndex, localMaxDistSq, touchDarkBoost);
+    }
+
+    for (const offset of fibOffsets) {
+      if (offset === 5 && index % 2 !== 0) {
+        continue;
+      }
+      drawDeliberateLink(state, drawnPairs, index, index + offset, fibMaxDistSq, touchDarkBoost);
+    }
+  }
+
+  for (let index = 0; index + 2 < state.nodes.length; index += 3) {
+    drawDeliberateLink(state, drawnPairs, index, index + 2, fibMaxDistSq, touchDarkBoost);
+  }
+}
+
+function drawDeliberateLink(state, drawnPairs, indexA, indexB, maxDistSq, touchDarkBoost) {
   if (indexA === indexB || indexB < 0 || indexB >= state.nodes.length) {
     return;
   }
@@ -408,36 +453,7 @@ function drawMobileDarkLink(state, drawnPairs, indexA, indexB, maxDistSq) {
   }
 
   drawnPairs.add(key);
-  drawNodeLink(state, fromNode, toNode, maxDistSq, true);
-}
-
-function drawMobileDarkSequenceLinks(state, maxDistSq) {
-  if (!state.touchDarkBoost || state.nodes.length < 6) {
-    return;
-  }
-
-  const localMaxDistSq = maxDistSq * 0.5;
-  const fibMaxDistSq = maxDistSq * 0.62;
-  const fibOffsets = [2, 3, 5];
-  const drawnPairs = new Set();
-
-  for (const [index] of state.nodes.entries()) {
-    const nearestLimit = index % 2 === 0 ? 2 : 1;
-    for (const neighborIndex of nearestNodeIndexes(state, index, localMaxDistSq, nearestLimit)) {
-      drawMobileDarkLink(state, drawnPairs, index, neighborIndex, localMaxDistSq);
-    }
-
-    for (const offset of fibOffsets) {
-      if (offset === 5 && index % 2 !== 0) {
-        continue;
-      }
-      drawMobileDarkLink(state, drawnPairs, index, index + offset, fibMaxDistSq);
-    }
-  }
-
-  for (let index = 0; index + 2 < state.nodes.length; index += 3) {
-    drawMobileDarkLink(state, drawnPairs, index, index + 2, fibMaxDistSq);
-  }
+  drawNodeLink(state, fromNode, toNode, maxDistSq, touchDarkBoost);
 }
 
 function drawNodeLink(state, a, b, maxDistSq, touchDarkBoost) {
@@ -463,6 +479,10 @@ function linkDistanceSquared(a, b) {
   return dx * dx + dy * dy;
 }
 
+function isDesktopDarkMode(state) {
+  return !state.touchViewport && !document.documentElement.classList.contains('switch');
+}
+
 function resolveLinkScale(touchDarkBoost, touchLightBoost, darkScale, lightScale) {
   if (touchDarkBoost) {
     return darkScale;
@@ -480,8 +500,10 @@ function isWarmLink(touchDarkBoost, a, b) {
   return a.gold || b.gold;
 }
 
-function resolveLinkColorChannels(touchDarkBoost, touchLightBoost, warm) {
-  if (touchDarkBoost) {
+function resolveLinkColorChannels(touchDarkBoost, touchLightBoost, desktopDark, warm) {
+  if (touchDarkBoost || desktopDark) {
+    // Brighter palette for any dark-mode viewer (mobile or desktop).
+    // Matches what the iPhone screenshot looks like on macOS Safari.
     if (warm) {
       return { red: 232, green: 198, blue: 116 };
     }
@@ -499,16 +521,53 @@ function resolveLinkColorChannels(touchDarkBoost, touchLightBoost, warm) {
   return { red: 84, green: 154, blue: 229 };
 }
 
+function resolveLinkAlphaWidth(touchDarkBoost, touchLightBoost, desktopDark, warm, intensity) {
+  // Curve the intensity so lines near maxDist still paint at a usable alpha
+  // instead of fading to invisibility. Math.pow(intensity, 0.55) keeps
+  // close-range lines near 1.0 while lifting mid-range from ~0.3 to ~0.5.
+  const curvedIntensity = Math.pow(Math.max(0, Math.min(1, intensity)), 0.55);
+
+  let baseAlpha = warm ? 0.24 : 0.2;
+  let baseWidth = warm ? 0.82 : 0.7;
+  let alphaScale = 1;
+  let widthScale = 1;
+
+  if (touchDarkBoost) {
+    alphaScale = 1.3;
+    widthScale = 1.1;
+  } else if (desktopDark) {
+    // Desktop dark mode was previously falling into the bare base values,
+    // which produced ~0.02 alpha at typical hero sizes. Match the mobile
+    // dark-mode visibility budget.
+    baseAlpha = warm ? 0.62 : 0.55;
+    baseWidth = warm ? 1.0 : 0.88;
+    alphaScale = 1;
+    widthScale = 1;
+  } else if (touchLightBoost) {
+    alphaScale = 1.52;
+    widthScale = 1.32;
+  }
+
+  const alpha = Math.min(1, curvedIntensity * baseAlpha * alphaScale);
+  const lineWidth = baseWidth * widthScale;
+  return { alpha, lineWidth };
+}
+
 function resolveNodeLinkStyle(state, a, b, intensity, touchDarkBoost) {
   const touchLightBoost = state.touchViewport && !touchDarkBoost;
+  const desktopDark = isDesktopDarkMode(state);
   const warm = isWarmLink(touchDarkBoost, a, b);
-  const color = resolveLinkColorChannels(touchDarkBoost, touchLightBoost, warm);
-  const alphaScale = resolveLinkScale(touchDarkBoost, touchLightBoost, 1.3, 1.52);
-  const widthScale = resolveLinkScale(touchDarkBoost, touchLightBoost, 1.1, 1.32);
-  const alpha = Math.min(1, intensity * (warm ? 0.24 : 0.2) * alphaScale);
+  const color = resolveLinkColorChannels(touchDarkBoost, touchLightBoost, desktopDark, warm);
+  const { alpha, lineWidth } = resolveLinkAlphaWidth(
+    touchDarkBoost,
+    touchLightBoost,
+    desktopDark,
+    warm,
+    intensity
+  );
   return {
     strokeStyle: `rgba(${color.red}, ${color.green}, ${color.blue}, ${alpha})`,
-    lineWidth: (warm ? 0.82 : 0.7) * widthScale,
+    lineWidth,
   };
 }
 
@@ -557,7 +616,13 @@ function renderConstellationFrame(timestamp, state) {
 
   state.context.clearRect(0, 0, state.width, state.height);
 
-  const baseMaxDist = Math.max(78, Math.min(132, state.width * 0.27));
+  const desktopDark = isDesktopDarkMode(state);
+  // Desktop hero is much larger than mobile, so the max-distance floor
+  // needs to scale with it for the deliberate-pair lattice to reach
+  // enough neighbors. Mobile keeps its original floor.
+  const baseMaxDist = desktopDark
+    ? Math.max(110, Math.min(170, state.width * 0.32))
+    : Math.max(78, Math.min(132, state.width * 0.27));
   const touchLightBoost = state.touchViewport && !state.touchDarkBoost;
   let maxDist = baseMaxDist;
   if (state.touchDarkBoost) {
@@ -570,6 +635,11 @@ function renderConstellationFrame(timestamp, state) {
   updateNodes(state, frameScale);
   if (state.touchDarkBoost) {
     drawMobileDarkSequenceLinks(state, maxDistSq);
+  } else if (desktopDark) {
+    // Use the same deliberate-pair algorithm as mobile dark mode,
+    // but pass false for touchDarkBoost so palette/width resolve to
+    // the desktop-dark branch in resolveNodeLinkStyle.
+    drawDeliberatePairLinks(state, maxDistSq, false);
   } else {
     drawNodeLinks(state, maxDistSq);
   }

@@ -220,7 +220,7 @@ extra:
       "item": {
         "@type": "Service",
         "name": "Cross-Platform & Systems Work",
-        "description": "Unix, Linux, and Windows systems work alongside macOS — shell scripting, file servers, mixed-OS networks, and server diagnostics.",
+        "description": "Linux and Windows systems work alongside macOS — shell scripting, file servers, mixed-OS networks, and server diagnostics.",
         "provider": { "@id": "https://www.it-help.tech/#business" }
       }
     }
@@ -336,7 +336,7 @@ extra:
       "name": "Cross-Platform & Systems Work",
       "serviceType": "Systems Engineering",
       "provider": { "@id": "https://www.it-help.tech/#business" },
-      "description": "Unix, Linux, and Windows systems work alongside macOS — shell scripting, file servers, mixed-OS networks, and server diagnostics. A system is a system.",
+      "description": "Linux and Windows systems work alongside macOS — shell scripting, file servers, mixed-OS networks, and server diagnostics. A system is a system.",
       "url": "https://www.it-help.tech/services/#cross-platform"
     },
     {
@@ -422,7 +422,7 @@ For law firms and legal professionals: structured extraction of email and iPhone
 
 ## Cross-Platform & Systems Work {#cross-platform}
 
-macOS and iOS lead our work, but Unix, Linux, and Windows get the same scientific care — a system is a system. We engage the problem, not the logo. The same instinct for analyzing logs, tracing packets, and deducing from evidence is applicable regardless of the prompt.
+macOS and iOS lead our work, with Linux and Windows getting the same scientific care — a system is a system. We engage the problem, not the logo. The same instinct for analyzing logs, tracing packets, and deducing from evidence is applicable regardless of the prompt.
 
 * **Shell scripting and automation** — Bash, Zsh, and PowerShell for repeatable, auditable operations instead of click-by-click drift.
 * **File servers and shared storage** — SMB and NFS that hold up across macOS, Windows, and Linux clients without permissions roulette.

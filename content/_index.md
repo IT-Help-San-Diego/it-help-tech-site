@@ -101,7 +101,7 @@ twitter_card        = "summary_large_image"
   "sameAs": [
     "https://www.linkedin.com/company/it-help-san-diego"
   ],
-  "description": "Apple‑centric IT and deep-research diagnostics for La Jolla & San Diego — Mac first, with Unix, Linux, and Windows. No hardware sales, no monthly retainers.",
+  "description": "Apple‑centric IT and deep-research diagnostics for La Jolla & San Diego — Mac first, with Linux and Windows. No hardware sales, no monthly retainers.",
   "knowsAbout": [
     "macOS troubleshooting",
     "iOS troubleshooting",
@@ -198,7 +198,7 @@ twitter_card        = "summary_large_image"
       "@id": "https://www.it-help.tech/#webpage",
       "url": "https://www.it-help.tech/",
       "name": "Mac IT Support San Diego (La Jolla) | IT Help San Diego",
-      "description": "Apple-centric IT, deep-research diagnostics, and systems work for La Jolla and San Diego. macOS and iOS first, with Unix, Linux, and Windows — a system is a system. 27 years across systems, networks, DNS, and email security (SPF · DKIM · DMARC). No hardware sales, no monthly retainers.",
+      "description": "Apple-centric IT, deep-research diagnostics, and systems work for La Jolla and San Diego. macOS and iOS first, with Linux and Windows — a system is a system. 27 years across systems, networks, DNS, and email security (SPF · DKIM · DMARC). No hardware sales, no monthly retainers.",
       "inLanguage": "en-US",
       "isPartOf": {
         "@id": "https://www.it-help.tech/#website"
@@ -242,7 +242,7 @@ twitter_card        = "summary_large_image"
 macOS, iOS, iCloud, and Apple Mail diagnosed at the system level. Storage, sync, performance, and migration handled correctly the first time. <a href="/services/#mac" class="gold-link">Learn more →</a>
 
 ### <a href="/services/#cross-platform" class="gold-link">Cross-Platform Systems Engineering</a>
-macOS and iOS lead our work, but Unix, Linux, and Windows get the same scientific care — a system is a system. From shell scripts to file servers to mixed-OS environments, we engage the problem, not the logo. <a href="/services/#cross-platform" class="gold-link">Learn more →</a>
+macOS and iOS lead our work, with Linux and Windows getting the same scientific care — a system is a system. From shell scripts to file servers to mixed-OS environments, we engage the problem, not the logo. <a href="/services/#cross-platform" class="gold-link">Learn more →</a>
 
 ### <a href="/services/#wifi" class="gold-link">Wi‑Fi &amp; Network Engineering</a>
 Bespoke wireless and wired networks for large homes, estates, and small offices. Cat6A/Cat8/fiber backbones, mesh design, and dead-zone elimination using measured RF data, not guesswork. <a href="/services/#wifi" class="gold-link">Learn more →</a>

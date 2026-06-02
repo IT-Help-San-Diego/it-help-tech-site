@@ -276,4 +276,15 @@ a.ftr-node:hover {
     .ftr-grid-drops  { grid-template-columns: repeat(2, 1fr); }
     .ftr-grid-drop:nth-child(n+3) { display: none; }
     .ftr-grid        { grid-template-columns: repeat(2, 1fr); }
+
+    /* Department row: at narrow widths the pills are wider than the half-
+       column they live in, so the right pill (DNS Tool) overflows leftward
+       and crosses the central spine. Stack the row vertically — Concierge
+       on the left half above, DNS Tool on the right half below — matching
+       the regulatory-row pattern above it. */
+    .ftr-org-dept            { flex-direction: column; gap: 4px; }
+    .ftr-org-dept-left,
+    .ftr-org-dept-right      { flex: none; width: 50%; }
+    .ftr-org-dept-left       { align-self: flex-start; justify-content: flex-end; }
+    .ftr-org-dept-right      { align-self: flex-end; justify-content: flex-start; }
 }

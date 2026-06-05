@@ -197,6 +197,39 @@ The single source of truth for design tokens is `static/css/tokens.css` (CSS cus
 | `--brand-it-help-blue` | `$brand-it-help-blue` | `#4a8fdf` | **IT/HELP edge outline — DO NOT CHANGE** |
 | `--brand-it-help-gray` | `$brand-it-help-gray` | `#9aa0a6` | "san diego" subtitle |
 
+The values above are the **dark defaults** (canonical `:root`).
+
+### Light theme (opt-in via the sun toggle)
+
+Dark is the forced default. The sun toggle (`#mode`) adds `.switch` to `<html>`
+and persists `theme=light`; light is **never** auto-applied from the OS
+`prefers-color-scheme`. `static/css/tokens.css` carries a single centralized
+`html.switch { … }` block (immediately after the canonical `:root`) that flips
+only the surface / text / border / code tokens to light values, so every
+tokenized component themes at once instead of staying dark on a light body.
+Values mirror the abridge light palette (`--abridge-c1/c2/c3`, `--abridge-f1`)
+so the custom surfaces agree with the abridge-themed body and links.
+
+| Token | Dark (`:root`) | Light (`html.switch`) |
+|---|---|---|
+| `--bg-primary` | `#0d1117` | `#FAFBFC` |
+| `--bg-secondary` | `#161b22` | `#F5F5F7` |
+| `--bg-tertiary` | `#21262d` | `#ECECEF` |
+| `--bg-elevated` | `#30363d` | `#E5E5E7` |
+| `--text-primary` | `rgba(230,237,243,.9)` | `#1D1D1F` |
+| `--text-secondary` | `#9ca3af` | `#57606A` (~6.3:1 on `--bg-primary`) |
+| `--code-bg` | `#161b22` | `#F5F5F7` |
+| `--code-border` | `#30363d` | `#E1E4E8` |
+| `--code-color` | `#f0a8c8` | `#A21B5C` |
+| `--border-default` | `#30363d` | `#D0D7DE` |
+| `--border-muted` | `#30363d` | `#D8DEE4` |
+
+Brand / schedule / accent tokens are mode-agnostic and intentionally NOT flipped.
+The `html.switch` block lives **outside** the canonical `:root`, so the
+token-parity guard (`first_root_block`) does not scan it and no `sass/_tokens.scss`
+mirror is required — but the no-hex rule still exempts `tokens.css`, so the light
+hex literals belong only there, never in consumer CSS.
+
 ### Rules
 
 - The two SOT files (`static/css/tokens.css`, `sass/_tokens.scss`) are the **only** files allowed to contain hex literals. All other CSS/SCSS must reference tokens via `var(--name)` or `$name`.

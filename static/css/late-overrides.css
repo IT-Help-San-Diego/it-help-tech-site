@@ -1078,6 +1078,11 @@ html:not(.switch) h6 a.gold-link:active {
     text-decoration: none;
     line-height: 1;
     gap: 0.05em;
+    /* Keep the home-link logo explicitly BELOW the hamburger toggle in the
+       topbar's stacking order so it can never paint over / intercept taps
+       meant for the menu button (the toggle is z-index 5; see below). */
+    position: relative;
+    z-index: 1;
 }
 /* 2026-04-17 (rev): Topbar wordmark replaced with the canonical brand-banner
    cutout image (gold IT+HELP + red plus + silver SAN DIEGO on transparent
@@ -1116,6 +1121,22 @@ html:not(.switch) h6 a.gold-link:active {
     padding: 0.25rem;
     border-radius: 4px;
     line-height: 0;
+    /* The toggle MUST sit above the topbar logo/banner so a tap on the
+       hamburger is never swallowed by an overlapping sibling (root cause of
+       the "menu won't open on mobile" report). z-index needs an explicit
+       position to take effect. touch-action: manipulation removes the 300ms
+       double-tap delay so the first tap reliably opens the drawer. */
+    position: relative;
+    z-index: 5;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+/* The icon is purely decorative; routing all pointer events to the <label>
+   box means the ENTIRE 44px target is tappable, not just the thin SVG
+   strokes (between the bars the path's fill:none would otherwise be a dead
+   zone for hit-testing). */
+.topbar-nav-toggle-label svg {
+    pointer-events: none;
 }
 .topbar-nav-toggle-label:hover {
     color: var(--brand-gold-solid);
@@ -1285,7 +1306,16 @@ html:not(.switch) h6 a.gold-link:active {
    and pushes the rich nav into the (already polished) hamburger drawer
    on tablets, where it belongs. */
 @media (max-width: 960px) {
-    .topbar-nav-toggle-label { display: inline-block; }
+    /* 44px-class hit target (per STYLE_GUIDE) with the icon optically
+       centered. inline-flex + min sizes guarantee the whole control is
+       tappable regardless of the 28px icon's intrinsic box. */
+    .topbar-nav-toggle-label {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 44px;
+        min-height: 44px;
+    }
 
     /* Topbar surface treatment for this width is now handled by the
        stratified base + touch override at the top of this file (which
@@ -1360,6 +1390,22 @@ html:not(.switch) h6 a.gold-link:active {
     }
     .topbar-phone-text { display: inline; }
     .topbar-mode { align-self: flex-start; margin-top: 0.4rem; }
+
+    /* Light theme (opt-in): the mobile drawer panel + dividers are hardcoded
+       dark above (rgba(13,17,23) / rgba(48,54,61)) for the dark default. Under
+       html.switch the nav links flip to dark text, so without these overrides
+       the drawer would render dark-on-dark (invisible). Scoped inside this
+       mobile media query so the desktop horizontal nav (transparent) is
+       untouched. Token-based — no hex literals. */
+    html.switch .topbar-nav {
+        background: var(--bg-secondary);
+    }
+    html.switch .topbar-nav-toggle-checkbox:checked ~ .topbar-nav {
+        border-bottom-color: var(--border-default);
+    }
+    html.switch .topbar-nav-list a {
+        border-bottom-color: var(--border-muted);
+    }
 }
 
 /* Smaller fine-grain (banner-height tweak lives in the .topbar-banner block above) */

@@ -193,6 +193,42 @@
 }
 
 /* ----------------------------------------------------------------------------
+   LIGHT THEME — opt-in via the sun toggle (html.switch), NOT prefers-color-scheme.
+   Dark stays the default. This block flips ONLY the surface / text / border /
+   code tokens that were hardcoded dark in :root above, so every tokenized
+   component (forms, topbar, cards, tables, print-screen) reads correctly on a
+   light body instead of staying dark on a light ground.
+
+   Values mirror the abridge light palette (--abridge-c1/c2/c3, --abridge-f1)
+   so these surfaces stay consistent with the abridge-themed body/links.
+
+   CI note: this lives OUTSIDE the canonical :root block, so the token-parity
+   gate (scripts/check-token-parity.sh, first_root_block) does not scan it and
+   no SCSS mirror is required. Brand/schedule/accent tokens are intentionally
+   NOT touched — they are mode-agnostic by design.
+   ---------------------------------------------------------------------------- */
+html.switch {
+    /* Backgrounds — light surfaces, ascending elevation */
+    --bg-primary:   #FAFBFC;   /* Main background (matches --abridge-c1) */
+    --bg-secondary: #F5F5F7;   /* Elevated surfaces  (matches --abridge-c2) */
+    --bg-tertiary:  #ECECEF;   /* Cards, table header rows */
+    --bg-elevated:  #E5E5E7;   /* Highest elevation  (matches --abridge-c3) */
+
+    /* Text — near-black primary, accessible gray secondary (AA on light) */
+    --text-primary:   #1D1D1F;   /* matches --abridge-f1, ~16:1 on #FAFBFC */
+    --text-secondary: #57606A;   /* ~6.3:1 on #FAFBFC */
+
+    /* Code — light chip with a dark magenta inline-code color */
+    --code-bg:     #F5F5F7;
+    --code-border: #E1E4E8;
+    --code-color:  #A21B5C;
+
+    /* Borders — quiet light-gray hairlines */
+    --border-default: #D0D7DE;
+    --border-muted:   #D8DEE4;
+}
+
+/* ----------------------------------------------------------------------------
    Body baseline — apply once. Do not duplicate elsewhere.
    ---------------------------------------------------------------------------- */
 body {

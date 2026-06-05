@@ -146,7 +146,36 @@ fi
 #
 # tokens.css and _tokens.scss are SOT and MUST contain hex literals — they are
 # NOT included in the grep below.
-hex_hits="$(grep -EHn '#[0-9a-fA-F]{3,8}\b' "${CONSUMERS[@]}" || true)"
+#
+# Before grepping each consumer, strip two classes of *legitimate* hex that
+# would otherwise be false positives, WITHOUT weakening the gate against a
+# genuine stray literal (e.g. `color: #abcdef;`):
+#
+#   1. CSS block comments (/* ... */, possibly multi-line) — these carry prose
+#      like "PR #548" that the grep reads as a 3-digit hex. Comments are blanked
+#      out but their newlines are preserved so reported line numbers stay exact.
+#   2. Documented fallback values inside var(--token, #hex) — the hex is only a
+#      defensive fallback for an already-tokenised reference. Only the hex that
+#      immediately follows `var(--name,` is removed; a bare `#hex` anywhere else
+#      is still caught.
+strip_hex_noise() {
+  perl -0777 -pe '
+    s{/\*.*?\*/}{ (my $m = $&) =~ tr/\n//cd; $m }ges;
+    s/(\bvar\(\s*--[A-Za-z0-9_-]+)\s*,\s*#[0-9a-fA-F]{3,8}\b/$1/g;
+  '
+}
+
+hex_hits=""
+for consumer in "${CONSUMERS[@]}"; do
+  consumer_hits="$(strip_hex_noise < "$consumer" \
+    | grep -En '#[0-9a-fA-F]{3,8}\b' \
+    | sed "s#^#${consumer}:#" || true)"
+  if [[ -n "$consumer_hits" ]]; then
+    hex_hits+="${consumer_hits}"$'\n'
+  fi
+done
+hex_hits="${hex_hits%$'\n'}"
+
 if [[ -n "$hex_hits" ]]; then
   echo "FAIL: hex color literals found in consumer files (must use var(--*) tokens):" >&2
   echo "$hex_hits" >&2

@@ -13,6 +13,20 @@ Purpose: Track meaningful AI/developer changes with enough context to roll back 
 
 ## Entries
 
+### 2026-06-03 — Light-theme token palette (sun toggle now looks intentional, dark unchanged)
+- Actor: AI (working from the "polish light-mode theme" task — keep dark as the strong default, make the opt-in sun toggle look good across main pages, do not auto-switch via `prefers-color-scheme`, leave the email signature artifact alone).
+- Scope: design tokens — light theme.
+- Files:
+  - `static/css/tokens.css` — added a single centralized `html.switch { … }` block immediately after the canonical `:root` (and before the `body` baseline). It flips ONLY the surface/text/border/code tokens to light values: `--bg-primary #FAFBFC`, `--bg-secondary #F5F5F7`, `--bg-tertiary #ECECEF`, `--bg-elevated #E5E5E7`, `--text-primary #1D1D1F`, `--text-secondary #57606A`, `--code-bg #F5F5F7`, `--code-border #E1E4E8`, `--code-color #A21B5C`, `--border-default #D0D7DE`, `--border-muted #D8DEE4`. Values mirror the abridge light palette so custom surfaces agree with the abridge-themed body/links.
+  - `STYLE_GUIDE.md` — documented the light theme under "Design Tokens (SOT)": a dark-vs-light value table and the CI/architecture notes.
+  - `PROJECT_EVOLUTION_LOG.md` — this entry.
+- Why: the canonical `:root` was hardcoded dark and there was no `html.switch` token override, so toggling the sun left every `var(--bg-*/--text-*/--border-*)`-styled component dark on a now-light body (dark cards/sections/borders clashing on white). The fix is the centralized token flip — one block themes all tokenized components at once rather than per-component patches.
+- Constraints honored: dark mode is byte-identical (the first `:root` and all dark rules untouched; only an additive block was introduced). Light stays opt-in — no `prefers-color-scheme` auto-switch added. Brand/schedule/accent tokens left mode-agnostic. Email signature artifact untouched.
+- CI safety: the `html.switch` block lives outside the canonical `:root`, so `scripts/check-token-parity.sh` (`first_root_block`) does not scan it and no `sass/_tokens.scss` mirror is required; `tokens.css` is already exempt from the no-hex grep, so the light hex literals are legal there. Parity gate passes (no token-value drift). The pre-existing hex-grep failures in `late-overrides.css` (comment refs like `#548`, fallback values like `#0f1622`) are unrelated and predate this change.
+- Verification: `zola build` clean; `scripts/check-token-parity.sh` parity section green; `scripts/check-no-external-subresources.sh` green; Playwright e2e set `theme=light` and walked home/about/services/contact/field-note — all light backgrounds, dark legible text, legible nav/CTA/wordmark/headings/links/code, no dark-mode remnants.
+- Rollback: revert the `html.switch` block in `static/css/tokens.css` and the two doc edits (single-commit revert).
+
+
 ### 2026-05-30 — New `/signature` page: in-site reference + install guide for the email signature, reproducing the content of `dnstool.it-help.tech/signature` using this site's own template
 - Actor: AI (working from the user's request to reproduce the DNS Tool's signature page content on the consulting site — "just the signature content + install instructions, using our template, drop the DNS-Tool app chrome").
 - Files:

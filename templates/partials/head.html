@@ -98,12 +98,6 @@
         {%- if integrity %} integrity="sha384-{{ get_hash(path='js/theme-toggle.min.js', sha_type=384, base64=true) | safe }}"{% endif %}>
 </script>
 
-{# --- Nav & Theme Helpers (menu toggle & theme persistence) --- #}
-<script defer
-        src="{{ get_url(path='js/nav-toggle.min.js', trailing_slash=false) | safe }}"
-        {%- if integrity %} integrity="sha384-{{ get_hash(path='js/nav-toggle.min.js', sha_type=384, base64=true) | safe }}"{% endif %}>
-</script>
-
 {%- if ctx.extra.scripts %}
   {% set pagescripts = ctx.extra.scripts %}
   {%- for i in pagescripts %}

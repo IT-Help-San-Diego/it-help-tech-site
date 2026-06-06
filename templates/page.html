@@ -54,16 +54,16 @@
     {%- endif %}
     <p class="post-image">
         {%- if page.extra.image_responsive_base %}
-        {%- set rb = get_url(path=page.extra.image_responsive_base ~ "-256.avif") | split(pat="-256.avif") | first -%}
+        {%- set base = page.extra.image_responsive_base -%}
         <picture>
           <source type="image/avif"
-                  srcset="{{ rb }}-256.avif 256w, {{ rb }}-512.avif 512w, {{ rb }}-800.avif 800w"
+                  srcset="{{ get_url(path=base ~ '-256.avif', cachebust=true) }} 256w, {{ get_url(path=base ~ '-512.avif', cachebust=true) }} 512w, {{ get_url(path=base ~ '-800.avif', cachebust=true) }} 800w"
                   sizes="200px">
           <source type="image/webp"
-                  srcset="{{ rb }}-256.webp 256w, {{ rb }}-512.webp 512w, {{ rb }}-800.webp 800w"
+                  srcset="{{ get_url(path=base ~ '-256.webp', cachebust=true) }} 256w, {{ get_url(path=base ~ '-512.webp', cachebust=true) }} 512w, {{ get_url(path=base ~ '-800.webp', cachebust=true) }} 800w"
                   sizes="200px">
           <img
-            src="{{ rb }}-512.webp"
+            src="{{ get_url(path=base ~ '-512.webp', cachebust=true) }}"
             alt="{{ hero_alt }}"
             class="hero-portrait"
             width="200" height="200"
@@ -71,7 +71,7 @@
         </picture>
         {%- else %}
         <img
-          src="{{ get_url(path=page.extra.image) }}"
+          src="{{ get_url(path=page.extra.image, trailing_slash=false, cachebust=true) }}"
           alt="{{ hero_alt }}"
           class="hero-portrait"
           width="200" height="200"
@@ -141,3 +141,4 @@
 {%- endif %}
 
 {%- endblock gotop %}
+

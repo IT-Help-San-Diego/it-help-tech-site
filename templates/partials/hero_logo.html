@@ -23,9 +23,9 @@
      as a defect. No accessibility-tree change. #}
   <div class="brand-mark" aria-hidden="true">
     <picture class="hero-owl-pic">
-      <source srcset="/img/brand/owl-720.webp" type="image/webp">
+      <source srcset="{{ get_url(path='img/brand/owl-720.webp', trailing_slash=false, cachebust=true) | safe }}" type="image/webp">
       <img class="hero-owl"
-           src="/img/brand/owl-720.png"
+           src="{{ get_url(path='img/brand/owl-720.png', trailing_slash=false, cachebust=true) | safe }}"
            alt=""
            role="presentation"
            width="720" height="720"
@@ -59,3 +59,4 @@
     {% endfor %}
   </div>
 </div>
+

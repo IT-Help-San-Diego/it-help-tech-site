@@ -18,7 +18,7 @@
   {% set blog_desc = section.description | default(value="Practitioner field notes on macOS, Wi‑Fi, DNS, email deliverability, cybersecurity and more—straight from IT Help San Diego.") %}
   {% set blog_url = section.permalink %}
   {% set blog_img_path = config.extra.default_og_image | default(value="/images/og-home.png") %}
-  {% set blog_img = get_url(path=blog_img_path) %}
+  {% set blog_img = get_url(path=blog_img_path, trailing_slash=false, cachebust=true) %}
 
   <meta name="description" content="{{ blog_desc }}">
   <meta name="copyright" content="IT Help San Diego Inc.">
@@ -92,7 +92,7 @@
       {# thumbnail: prefer extra.image, fallback to logo #}
       {% set thumb = page.extra.image
                       | default(value='images/og-home.png') %}
-      <img src="{{ get_url(path=thumb) }}"
+      <img src="{{ get_url(path=thumb, trailing_slash=false, cachebust=true) }}"
            alt="{{ page.title }} thumbnail"
            width="200"
            class="post-thumb"

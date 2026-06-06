@@ -55,7 +55,7 @@
          change the accessibility tree because empty alt already makes the
          image presentational. See WAI Tutorial: "Decorative Images". #}
       <img class="topbar-banner"
-           src="/img/brand/wordmark-banner.png"
+           src="{{ get_url(path='img/brand/wordmark-banner.png', trailing_slash=false, cachebust=true) | safe }}"
            alt=""
            role="presentation"
            width="622" height="74"

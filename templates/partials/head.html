@@ -23,19 +23,20 @@
   picture element exactly so no double-fetch occurs.
 #}
 {% if page and page.extra and page.extra.image_responsive_base %}
-  {% set rb = get_url(path=page.extra.image_responsive_base ~ "-256.avif") | split(pat="-256.avif") | first %}
+  {% set base = page.extra.image_responsive_base %}
   <link rel="preload"
         as="image"
         type="image/avif"
-        imagesrcset="{{ rb }}-256.avif 256w, {{ rb }}-512.avif 512w, {{ rb }}-800.avif 800w"
+        imagesrcset="{{ get_url(path=base ~ '-256.avif', cachebust=true) }} 256w, {{ get_url(path=base ~ '-512.avif', cachebust=true) }} 512w, {{ get_url(path=base ~ '-800.avif', cachebust=true) }} 800w"
         imagesizes="200px"
         fetchpriority="high">
 {% elif page and page.extra and page.extra.image %}
+  {% set hero_img = get_url(path=page.extra.image, trailing_slash=false, cachebust=true) %}
   <link rel="preload"
         as="image"
-        href="{{ get_url(path=page.extra.image) }}"
+        href="{{ hero_img }}"
         fetchpriority="high"
-        imagesrcset="{{ get_url(path=page.extra.image) }} 200w"
+        imagesrcset="{{ hero_img }} 200w"
         imagesizes="200px">
 {% endif %}
 
@@ -214,7 +215,7 @@
 {# --- Open Graph & Twitter --- #}
 <meta property="og:title"       content="{{ ctx.extra.og_title       | default(value=ctx.title) | safe }}">
 <meta property="og:description" content="{{ ctx.extra.og_description | default(value=ctx.description) }}">
-<meta property="og:image"       content="{{ get_url(path=ctx.extra.og_image | default(value=config.extra.default_og_image), trailing_slash=false) | safe }}">
+<meta property="og:image"       content="{{ get_url(path=ctx.extra.og_image | default(value=config.extra.default_og_image), trailing_slash=false, cachebust=true) | safe }}">
 <meta property="og:url"         content="{{ page_url | safe }}">
 
 <meta property="og:type"        content="{{ ctx.extra.og_type | default(value='website') }}">
@@ -222,7 +223,7 @@
 <meta name="twitter:card"        content="{{ ctx.extra.twitter_card        | default(value='summary_large_image') }}">
 <meta name="twitter:title"       content="{{ ctx.extra.twitter_title       | default(value=ctx.title) | safe }}">
 <meta name="twitter:description" content="{{ ctx.extra.twitter_description | default(value=ctx.description) }}">
-<meta name="twitter:image"       content="{{ get_url(path=ctx.extra.twitter_image | default(value=config.extra.default_twitter_image), trailing_slash=false) | safe }}">
+<meta name="twitter:image"       content="{{ get_url(path=ctx.extra.twitter_image | default(value=config.extra.default_twitter_image), trailing_slash=false, cachebust=true) | safe }}">
 
 {# --- RSS / Atom Feed --- #}
 {%- if config.generate_feeds %}
@@ -252,3 +253,4 @@
 {%- endif %}
 
 {# --- End of head partial --- #}
+

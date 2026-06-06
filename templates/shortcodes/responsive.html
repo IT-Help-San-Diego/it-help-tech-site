@@ -1,25 +1,25 @@
 <picture>
   <source type="image/avif"
-          srcset="{{ base }}-256.avif 256w,
-                  {{ base }}-320.avif 320w,
-                  {{ base }}-512.avif 512w,
-                  {{ base }}-640.avif 640w,
-                  {{ base }}-960.avif 960w,
-                  {{ base }}-1280.avif 1280w,
-                  {{ base }}-1920.avif 1920w"
+          srcset="{{ get_url(path=base ~ '-256.avif', cachebust=true) }} 256w,
+                  {{ get_url(path=base ~ '-320.avif', cachebust=true) }} 320w,
+                  {{ get_url(path=base ~ '-512.avif', cachebust=true) }} 512w,
+                  {{ get_url(path=base ~ '-640.avif', cachebust=true) }} 640w,
+                  {{ get_url(path=base ~ '-960.avif', cachebust=true) }} 960w,
+                  {{ get_url(path=base ~ '-1280.avif', cachebust=true) }} 1280w,
+                  {{ get_url(path=base ~ '-1920.avif', cachebust=true) }} 1920w"
           sizes="70px">
   <source type="image/webp"
-          srcset="{{ base }}-256.webp 256w,
-                  {{ base }}-320.webp 320w,
-                  {{ base }}-512.webp 512w,
-                  {{ base }}-640.webp 640w,
-                  {{ base }}-960.webp 960w,
-                  {{ base }}-1280.webp 1280w,
-                  {{ base }}-1920.webp 1920w"
+          srcset="{{ get_url(path=base ~ '-256.webp', cachebust=true) }} 256w,
+                  {{ get_url(path=base ~ '-320.webp', cachebust=true) }} 320w,
+                  {{ get_url(path=base ~ '-512.webp', cachebust=true) }} 512w,
+                  {{ get_url(path=base ~ '-640.webp', cachebust=true) }} 640w,
+                  {{ get_url(path=base ~ '-960.webp', cachebust=true) }} 960w,
+                  {{ get_url(path=base ~ '-1280.webp', cachebust=true) }} 1280w,
+                  {{ get_url(path=base ~ '-1920.webp', cachebust=true) }} 1920w"
           sizes="70px">
   <img {% if lcp %}loading="eager"{% else %}loading="lazy"{% endif %}
        decoding="async"
        width="200" height="200"
-       src="{{ base }}-640.jpg"
+       src="{{ get_url(path=base ~ '-640.jpg', cachebust=true) }}"
        alt="{{ alt | escape }}">
 </picture>

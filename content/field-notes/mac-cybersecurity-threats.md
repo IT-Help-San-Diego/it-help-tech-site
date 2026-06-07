@@ -216,7 +216,7 @@ If you have questions, the first ten minutes of a call are no-charge per the [bi
 
 [^8]: Wardle, P. *About — Objective-See Foundation.* Confirms prior NSA tenure. <https://objective-see.org/about.html>
 
-[^9]: Malwarebytes. *State of Malware (annual report series).* Documents Mac-vs-Windows threat-detection volumes and the adware/PUP-dominated composition of Mac detections. <https://www.malwarebytes.com/resources/state-of-malware>
+[^9]: Malwarebytes. *State of Malware (annual report series).* Documents Mac-vs-Windows threat-detection volumes and the adware/PUP-dominated composition of Mac detections. <https://www.threatdown.com/resources/>
 
 [^10]: Apple Inc. *About Stolen Device Protection for iPhone.* Specifies the iOS 17.3 release, the Face ID/Touch ID biometric requirement with no passcode fallback, and the security-delay behavior away from familiar locations. <https://support.apple.com/en-us/120340>
 

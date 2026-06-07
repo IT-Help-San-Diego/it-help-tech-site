@@ -141,9 +141,9 @@ Call 619-853-5008 and [schedule a walkthrough](https://schedule.it-help.tech/) f
 
 [^7]: IEEE. (2018). *IEEE Standard for Ethernet — Amendment 2: Physical Layer and Management Parameters for Power over Ethernet over 4 Pairs* (IEEE Std 802.3bt-2018). <https://standards.ieee.org/ieee/802.3bt/6749/>
 
-[^8]: National Institute for Occupational Safety and Health. *Mine communications research* — overview of leaky-feeder and through-the-earth communications systems used in underground mining and rescue. U.S. Centers for Disease Control and Prevention. <https://www.cdc.gov/niosh/mining/topics/CommunicationsAndTracking.html>
+[^8]: National Institute for Occupational Safety and Health. *Mine communications research* — overview of leaky-feeder and through-the-earth communications systems used in underground mining and rescue. U.S. Centers for Disease Control and Prevention. <https://archive.cdc.gov/www_cdc_gov/niosh/mining/topics/EmergencyCommunicationsandTracking.html>
 
-[^9]: Telecommunications Industry Association. *TIA-102 series* — Project 25 (P25) digital land-mobile radio standards for public-safety communications. <https://tiaonline.org/what-we-do/technology-programs/project-25-p25/>
+[^9]: Telecommunications Industry Association. *TIA-102 series* — Project 25 (P25) digital land-mobile radio standards for public-safety communications. <https://tiaonline.org/committee/tr-8-mobile-and-personal-private-radio-standards/>
 
 [^10]: IEEE. (2016). *IEEE Standard for Ethernet — Amendment 7: Media Access Control Parameters, Physical Layers, and Management Parameters for 2.5 Gb/s and 5 Gb/s Operation, Types 2.5GBASE-T and 5GBASE-T* (IEEE Std 802.3bz-2016). <https://standards.ieee.org/ieee/802.3bz/6130/>
 
@@ -153,7 +153,7 @@ Call 619-853-5008 and [schedule a walkthrough](https://schedule.it-help.tech/) f
 
 [^13]: IEEE. (2016). *IEEE Standard for Ethernet — Amendment 3: Physical Layer and Management Parameters for 25 Gb/s and 40 Gb/s Operation, Types 25GBASE-T and 40GBASE-T* (IEEE Std 802.3bq-2016). <https://standards.ieee.org/ieee/802.3bq/6227/>
 
-[^14]: Telecommunications Industry Association. (2017). *Guidelines for Supporting Power Delivery Over Balanced Twisted-Pair Cabling* (TIA TSB-184-A). Documents temperature rise in cable bundles under Power over Ethernet loads and provides category and bundling guidance for high-power PoE installations. <https://tiaonline.org/products/tia-tsb-184-a/>
+[^14]: Telecommunications Industry Association. (2017). *Guidelines for Supporting Power Delivery Over Balanced Twisted-Pair Cabling* (TIA TSB-184-A). Documents temperature rise in cable bundles under Power over Ethernet loads and provides category and bundling guidance for high-power PoE installations. <https://store.accuristech.com/standards/tia-tsb-184-a?product_id=2594177>
 
 A BibTeX file for these references is available at [`/field-notes/why-your-wireless-network-sucks.bib`](/field-notes/why-your-wireless-network-sucks.bib) for one-click import into Zotero or any reference manager.
 

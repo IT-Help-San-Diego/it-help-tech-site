@@ -173,7 +173,7 @@ When changing palette, hero/logo styling, nav/CTA styling, or readability treatm
 
 **SEO architecture:** Theme SEO macros handle base meta, OG, Twitter. Per-page overrides via content frontmatter (`extra.og_title`, `extra.twitter_description`, etc.). JSON-LD schema lives in content Markdown files, not templates. `templates/field-notes.html` adds Blog schema for the index.
 
-**CSS load order (do not reorder):** `critical.min.css` (inlined) → `cls-fixes.css` → `abridge.css` → `override.min.css` → `late-overrides.css`.
+**CSS load order (do not reorder):** `critical.min.css` (inlined) → `abridge.css` (theme, via `config.extra.stylesheets`) → `tokens.css` → `_footer-org.css` → `late-overrides.css`.
 
 **LLM/bot files:** `templates/robots.txt` enumerates AI bot permissions and is rendered to `/robots.txt` (overriding the theme's robots template; **never edit `themes/abridge/templates/robots.txt` and never reintroduce `static/robots.txt`** — both are silently overridden). `static/llms.txt` is the short LLM-friendly summary. `build/llms-full.txt` (auto-generated at deploy time from `content/*.md` by `infra/llms/build-llms-full.mjs`) is the sole source for `/llms-full.txt` — Phase C of the rollout completed when `static/llms-full.txt` was deleted; **never reintroduce a hand-maintained `static/llms-full.txt`** (it would silently shadow the auto-generated copy in dev and drift from the live site).
 

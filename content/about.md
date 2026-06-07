@@ -4,7 +4,6 @@ description = "Learn about Carey Balboa, the founder of IT Help San Diego, with 
 path = "about"
 aliases = ["/about-us/"]
 render = true
-template_macros = ["macros/images.html"]
 
 [extra]
 image = "images/carey-256.avif"

@@ -92,7 +92,7 @@ jobs:
       - name: Copy images and root files
         run: |
           cp -r static/images public/
-          cp static/ithelp-logo-sig-seablue.html static/ithelp-logo-sig-gold.html static/ithelp-logo-sig-research.html static/ithelp-anilogo.html static/red-plus.ico static/bimi-logo.svg public/
+          cp static/ithelp-logo-sig-research.html static/red-plus.ico static/bimi-logo.svg public/
 
       - name: Verify no external subresources (security-relevant)
         # Original COEP require-corp safety net (Sub-4-bis). require-corp was

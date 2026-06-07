@@ -7,6 +7,7 @@ render = true
 
 [extra]
 image = "images/carey-256.avif"
+image_responsive_base = "images/carey"
 image_alt = "Carey Balboa with service animal Tango"
 skip_author = true
 toc = false

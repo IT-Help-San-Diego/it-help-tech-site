@@ -49,14 +49,13 @@ If you want to revert signatures to the old policy:
 
 1. Watch `Actions → deploy.yml` on `main` until it is green.
 2. (Optional) Invalidate CloudFront:
-   - `/ithelp-anilogo.html`
    - `/ithelp-logo-sig-*`
    - `/*` (only if you need instant global refresh)
 3. Verify headers:
 
 ```
 curl -I https://it-help.tech/ | grep -i content-security-policy
-curl -I https://it-help.tech/ithelp-anilogo.html | grep -i content-security-policy
+curl -I https://it-help.tech/ithelp-logo-sig-research.html | grep -i content-security-policy
 ```
 
 ---

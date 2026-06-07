@@ -7,8 +7,8 @@
 # zero external subresources today; this gate prevents a future field note
 # (or template change) from silently breaking the COEP-protected pages.
 #
-# Excludes the signature page (`ithelp-anilogo.html`) which is served by a
-# separate CloudFront behavior with its own response-headers policy.
+# Excludes the signature pages (`ithelp-logo-sig-*.html`) which are served
+# by a separate CloudFront behavior with their own response-headers policy.
 #
 # Usage: run from repo root after `zola build`.
 #   scripts/check-no-external-subresources.sh
@@ -68,8 +68,6 @@ def iter_srcset_urls(value: str):
 violations = []
 for html_file in sorted(public.rglob("*.html")):
     # Signature pages are served by a separate CloudFront behavior with their own policy.
-    if html_file.name == "ithelp-anilogo.html":
-        continue
     if html_file.name.startswith("ithelp-logo-sig-"):
         continue
     text = html_file.read_text(encoding="utf-8")

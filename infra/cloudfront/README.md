@@ -20,7 +20,6 @@ To keep a strict CSP on the main site **and** keep the hosted signature pages wo
 1. Create a separate Response Headers Policy in CloudFront using `csp-policy-signatures-v1.json` (name: `security-headers-signatures`).
 2. In each relevant CloudFront distribution, create behaviors for:
    - `ithelp-logo-sig-*`
-   - `ithelp-anilogo.html`
    and set their **Response headers policy** to `security-headers-signatures`.
 3. Keep the default behavior using `security-headers` (site policy).
 4. If you want GitHub Actions to update the signatures policy automatically, add repo secret `CF_HEADERS_POLICY_ID_SIGNATURES` with the policy ID.

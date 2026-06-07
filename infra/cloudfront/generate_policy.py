@@ -9,7 +9,7 @@ Why:
 
 Defaults are tuned for this repo:
   - The **main site** uses strict CSP (no `unsafe-inline`) and allows inline `<style>`/`<script>` via hashes.
-  - **Signature pages** (email signatures + the animation logo page) are expected to be served by a separate
+  - **Signature pages** (email signatures) are expected to be served by a separate
     CloudFront behavior with a separate Response Headers Policy, because they require inline styles.
 """
 
@@ -79,8 +79,6 @@ def _iter_files(public_dir: Path) -> Iterable[Path]:
 
 def _is_signature_page(file: Path) -> bool:
     name = file.name
-    if name == "ithelp-anilogo.html":
-        return True
     if name.startswith("ithelp-logo-sig-") and name.endswith(".html"):
         return True
     return False
@@ -207,13 +205,13 @@ def build_signatures_csp(*, script_hashes: list[str]) -> str:
 
     # Hardening rationale (2026-04-30 — see PROJECT_EVOLUTION_LOG.md):
     # The signature pages are reference renders of the email signature
-    # markup; they have no forms, no Web Workers, and the lone inline
-    # script (in ithelp-anilogo.html, allowlisted by sha256 hash) was
-    # audited and uses zero DOM-XSS sinks (no innerHTML, document.write,
-    # eval, etc.). So the same Trusted Types + form-action 'none' +
+    # markup; they have no forms, no Web Workers, and no inline scripts
+    # (script-src stays 'self'). If a signature page ever reintroduces an
+    # inline script, generate_policy.py will hash it into the allowlist
+    # automatically. So the same Trusted Types + form-action 'none' +
     # worker-src 'none' hardening applied to the marketing site can also
     # apply here.  'unsafe-inline' on style-src has to stay because the
-    # gold/seablue signatures are pure inline-`style="…"` markup (the
+    # signature is pure inline-`style="…"` markup (the
     # email-client portability constraint that drives the whole asset's
     # design). Custom headers in csp-policy-signatures-v1.json mirror the
     # marketing-site set: COOP same-origin, CORP same-origin, COEP
@@ -227,7 +225,7 @@ def build_signatures_csp(*, script_hashes: list[str]) -> str:
         f"worker-src {NONE}",
         f"img-src {SELF} data:",
         f"font-src {SELF}",
-        # Email signature pages and the animation logo page rely on inline styles.
+        # Email signature pages rely on inline styles.
         f"style-src {SELF} 'unsafe-inline'",
         "script-src " + " ".join(script_sources),
         f"connect-src {SELF}",

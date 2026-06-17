@@ -20,41 +20,46 @@ twitter_description = "Practitioner field notes on macOS, Wi‑Fi, DNS, email de
   "@type": "ItemList",
   "name": "Latest Field Notes",
   "itemListOrder": "https://schema.org/ItemListOrderDescending",
-  "numberOfItems": 7,
+  "numberOfItems": 8,
   "itemListElement": [
     {
       "@type": "ListItem",
       "position": 1,
-      "url": "https://www.it-help.tech/field-notes/the-real-bot-hasnt-been-built-yet/"
+      "url": "https://www.it-help.tech/field-notes/holding-root-entities-accountable-for-spam/"
     },
     {
       "@type": "ListItem",
       "position": 2,
-      "url": "https://www.it-help.tech/field-notes/hack-your-engrams-to-remember-passwords/"
+      "url": "https://www.it-help.tech/field-notes/the-real-bot-hasnt-been-built-yet/"
     },
     {
       "@type": "ListItem",
       "position": 3,
-      "url": "https://www.it-help.tech/field-notes/apple-sends-you-to-ijail/"
+      "url": "https://www.it-help.tech/field-notes/hack-your-engrams-to-remember-passwords/"
     },
     {
       "@type": "ListItem",
       "position": 4,
-      "url": "https://www.it-help.tech/field-notes/it-problem-solving-scientific-method/"
+      "url": "https://www.it-help.tech/field-notes/apple-sends-you-to-ijail/"
     },
     {
       "@type": "ListItem",
       "position": 5,
-      "url": "https://www.it-help.tech/field-notes/dns-security-best-practices/"
+      "url": "https://www.it-help.tech/field-notes/it-problem-solving-scientific-method/"
     },
     {
       "@type": "ListItem",
       "position": 6,
-      "url": "https://www.it-help.tech/field-notes/why-your-wireless-network-sucks/"
+      "url": "https://www.it-help.tech/field-notes/dns-security-best-practices/"
     },
     {
       "@type": "ListItem",
       "position": 7,
+      "url": "https://www.it-help.tech/field-notes/why-your-wireless-network-sucks/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 8,
       "url": "https://www.it-help.tech/field-notes/mac-cybersecurity-threats/"
     }
   ]

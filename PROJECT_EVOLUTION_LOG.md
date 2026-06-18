@@ -13,6 +13,19 @@ Purpose: Track meaningful AI/developer changes with enough context to roll back 
 
 ## Entries
 
+### 2026-06-17 — Delete field note: it-problem-solving-scientific-method (owner deemed it less relevant)
+- Actor: AI (working from the owner's request: "I want to delete this field note. I don't really think it's as relevant as everything else." referring to https://www.it-help.tech/field-notes/it-problem-solving-scientific-method/).
+- Scope: content removal — one field note plus its dedicated static assets and index registration.
+- Files:
+  - `content/field-notes/it-problem-solving-scientific-method.md` — DELETED.
+  - `static/field-notes/it-problem-solving-scientific-method.bib` — DELETED (BibTeX companion served only by this note).
+  - `static/images/it-problem-solving-scientific-method.webp` and the six responsive variants (`-256/-512/-800` × `.webp`/`.avif`) — DELETED (used only as this note's hero/thumbnail).
+  - `content/field-notes/_index.md` — removed the note from the JSON-LD `ItemList`; positions renumbered (it was position 5) and `numberOfItems` 8 → 7.
+  - `PROJECT_EVOLUTION_LOG.md` — this entry.
+- Why: owner judged the note less relevant than the rest of the Field Notes set and asked for its removal.
+- Consequences: `/field-notes/it-problem-solving-scientific-method/` and its `/blog/…` alias now return 404 in production (the page and alias-redirect are no longer generated). Acceptable per the site's own indexing infra, which treats a removed URL as a removal signal; no 301 mandated. No other content links to this note (verified by repo-wide search before deletion), so no internal links break. Both `aws s3 sync` steps run with `--delete`, so the page and its assets are purged from S3/CloudFront on deploy. The deploy "Copy images and root files" step copies `static/images` via `cp -r` (not by name), so removing the images does not break that step.
+- Rollback: revert the deletion PR (restores the markdown, `.bib`, all seven image files, and the `_index.md` ItemList entry).
+
 ### 2026-06-03 — Light-theme token palette (sun toggle now looks intentional, dark unchanged)
 - Actor: AI (working from the "polish light-mode theme" task — keep dark as the strong default, make the opt-in sun toggle look good across main pages, do not auto-switch via `prefers-color-scheme`, leave the email signature artifact alone).
 - Scope: design tokens — light theme.
@@ -25,7 +38,6 @@ Purpose: Track meaningful AI/developer changes with enough context to roll back 
 - CI safety: the `html.switch` block lives outside the canonical `:root`, so `scripts/check-token-parity.sh` (`first_root_block`) does not scan it and no `sass/_tokens.scss` mirror is required; `tokens.css` is already exempt from the no-hex grep, so the light hex literals are legal there. Parity gate passes (no token-value drift). The pre-existing hex-grep failures in `late-overrides.css` (comment refs like `#548`, fallback values like `#0f1622`) are unrelated and predate this change.
 - Verification: `zola build` clean; `scripts/check-token-parity.sh` parity section green; `scripts/check-no-external-subresources.sh` green; Playwright e2e set `theme=light` and walked home/about/services/contact/field-note — all light backgrounds, dark legible text, legible nav/CTA/wordmark/headings/links/code, no dark-mode remnants.
 - Rollback: revert the `html.switch` block in `static/css/tokens.css` and the two doc edits (single-commit revert).
-
 
 ### 2026-05-30 — New `/signature` page: in-site reference + install guide for the email signature, reproducing the content of `dnstool.it-help.tech/signature` using this site's own template
 - Actor: AI (working from the user's request to reproduce the DNS Tool's signature page content on the consulting site — "just the signature content + install instructions, using our template, drop the DNS-Tool app chrome").

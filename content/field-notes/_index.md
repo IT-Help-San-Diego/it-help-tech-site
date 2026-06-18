@@ -20,7 +20,7 @@ twitter_description = "Practitioner field notes on macOS, Wi‑Fi, DNS, email de
   "@type": "ItemList",
   "name": "Latest Field Notes",
   "itemListOrder": "https://schema.org/ItemListOrderDescending",
-  "numberOfItems": 8,
+  "numberOfItems": 7,
   "itemListElement": [
     {
       "@type": "ListItem",
@@ -45,21 +45,16 @@ twitter_description = "Practitioner field notes on macOS, Wi‑Fi, DNS, email de
     {
       "@type": "ListItem",
       "position": 5,
-      "url": "https://www.it-help.tech/field-notes/it-problem-solving-scientific-method/"
-    },
-    {
-      "@type": "ListItem",
-      "position": 6,
       "url": "https://www.it-help.tech/field-notes/dns-security-best-practices/"
     },
     {
       "@type": "ListItem",
-      "position": 7,
+      "position": 6,
       "url": "https://www.it-help.tech/field-notes/why-your-wireless-network-sucks/"
     },
     {
       "@type": "ListItem",
-      "position": 8,
+      "position": 7,
       "url": "https://www.it-help.tech/field-notes/mac-cybersecurity-threats/"
     }
   ]

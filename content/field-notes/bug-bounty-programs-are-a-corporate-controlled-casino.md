@@ -32,12 +32,13 @@ This is an opinion piece grounded in verifiable facts: the scanners are real, th
 1. [The Weekly Alert Nobody Will Fix](#the-weekly-alert-nobody-will-fix)
 2. [What the Scan Actually Finds](#what-the-scan-actually-finds)
 3. [Why Merchants Can't Fix It Themselves](#why-merchants-can-t-fix-it-themselves)
-4. [The Bug-Bounty Funnel: Where Reports Go to Be Managed](#the-bug-bounty-funnel-where-reports-go-to-be-managed)
-5. [The Economics: Speculative, Unpaid Consulting](#the-economics-speculative-unpaid-consulting)
-6. [How Bounty Programs Help Vendors Dodge Responsibility](#how-bounty-programs-help-vendors-dodge-responsibility)
-7. [The Inversion of "Ethical Hacking"](#the-inversion-of-ethical-hacking)
-8. [What Actually Needs to Change](#what-actually-needs-to-change)
-9. [Actionable Takeaways](#actionable-takeaways)
+4. [A Year of Being Told to Fix It Myself](#a-year-of-being-told-to-fix-it-myself)
+5. [The Bug-Bounty Funnel: Where Reports Go to Be Managed](#the-bug-bounty-funnel-where-reports-go-to-be-managed)
+6. [The Economics: Speculative, Unpaid Consulting](#the-economics-speculative-unpaid-consulting)
+7. [How Bounty Programs Help Vendors Dodge Responsibility](#how-bounty-programs-help-vendors-dodge-responsibility)
+8. [The Inversion of "Ethical Hacking"](#the-inversion-of-ethical-hacking)
+9. [What Actually Needs to Change](#what-actually-needs-to-change)
+10. [Actionable Takeaways](#actionable-takeaways)
 
 ---
 
@@ -74,6 +75,24 @@ That asymmetry—**you own the risk, they own the fix**—is the structural setu
 
 ---
 
+## A Year of Being Told to Fix It Myself
+
+I want this part on the record, because it is the part that turns a technical finding into a pattern of conduct. For roughly a year I have tried, repeatedly, to simply *give* the vendor the information: the scan reports, the exact failing headers, the affected URLs, the dates. Receiving that costs them nothing. The response has not been "thank you, we'll route this to engineering." It has been to push me toward a bug-bounty program—as if a paying customer reporting a defect in the product they pay for were an outside researcher auditioning for a payout.
+
+When support did engage, the reply followed one unchanging script: **the problem is on my end, and I should fix it.** Over a year of correspondence, the message was consistently that the customer—who has no access to the platform's response layer—was the one who needed to act.
+
+The most revealing version of that advice was being told to **update my DNS records** to resolve the missing security headers. That is not merely unhelpful; it is technically impossible, and it is worth explaining exactly why:
+
+- **HSTS, Content-Security-Policy, and `X-Frame-Options` are HTTP *response headers*.** The web server emits them with every page it serves [^2][^3][^4]. They live in the HTTP response, not in the domain name system.
+- **A forced HTTPS redirect is also server-side response behavior**—the server answers an `http://` request with a redirect to `https://`. Again: emitted by whatever serves the page.
+- **DNS does a different job entirely.** DNS records (`A`/`AAAA`, `CNAME`, `MX`, `TXT`, and the like) map names to addresses and publish service metadata. There is no DNS record type that can attach a security header to an HTTP response or force a redirect on a platform-hosted page. Telling a customer to "fix it in DNS" is like telling someone to repair a leaking roof by repainting the mailbox—the lever does not connect to the thing that is broken.
+
+And here is the part that makes the advice not just wrong but circular: on a closed storefront platform, the customer **cannot set those response headers at all**—only the vendor can. So the customer is being instructed to perform, in the wrong layer, a fix that the platform has already made impossible for them to perform in the *right* one.
+
+The throughline of the year is simple to state and hard to defend: the only party who *can* fix this has spent twelve months insisting that the party who *can't* should.
+
+---
+
 ## The Bug-Bounty Funnel: Where Reports Go to Be Managed
 
 Follow the escalation path and it eventually terminates at a **bug-bounty / responsible-disclosure program** [^11]. On paper this looks like the responsible thing: a clear place to send findings, a coordinated-disclosure process, maybe a reward. In practice, for a finding like this, the funnel does three things for the vendor and very little for users:
@@ -83,6 +102,8 @@ Follow the escalation path and it eventually terminates at a **bug-bounty / resp
 3. **It generates PR.** "We run a bug-bounty program" reads as a security investment, even while the same documented gap stays open and the weekly scans keep firing.
 
 A merchant who reports through support gets redirected into the funnel. A researcher who uses the funnel is bound by disclosure rules engineered around the vendor's legal risk, not public safety. Everyone who actually cares about the exposure gets routed into a channel optimized for managing *reporters*, not for *shipping fixes*.
+
+There is a quieter insult underneath all of this. I am not an anonymous researcher fishing for a payout—I am a paying customer who tried, again and again, to hand over a free defect report and was waved toward the rewards program instead. When a company would rather route a customer to a bounty page than simply *accept information it is being given for nothing*, the funnel has stopped being a security process. It has become a mechanism for not having to listen.
 
 ---
 

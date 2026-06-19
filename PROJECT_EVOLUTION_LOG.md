@@ -13,6 +13,16 @@ Purpose: Track meaningful AI/developer changes with enough context to roll back 
 
 ## Entries
 
+### 2026-06-19 — Field note bug-bounty-casino: add "A Year of Being Told to Fix It Myself" + funnel addendum
+- Actor: AI (working from the owner's follow-up: make it public that, over ~a year, the owner repeatedly tried to give Square the findings and was refused / pushed to a bug-bounty program, and that support repeatedly told the *customer* to fix it on their end — including the technically impossible advice to "update your DNS records"). Owner's raw message was profane; published prose is professional, pointed, and framed as the author's documented experience/opinion.
+- Scope: content addition to an existing field note (same-day, post-publish). Also follows PR #662 which cited the previously dangling footnote `[^12]`.
+- Files:
+  - `content/field-notes/bug-bounty-programs-are-a-corporate-controlled-casino.md` — NEW section `## A Year of Being Told to Fix It Myself` inserted as TOC item 4 (subsequent items renumbered 5–10); documents the year-long refusal-to-receive pattern and rebuts "fix it in DNS" with the layer distinction (HSTS/CSP/X-Frame-Options are HTTP *response headers* `[^2][^3][^4]`, forced HTTPS redirect is server-side, DNS record types cannot set either — and on a closed platform only the vendor can). Added a "quieter insult" paragraph to the Bug-Bounty Funnel section (paying customer waved toward the rewards program instead of having free information accepted). No new footnotes (reuses `[^2][^3][^4]`); all 16 remain both used and defined.
+  - `PROJECT_EVOLUTION_LOG.md` — this entry.
+- Why: owner directive to put the conduct pattern on the public record. Kept in documented-experience / opinion framing for defensibility; the DNS rebuttal is a verifiable technical fact that also strengthens credibility.
+- Consequences: live on deploy; additive only. `zola build` clean incl. internal-anchor check (validates the new TOC anchor `#a-year-of-being-told-to-fix-it-myself`).
+- Rollback: revert this PR (removes the new section, the funnel paragraph, and the TOC item; restores 9-item TOC).
+
 ### 2026-06-19 — New field note: bug-bounty-programs-are-a-corporate-controlled-casino
 - Actor: AI (working from the owner's request — a new field note framed "Every week, a national intelligence agency lets me know that Square Online is the weakest link and the largest vulnerability. Every week, they ignore me." — with an attached polemical draft to adapt into the site's Field Note voice).
 - Scope: content addition — one new field note plus its index registration. No hero image (mirrors the immediately preceding note `holding-root-entities-accountable-for-spam`, which shipped image-less).

@@ -79,7 +79,7 @@ That asymmetry—**you own the risk, they own the fix**—is the structural setu
 
 I want this part on the record, because it is the part that turns a technical finding into a pattern of conduct. For roughly a year I have tried, repeatedly, to simply *give* the vendor the information: the scan reports, the exact failing headers, the affected URLs, the dates. Receiving that costs them nothing. The response has not been "thank you, we'll route this to engineering." It has been to push me toward a bug-bounty program—as if a paying customer reporting a defect in the product they pay for were an outside researcher auditioning for a payout.
 
-When support did engage, the reply followed one unchanging script: **the problem is on my end, and I should fix it.** Over a year of correspondence, the message was consistently that the customer—who has no access to the platform's response layer—was the one who needed to act.
+When support did engage, the reply in my documented correspondence followed essentially one script: **the problem is on my end, and I should fix it.** Across roughly a year of back-and-forth, the message I received was consistently that the customer—who has no access to the platform's response layer—was the one who needed to act.
 
 The most revealing version of that advice was being told to **update my DNS records** to resolve the missing security headers. That is not merely unhelpful; it is technically impossible, and it is worth explaining exactly why:
 
@@ -89,7 +89,7 @@ The most revealing version of that advice was being told to **update my DNS reco
 
 And here is the part that makes the advice not just wrong but circular: on a closed storefront platform, the customer **cannot set those response headers at all**—only the vendor can. So the customer is being instructed to perform, in the wrong layer, a fix that the platform has already made impossible for them to perform in the *right* one.
 
-The throughline of the year is simple to state and hard to defend: the only party who *can* fix this has spent twelve months insisting that the party who *can't* should.
+The throughline of the year, as I have experienced it, is simple to state and hard to defend: the only party who *can* fix this has spent roughly twelve months insisting that the party who *can't* should.
 
 ---
 

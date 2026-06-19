@@ -13,6 +13,17 @@ Purpose: Track meaningful AI/developer changes with enough context to roll back 
 
 ## Entries
 
+### 2026-06-19 — New field note: bug-bounty-programs-are-a-corporate-controlled-casino
+- Actor: AI (working from the owner's request — a new field note framed "Every week, a national intelligence agency lets me know that Square Online is the weakest link and the largest vulnerability. Every week, they ignore me." — with an attached polemical draft to adapt into the site's Field Note voice).
+- Scope: content addition — one new field note plus its index registration. No hero image (mirrors the immediately preceding note `holding-root-entities-accountable-for-spam`, which shipped image-less).
+- Files:
+  - `content/field-notes/bug-bounty-programs-are-a-corporate-controlled-casino.md` — NEW. Adapts the owner's draft into a measured-but-pointed opinion piece: CISA Cyber Hygiene weekly scans flag missing HTTPS/HSTS/CSP/X-Frame-Options on Square Online landing pages; the platform forbids merchant self-remediation; the bug-bounty funnel is critiqued as vendor-controlled risk management. Draft's `【web_extract†…】` markers converted to 16 sequential footnotes `[^1]`–`[^16]` under `## References`, each a browser-UA-verified URL (CISA, MDN, OWASP, hstspreload, ProjectDiscovery, Qualys, Square Seller Community, Block/HackerOne, FIRST CVSS, Wikipedia, Bugcrowd, Synack). Theatrical stage-direction lines from the draft (raised-fist image caption, "Let the fist stay raised") dropped; thesis and stance preserved. Full SEO frontmatter + `/blog/…` alias.
+  - `content/field-notes/_index.md` — added the note at position 1 of the JSON-LD `ItemList`; existing items renumbered 2–8; `numberOfItems` 7 → 8.
+  - `PROJECT_EVOLUTION_LOG.md` — this entry.
+- Why: owner directive to publish this field note. Citations grounded in verifiable authoritative sources rather than the draft's unverifiable forum-thread deep links; factual claims about Square framed as the author's documented experience / community reports, with the bug-bounty critique framed explicitly as opinion (defensibility).
+- Consequences: `/field-notes/bug-bounty-programs-are-a-corporate-controlled-casino/` and its `/blog/…` alias become live on deploy. No other content needed changes (additive). `zola build` clean.
+- Rollback: revert this PR (removes the markdown and the `_index.md` ItemList entry).
+
 ### 2026-06-17 — Delete field note: it-problem-solving-scientific-method (owner deemed it less relevant)
 - Actor: AI (working from the owner's request: "I want to delete this field note. I don't really think it's as relevant as everything else." referring to https://www.it-help.tech/field-notes/it-problem-solving-scientific-method/).
 - Scope: content removal — one field note plus its dedicated static assets and index registration.

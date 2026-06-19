@@ -129,7 +129,7 @@ A system that quietly silences all three—merchants through opaque support funn
 The fix is not a better-run casino. It is rejecting the premises that make the casino necessary:
 
 - **Baseline hardening is the vendor's job, not a bounty line item.** Forced HTTPS, HSTS, CSP, and framing protection are table stakes that a platform must ship for every merchant by default—no report required [^5].
-- **Coordinated disclosure should serve the public, not just the vendor's legal team.** Timelines, transparency, and a real deadline for fixing documented findings—not indefinite "accepted risk."
+- **Coordinated disclosure should serve the public, not just the vendor's legal team.** Published guidance for good-faith disclosure already exists; the missing piece is vendor commitment to timelines, transparency, and a real deadline for fixing documented findings—not indefinite "accepted risk" [^12].
 - **If you require external labor to stay safe, pay for it like labor.** Speculative, judged-by-the-beneficiary payouts are not a substitute for either fixing your own baselines or contracting real security work.
 
 Any model that *requires* unpaid, over-controlled outside effort to keep users safe is structurally unethical. Any disclosure regime that lets the vendor decide unilaterally what the public learns, and when, is structurally unsafe. Square's open header gap checks both boxes.

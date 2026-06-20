@@ -999,12 +999,7 @@ html:not(.switch) h6 a.gold-link:active {
         backdrop-filter: saturate(160%) blur(14px);
         border-bottom: 1px solid rgba(210, 181, 111, 0.38);
         transform: translateZ(0);
-        /* `will-change: backdrop-filter` is not a valid will-change value;
-           browsers silently coerce it to `auto`, so it never delivered the
-           compositing hint it appeared to. `transform` is the canonical
-           Safari GPU-promotion hint and is what the translateZ(0) above
-           actually depends on. */
-        will-change: transform;
+        will-change: backdrop-filter;
     }
     @supports (background: color-mix(in oklab, red, blue)) {
         .topbar {
@@ -1056,9 +1051,7 @@ html:not(.switch) h6 a.gold-link:active {
             border-bottom: 0;
             box-shadow: none;
             transform: translateZ(0);
-            /* See note in the desktop topbar rule above — `transform` is the
-               valid will-change value; `backdrop-filter` is not. */
-            will-change: transform;
+            will-change: backdrop-filter;
         }
     }
 }
@@ -1628,117 +1621,14 @@ img.img-centered-520 {
     display: block;
 }
 
-/* ============================================================================
-   Prose measure (line-length) cap — 2026-06-01
-   ----------------------------------------------------------------------------
-   The abridge theme sets `<main>` to min-width:1200px / max-width:70%. On a
-   1440px viewport that produces a ~1008px content column. At our 1.12rem
-   body font (~17.9px) that's ~110–120 characters per line — wider than the
-   measure used by Apple's own editorial properties and well wider than
-   what's comfortable for older readers.
-
-   Decision: match Apple's developer documentation, which is the closest
-   stylistic analogue to this site's long-form articles. The brand has
-   been deliberately positioned to feel adjacent to Apple's visual
-   language, so the prose measure should align too.
-
-   Apple body-prose measurements at 1440px viewport (audited 2026-06-01):
-     - developer.apple.com/design/human-interface-guidelines:
-         740px column, 17px SF Pro Text, 25px line-height (1.47x), ~93 CPL
-     - support.apple.com long-form articles:
-         797–817px column, 17px SF Pro Text, 25px line-height, ~97–106 CPL
-     - apple.com marketing pages:
-         not applicable — short feature-card copy, not flowing prose
-
-   Apple's developer-docs target is the more disciplined of the two and
-   is the right reference for technical articles and consulting-service
-   copy. 74ch at this site's 1.12rem body font lands at approximately
-   740–780px, matching Apple's developer-docs column within the rendering
-   variance of any given font. Generous enough that Gen Z doesn't feel
-   text is cramped; tight enough that older readers don't have to track
-   their eyes across a 1000px line.
-
-   Approach:
-     1. Cap the <article> element itself at 74ch and center it inside
-        <main>. One container narrows, everything inside left-aligns
-        against the SAME left edge — the pattern Apple uses on developer
-        docs and Stripe / Linear use on their respective docs.
-     2. Provide an opt-in .full-bleed escape hatch for tables, code
-        blocks, large figures, and the how-we-work card grid so they
-        keep their full width.
-     3. Tighten line-height from 1.6 to 1.5 — matches Apple's 1.47x ratio
-        on developer docs while still meeting WCAG 1.4.12 minimum (1.5x).
-     4. Gate to >=900px — narrower viewports already wrap naturally.
-
-   The hero (<section class="hero-wrapper">) lives OUTSIDE <article> in
-   templates/index.html, so it's structurally unaffected. Same for the
-   topbar, footer, and any partial that isn't a direct child of <main>.
-
-   `/field-notes/` (the index) uses <ul class="post-list"> directly under
-   <main> with no <article> wrapper, so it gets its own cap rule.
-
-   Cited basis:
-     - Apple developer.apple.com/design/human-interface-guidelines (live
-       audit, 2026-06-01) — 740px / ~93 CPL prose measure
-     - WCAG 2.1 SC 1.4.8 (Visual Presentation) — 80 char target
-       (Apple runs slightly above this on support, deliberately;
-       developer docs at 93 CPL is acceptable with generous leading)
-     - WCAG 2.1 SC 1.4.12 — 1.5x minimum line spacing (met at 1.5)
-   ============================================================================ */
-
-@media (min-width: 900px) {
-    /* Cap the ARTICLE element itself at 74ch and center it inside <main>.
-       74ch at the site's 1.12rem body font lands around 740–780px,
-       matching Apple's developer-docs prose column. One container
-       narrows; everything inside left-aligns against the SAME left edge.
-       Capping individual children instead misaligns headings against
-       their paragraphs because each child centers independently within
-       main. */
-    main > article,
-    main > article.homepage-body {
-        max-width: 74ch;
-        margin-inline: auto;
-    }
-
-    /* Field-notes index — uses <ul class="post-list"> directly under <main>
-       with no <article> wrapper. Same cap, same centering. */
-    main > ul.post-list {
-        max-width: 74ch;
-        margin-inline: auto;
-    }
-
-    /* Opt-in escape hatch. Apply class="full-bleed" to any element inside
-       <article> that should span the wider <main> column instead of being
-       constrained to the prose measure. Auto-applied to elements that
-       always want full width: the .how-we-work card grid, tables, pre
-       code blocks, the .post-image hero portrait, and standalone
-       figures tagged .full-bleed.
-
-       Technique: position:relative + left:50% + translateX(-50%) anchors
-       the element to the horizontal center of the parent and then pulls
-       it back by half its OWN width. Combined with a declared width
-       (not max-width) wider than the parent, this is the only reliable
-       way to break out of a max-width-constrained ancestor in modern
-       CSS without negative margins. The width:min(1008px, ...) ceiling
-       caps the break-out at the original <main> column width so we
-       don't drift wider than the page's structural grid. */
-    article > .full-bleed,
-    article > table,
-    article > pre,
-    article > .how-we-work,
-    article > .post-image,
-    article > figure.full-bleed {
-        position: relative;
-        width: min(1008px, calc(100vw - 2 * var(--s1, 1rem)));
-        left: 50%;
-        transform: translateX(-50%);
-        max-width: none;
-    }
-
-    /* Match Apple's 1.47x line-height on developer docs while meeting the
-       WCAG 1.4.12 1.5x minimum exactly. The previous 1.6 was slightly
-       airy for a 74ch measure; 1.5 reads tighter without crowding. */
-    main > article p {
-        line-height: 1.5;
-    }
+/* CSP-safe centered image utility (small badge size). Used by
+   content/field-notes/the-owl-semaphore.md for the four owl-semaphore state
+   composites. Same pattern as .img-centered-520 — keeps the visual without
+   inline style="..." which would violate strict style-src 'self'. */
+img.img-centered-240 {
+    width: 240px;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+    display: block;
 }

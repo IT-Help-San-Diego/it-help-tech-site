@@ -76,7 +76,7 @@ The owl faces the other way. NON-NORMATIVE is a legitimate, structured explorati
 
 ### CRITICAL: The Inversion
 
-{{ picture_simple(base="images/owl-semaphore-crit", alt="CRITICAL owl: the Owl of Athena rotated 180 degrees, red—a full inversion of the standard.", class="img-centered-240", width="480", height="480", loading="lazy", decoding="async") }}
+{{ picture_simple(base="images/owl-semaphore-crit", alt="CRITICAL owl: the Owl of Athena rotated 180 degrees, crimson—a full inversion of the standard.", class="img-centered-240", width="480", height="480", loading="lazy", decoding="async") }}
 
 - **Operator:** 180° rotation, C₂ — determinant **+1**
 - **Transform:** (x, y) → (−x, −y) (half-turn)
@@ -149,13 +149,13 @@ This is the place to be careful about claims. The Owl Semaphore is designed to b
 
 A notation that depends on color alone excludes the people most likely to be reading carefully. The Owl Semaphore therefore encodes every state three independent ways:
 
-1. **Color** — gold, teal, red, amethyst.
+1. **Color** — gold, teal, crimson, amethyst.
 2. **Orientation** — upright, mirrored, inverted, flipped.
 3. **Literal label** — the words NORMATIVE, NON-NORMATIVE, CRITICAL, METACOGNITIVE.
 
 The label is authoritative. Color and orientation are aids; the text is the contract. This satisfies the spirit of WCAG 2.2 Success Criterion 1.4.1, *Use of Color*: meaning is never carried by color alone [^wcag141].
 
-The CRITICAL state makes this rule unusually vivid. Its composite is intentionally rendered as a low-contrast red-on-red figure—roughly 1.10:1, far below any legibility threshold. That is deliberate: it is the acute test of the system's own rule. If you cannot reliably distinguish CRITICAL by *looking*, you fall back to the orientation and, above all, to the label—which is exactly what the design intends. The badge is unreadable by color; the state is never unreadable, because the word is always present.
+The CRITICAL state makes this rule unusually vivid. Its composite is intentionally rendered as a low-contrast crimson-on-crimson figure—roughly 1.10:1, far below any legibility threshold. That is deliberate: it is the acute test of the system's own rule. If you cannot reliably distinguish CRITICAL by *looking*, you fall back to the orientation and, above all, to the label—which is exactly what the design intends. The badge is unreadable by color; the state is never unreadable, because the word is always present.
 
 Within this Field Note, every owl image carries descriptive alt text naming its state, and each state is spelled out in the surrounding text, so nothing here depends on seeing the color either.
 
@@ -195,7 +195,7 @@ The v3 release is explicit about what the system does *not* claim, so the algebr
 
 - **The four states are deliberately coarse.** They mark *which kind* of epistemic move you are looking at—standard, exploration, inversion, self-audit—not the degree, confidence, or correctness of it. Many real evaluations carry finer gradations (partial agreement, mixed evidence, staged revision) that the four states intentionally compress. The coarseness is the source of the system's parsimony and verifiability, but it means the notation classifies stance; it never substitutes for the underlying argument.
 - **No empirical validation yet.** The algebraic claims—closure, involution, commutativity—are proven. The *epistemic* claim, that these four states usefully and reliably partition how practitioners evaluate real claims, has not been tested. There is no inter-rater reliability study and no corpus annotation showing that independent readers assign the same state to the same artifact. Until such studies exist, the epistemic utility is a design hypothesis supported by analogy to mature practice (peer review, CVE severity, methodology audit), not a validated result.
-- **Cultural specificity.** The owl iconography, the color palette, and the orientation conventions are situated choices. Owls do not carry uniform connotations across cultures; red-as-adversarial and gold-as-authoritative are not universal; left/right reading assumptions reflect particular conventions. The mapping from badge to state depends on a learned key—which is exactly why the literal label, never the color or orientation alone, is the carrier of record.
+- **Cultural specificity.** The owl iconography, the color palette, and the orientation conventions are situated choices. Owls do not carry uniform connotations across cultures; crimson-as-adversarial and gold-as-authoritative are not universal; left/right reading assumptions reflect particular conventions. The mapping from badge to state depends on a learned key—which is exactly why the literal label, never the color or orientation alone, is the carrier of record.
 
 ---
 

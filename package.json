@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "test": "echo \"no tests\" && exit 0",
+    "test": "zola build",
     "lh": "node infra/audit/quick-lh.mjs",
-    "lh:gate": "node infra/audit/run-lighthouse.mjs"
+    "lh:gate": "node infra/audit/run-lighthouse.mjs",
+    "check": "zola check"
   },
   "devDependencies": {
     "lighthouse": "12.8.2"

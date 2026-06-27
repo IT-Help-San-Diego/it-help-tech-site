@@ -1,5 +1,7 @@
 # config.toml
-theme         = "abridge"
+# theme removed 2026-06-27 (Option A de-theming): abridge's used pieces are now
+# vendored into the repo — SASS framework at sass/vendor/abridge/, seo macro at
+# templates/macros/seo.html, i18n at i18n/en.toml. No external theme dependency.
 compile_sass  = true
 minify_html   = true
 base_url      = "https://www.it-help.tech"

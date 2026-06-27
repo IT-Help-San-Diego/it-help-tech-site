@@ -1,6 +1,6 @@
 @use "../tokens" as *;
 
-@use '../../themes/abridge/sass/abridge' with (
+@use '../vendor/abridge/abridge' with (
   /// LINES HERE END WITH COMMA AFTER THE VALUE!
   /// The things your less likely to need to override have been commented out.
 

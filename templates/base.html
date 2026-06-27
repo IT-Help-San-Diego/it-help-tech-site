@@ -6,7 +6,7 @@
 {# ---------- i18n lookup (safe) -------------------------------- #}
 {%- set i18n = load_data(path="i18n/" ~ lang ~ '.toml', required=false) -%}
 {%- if not i18n -%}
-  {%- set i18n = load_data(path="themes/abridge/i18n/" ~ lang ~ '.toml', required=false) -%}
+  {%- set i18n = load_data(path="i18n/en.toml", required=false) -%}
 {%- endif -%}
 
 {%- if config.extra.search_library is defined and config.extra.search_library == "offline" %}

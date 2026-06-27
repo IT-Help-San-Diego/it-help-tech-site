@@ -62,9 +62,6 @@
 <meta name="description" content="{{ meta_description | safe }}" />
 
 {%- set integrity = config.extra.integrity | default(value=true) -%}
-{%- if config.extra.search_library and config.extra.search_library == "offline" %}
-  {% set integrity = false %}
-{%- endif %}
 
 {# --- Style Sheets --- #}
 {%- set stylesheets = config.extra.stylesheets | default(value=[ "css/abridge.css" ]) -%}

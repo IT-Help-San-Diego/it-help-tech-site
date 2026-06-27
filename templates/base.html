@@ -9,10 +9,6 @@
   {%- set i18n = load_data(path="i18n/en.toml", required=false) -%}
 {%- endif -%}
 
-{%- if config.extra.search_library is defined and config.extra.search_library == "offline" %}
-  {%- set uglyurls = true %}
-{%- endif %}
-
 <!DOCTYPE html>
 <html lang="{% if lang != config.default_language %}{{ lang }}{% else %}{{ config.extra.language_code | default(value=lang) }}{% endif %}">
 <head>

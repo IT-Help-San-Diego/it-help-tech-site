@@ -213,9 +213,15 @@
 <link rel="canonical" href="{{ page_url | safe }}">
 
 {# --- Open Graph & Twitter --- #}
+{%- set og_image_path = ctx.extra.og_image | default(value=config.extra.default_og_image) %}
+{%- set og_image_alt = ctx.extra.og_image_alt | default(value=ctx.extra.og_title | default(value=ctx.title)) %}
 <meta property="og:title"       content="{{ ctx.extra.og_title       | default(value=ctx.title) | safe }}">
 <meta property="og:description" content="{{ ctx.extra.og_description | default(value=ctx.description) }}">
-<meta property="og:image"       content="{{ get_url(path=ctx.extra.og_image | default(value=config.extra.default_og_image), trailing_slash=false, cachebust=true) | safe }}">
+<meta property="og:image"       content="{{ get_url(path=og_image_path, trailing_slash=false, cachebust=true) | safe }}">
+<meta property="og:image:type"   content="{% if og_image_path is ending_with('.jpg') or og_image_path is ending_with('.jpeg') %}image/jpeg{% else %}image/png{% endif %}">
+<meta property="og:image:width"  content="{{ ctx.extra.og_image_width  | default(value=1200) }}">
+<meta property="og:image:height" content="{{ ctx.extra.og_image_height | default(value=630) }}">
+<meta property="og:image:alt"    content="{{ og_image_alt | safe }}">
 <meta property="og:url"         content="{{ page_url | safe }}">
 
 <meta property="og:type"        content="{{ ctx.extra.og_type | default(value='website') }}">
@@ -224,6 +230,7 @@
 <meta name="twitter:title"       content="{{ ctx.extra.twitter_title       | default(value=ctx.title) | safe }}">
 <meta name="twitter:description" content="{{ ctx.extra.twitter_description | default(value=ctx.description) }}">
 <meta name="twitter:image"       content="{{ get_url(path=ctx.extra.twitter_image | default(value=config.extra.default_twitter_image), trailing_slash=false, cachebust=true) | safe }}">
+<meta name="twitter:image:alt"   content="{{ og_image_alt | safe }}">
 
 {# --- RSS / Atom Feed --- #}
 {%- if config.generate_feeds %}

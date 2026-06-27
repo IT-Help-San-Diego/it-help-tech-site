@@ -95,13 +95,13 @@
 
     <div class="block">
       <div class="blockdiv">
-        <a class="b s150" href="{{ tag.permalink | safe }}{%- if uglyurls %}index.html{%- endif %}">{{ tag.name }} ({{ parts_string }})</a><br>
+        <a class="b s150" href="{{ tag.permalink | safe }}">{{ tag.name }} ({{ parts_string }})</a><br>
         {%- for inner in tag.pages | sort(attribute="date") %}
           {%- if inner.content == page.content %}
-            <a class="scur" href="{{ inner.permalink | safe }}{%- if uglyurls %}index.html{%- endif %}">{{ inner.title }}</a><br>
+            <a class="scur" href="{{ inner.permalink | safe }}">{{ inner.title }}</a><br>
             {%- set_global current_section_index = loop.index0 %} {# Finds the current section, needed for pagination logic later #}
           {% else %}
-            <a href="{{ inner.permalink | safe }}{%- if uglyurls %}index.html{%- endif %}">{{ inner.title }}</a><br>
+            <a href="{{ inner.permalink | safe }}">{{ inner.title }}</a><br>
           {%- endif %}
         {%- endfor %}
       </div>

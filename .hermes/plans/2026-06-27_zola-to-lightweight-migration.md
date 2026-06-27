@@ -94,6 +94,11 @@ Flatten everything to hand-written `.html`. Only sane if you **kill the blog** (
 - **3.2** Audit `static/js/` — keep `hero-logo.js` (the animation) + `theme-init`/`theme-toggle`; delete any unreferenced JS (`brand-colors.js` if only used on one dev page).
 - **3.3** Confirm no external subresources except where intentional. Document the JS-under-nonce decision in AGENTS.md (the site is "minimal-JS progressive-enhancement," NOT "zero-JS like siblings" — be honest in docs).
 
+> **Phase 3 PRE-AUDIT FINDING (2026-06-27):** JS/CSS pruning scope is NARROWER than first thought — nothing is dead.
+> - JS: `hero-logo.js`, `theme-init.js`, `theme-toggle.min.js` are template-referenced. `brand-colors.js` shows "0 template refs" BUT is injected **page-scoped** via `content/brand-colors.md` front-matter `scripts = ["js/brand-colors.js"]` through head.html's `ctx.extra.stylesheets`/scripts loop. ALL 4 JS files are USED. Do NOT delete any.
+> - CSS: global 4 (`abridge`, `tokens`, `late-overrides`, `_footer-org`) via head.html; `brand-colors.css` + `signature.css` are page-scoped (brand-colors.md, signature.md front-matter). ALL USED.
+> - So Phase 3 = commit PurgeCSS-deduped output as SOURCE (Sonar-clean, no dead selectors) + AGENTS.md honesty note. NOT file deletion.
+
 ### Phase 4 — Hero animation parity (must stay gorgeous)
 - **4.1** Before/after screenshot of the hero at desktop + mobile widths via local `zola serve` + browser tool. DOM-metric check (canvas present, owl `<img>` dimensions, particle count). 
 - **4.2** Confirm `prefers-reduced-motion` still kills the constellation; confirm hover-tilt still works. No regression in the WAI accessibility annotations already in `hero_logo.html`.

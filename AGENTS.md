@@ -146,15 +146,16 @@ When changing palette, hero/logo styling, nav/CTA styling, or readability treatm
 
 ## Project Architecture (At-a-Glance)
 
-**Stack:** Zola static site generator + Abridge theme (customized). SASS for styles, PurgeCSS for optimization. No client-side frameworks. No trackers, no cookies, no third-party JS frameworks.
+**Stack:** Zola static site generator (de-themed — no external theme as of 2026-06-27). SASS for styles, PurgeCSS for build-time optimization. **Minimal-JS progressive enhancement** (NOT zero-JS): the hero constellation animation (`static/js/hero-logo.js`) and the dark/light theme toggle (`static/js/theme-toggle.min.js` + `theme-init.js`) are the only scripts — all same-origin, CSP-nonce/SRI-pinned, and non-essential (the page works fully without them). No client-side frameworks, no trackers, no cookies, no third-party JS.
 
 **Layout:**
 
 - `content/` — Markdown pages, field notes, and embedded JSON-LD schema
-- `templates/` — Zola HTML templates and macros (`base.html`, `page.html`, `field-notes.html`); also project-level theme overrides (Zola precedence rule), e.g. `templates/robots.txt` is the canonical source for `/robots.txt`
-- `themes/abridge/` — Abridge theme; SEO macros at `themes/abridge/templates/macros/seo.html`
-- `sass/` — SASS sources (`_extra.scss` holds component/interaction tokens; `css/abridge.scss` holds theme/link tokens)
-- `static/` — assets, `llms.txt`; `static/css/late-overrides.css` is the canonical visual-system file
+- `templates/` — Zola HTML templates and macros (`base.html`, `page.html`, `field-notes.html`, `404.html`, `partials/`, `macros/`). `templates/robots.txt` is the canonical source for `/robots.txt`. No external theme — these ARE the site's templates.
+- `templates/macros/` — `macros.html` (live macros: `translate`, `display_metadata`, `title_post`, `meta_post`, `footer`), `seo.html` (SEO meta/OG/Twitter macro, used as `macros_seo`), `csp.html` (CSP nonce generation).
+- `sass/` — SASS sources (`_extra.scss` component/interaction tokens; `css/abridge.scss` link/theme tokens; `_custom.scss`, `_tokens.scss`, `critical-inline.scss`). The vendored CSS framework lives at `sass/vendor/abridge/` (formerly the abridge theme's sass, now repo-owned; entry is `_abridge.scss` consumed via `@use`).
+- `i18n/en.toml` — single-language (English) string table for the `translate` macro.
+- `static/` — assets, `llms.txt`; `static/css/late-overrides.css` is the canonical visual-system file; `static/bimi-logo.svg` is the true-vector Tiny-PS BIMI mark.
 - `infra/` — `audit/` (Lighthouse + Observatory gate), `llms/` (build-time `llms-full.txt` generator), `cloudfront/` (CSP policy regen)
 - `public/` — Zola build output (gitignored)
 - `build/` — generator output staged for S3 (gitignored)
@@ -171,11 +172,11 @@ When changing palette, hero/logo styling, nav/CTA styling, or readability treatm
 | Field Notes Index | `content/field-notes/_index.md` | ItemList |
 | Field Notes Posts | `content/field-notes/*.md` | Article (via `templates/page.html`) |
 
-**SEO architecture:** Theme SEO macros handle base meta, OG, Twitter. Per-page overrides via content frontmatter (`extra.og_title`, `extra.twitter_description`, etc.). JSON-LD schema lives in content Markdown files, not templates. `templates/field-notes.html` adds Blog schema for the index.
+**SEO architecture:** The `macros_seo::seo` macro (`templates/macros/seo.html`, repo-owned) handles base meta, OG, Twitter. Per-page overrides via content frontmatter (`extra.og_title`, `extra.twitter_description`, etc.). JSON-LD schema lives in content Markdown files, not templates. `templates/field-notes.html` adds Blog schema for the index.
 
-**CSS load order (do not reorder):** `critical.min.css` (inlined) → `abridge.css` (theme, via `config.extra.stylesheets`) → `tokens.css` → `_footer-org.css` → `late-overrides.css`.
+**CSS load order (do not reorder):** `critical.min.css` (inlined) → `abridge.css` (compiled from `sass/css/abridge.scss` via `config.extra.stylesheets`) → `tokens.css` → `_footer-org.css` → `late-overrides.css`.
 
-**LLM/bot files:** `templates/robots.txt` enumerates AI bot permissions and is rendered to `/robots.txt` (overriding the theme's robots template; **never edit `themes/abridge/templates/robots.txt` and never reintroduce `static/robots.txt`** — both are silently overridden). `static/llms.txt` is the short LLM-friendly summary. `build/llms-full.txt` (auto-generated at deploy time from `content/*.md` by `infra/llms/build-llms-full.mjs`) is the sole source for `/llms-full.txt` — Phase C of the rollout completed when `static/llms-full.txt` was deleted; **never reintroduce a hand-maintained `static/llms-full.txt`** (it would silently shadow the auto-generated copy in dev and drift from the live site).
+**LLM/bot files:** `templates/robots.txt` enumerates AI bot permissions and is rendered to `/robots.txt`. **Never reintroduce `static/robots.txt`** (it would silently shadow the template-rendered one). `static/llms.txt` is the short LLM-friendly summary. `build/llms-full.txt` (auto-generated at deploy time from `content/*.md` by `infra/llms/build-llms-full.mjs`) is the sole source for `/llms-full.txt`; **never reintroduce a hand-maintained `static/llms-full.txt`** (it would silently shadow the auto-generated copy in dev and drift from the live site).
 
 ## Canonical Files
 

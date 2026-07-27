@@ -1,13 +1,13 @@
 ---
 title: Apple IT Consulting Services · La Jolla & San Diego
 path: services
-description: "Engagements with a senior Apple-centric IT consultant in La Jolla, on-site or remote across San Diego. Mac first, with Linux and Windows, Wi‑Fi, DNS and email security in mixed environments. By appointment. No hardware repair, no monthly retainers, no affiliate hardware sales."
+description: "Engagements with a senior Apple-centric IT consultant in La Jolla, on-site or remote across San Diego. Mac first, with Linux and Windows, Wi‑Fi, DNS and email security in mixed environments. Software, systems, networks, and data — not physical devices. By appointment. No monthly retainers, no affiliate sales."
 extra:
   seo_title: "Apple IT Consulting Services · La Jolla & San Diego"
   skip_image: true
   skip_author: true
-  og_description: "Engagements with a senior Apple-centric IT consultant in La Jolla, on-site or remote across San Diego. Mac first, with Linux and Windows, Wi‑Fi, DNS and email security in mixed environments. By appointment. No hardware repair, no monthly retainers."
-  twitter_description: "Engagements with a senior Apple-centric IT consultant in La Jolla, on-site or remote across San Diego. Mac first, with Linux and Windows, Wi‑Fi, DNS and email security in mixed environments. By appointment. No hardware repair, no monthly retainers."
+  og_description: "Engagements with a senior Apple-centric IT consultant in La Jolla, on-site or remote across San Diego. Mac first, with Linux and Windows, Wi‑Fi, DNS and email security in mixed environments. Software, systems, networks, and data — not physical devices. By appointment. No monthly retainers."
+  twitter_description: "Engagements with a senior Apple-centric IT consultant in La Jolla, on-site or remote across San Diego. Mac first, with Linux and Windows, Wi‑Fi, DNS and email security in mixed environments. Software, systems, networks, and data — not physical devices. By appointment. No monthly retainers."
   og_title: "Apple IT Consulting Services · La Jolla & San Diego"
   twitter_title: "Apple IT Consulting Services · La Jolla & San Diego"
 ---

@@ -2,6 +2,14 @@
 
 > Expert Apple IT support in San Diego for homes and businesses. No monthly retainers!
 
+## What we do (read this first)
+
+Software, systems, networks, and data — nothing you can hold with a cracked case.
+We fix what's *inside* the device: the OS, the Wi-Fi, the DNS, the email, the security, the data.
+A shattered screen, a swollen battery, a dropped phone, a dead board — that is a body-shop job, not ours.
+If it's made of glass and glue, we don't open it; if it's made of logic and config, that's all we do.
+We are the people you call *after* the hardware shop hands it back working — or instead of them, when it was never broken.
+
 ## Main
 
 - [IT Help San Diego](https://www.it-help.tech)

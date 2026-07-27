@@ -34,9 +34,8 @@ toc = false
 <div class="sig-details">
 <strong class="sig-name">Carey Balboa</strong>&nbsp;<span class="sig-muted">|</span>&nbsp;<span class="sig-role">Director of Technology</span><br>
 <span class="sig-muted">ORCID:&nbsp;<a href="https://orcid.org/0009-0000-5237-9065" class="sig-link">0009-0000-5237-9065</a></span><br>
-<span class="sig-muted">Independent DNS Security Researcher</span><br>
+<span class="sig-muted">Independent Researcher</span><br>
 <span class="sig-muted">Research artifact:&nbsp;<a href="https://doi.org/10.5281/zenodo.19468134" class="sig-link">DNS Tool (DOI: 10.5281/zenodo.19468134)</a></span><br>
-<span class="sig-muted">Methodology:&nbsp;<a href="https://dnstool.it-help.tech/docs/dns-tool-methodology.pdf" class="sig-link">dns-tool-methodology.pdf</a></span><br>
 <span class="sig-muted"><a href="tel:+16198535008" class="sig-link">+1 (619) 853-5008</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="mailto:carey.balboa@it-help.tech" class="sig-link">carey.balboa@it-help.tech</a></span>
 </div>
 <div class="sig-gap">&nbsp;</div>
@@ -44,9 +43,13 @@ toc = false
 <strong class="sig-company">IT Help San Diego Inc.</strong><br>
 888 Prospect Street, Suite 200<br>
 La Jolla, CA 92037<br>
-<a href="https://www.it-help.tech" class="sig-link">www.it-help.tech</a>
+<a href="https://www.it-help.tech" class="sig-link">it-help.tech</a>
 <span class="sig-sep">&nbsp;|&nbsp;</span>
-<a href="https://dnstool.it-help.tech" class="sig-link">DNS Security Tool</a>
+<a href="https://dnstool.it-help.tech" class="sig-link">DNS Tool</a>
+<span class="sig-sep">&nbsp;|&nbsp;</span>
+<a href="https://calibrationscope.com" class="sig-link">Calibration Scope</a>
+<span class="sig-sep">&nbsp;|&nbsp;</span>
+<a href="https://intellectualresistance.com" class="sig-link">Intellectual Resistance</a>
 </div>
 </td>
 </tr>

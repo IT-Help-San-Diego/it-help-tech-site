@@ -6,7 +6,11 @@
 <title>Email Signature</title>
 </head>
 <body bgcolor="#111827" style="margin:0; padding:0; background-color:#111827; -webkit-text-size-adjust:100%;">
-<div style="height:18px; line-height:18px; font-size:18px;">&nbsp;</div>
+<!-- Blank lines ABOVE the card: gives the writer a real cursor line to type
+     their message on above the signature (editors can't place a cursor above
+     a leading table). -->
+<div style="font-size:13px; line-height:20px;">&nbsp;</div>
+<div style="font-size:13px; line-height:20px;">&nbsp;</div>
 <!-- Email-safe signature: fully inline styles (Gmail strips <style> blocks),
      no table float (a float lets reply text wrap up beside the card). -->
 <table cellpadding="0" cellspacing="0" border="0" width="560" bgcolor="#111827" style="border-collapse:separate; border-spacing:0; background-color:#111827; border-radius:10px; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif; width:560px; max-width:560px;">
@@ -67,5 +71,8 @@
         </tr>
     </tbody>
 </table>
+<!-- Blank lines BELOW the card: quoted reply text drops well clear of the card. -->
+<div style="font-size:13px; line-height:20px;">&nbsp;</div>
+<div style="font-size:13px; line-height:20px;">&nbsp;</div>
 </body>
 </html>

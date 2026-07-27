@@ -1,15 +1,15 @@
 +++
 title       = "La Jolla Apple IT Consultant · Senior Mac & Network Help"
-description = "Senior Apple-centric IT consultant for La Jolla and the wider San Diego — Mac first, with Linux and Windows, Wi‑Fi, DNS and email security in mixed environments. By appointment, on-site or remote. 27 years. No hardware repair, no monthly retainers."
+description = "Senior Apple-centric IT consultant for La Jolla and the wider San Diego — Mac first, with Linux and Windows, Wi‑Fi, DNS and email security in mixed environments. Software, systems, networks, and data — not physical devices. By appointment, on-site or remote. 27 years. No monthly retainers."
 
 [extra]
 seo_title       = "La Jolla Apple IT Consultant · Senior Mac & Network Help"
 og_title        = "La Jolla Apple IT Consultant · Senior Mac & Network Help"
-og_description  = "Senior Apple-centric IT consultant for La Jolla and the wider San Diego — Mac first, with Linux and Windows, Wi‑Fi, DNS and email security in mixed environments. By appointment, on-site or remote. 27 years. No hardware repair, no monthly retainers."
+og_description  = "Senior Apple-centric IT consultant for La Jolla and the wider San Diego — Mac first, with Linux and Windows, Wi‑Fi, DNS and email security in mixed environments. Software, systems, networks, and data — not physical devices. By appointment, on-site or remote. 27 years. No monthly retainers."
 og_image        = "/images/og-home.png"
 
 twitter_title       = "La Jolla Apple IT Consultant · Senior Mac & Network Help"
-twitter_description = "Senior Apple-centric IT consultant for La Jolla and the wider San Diego — Mac first, with Linux and Windows, Wi‑Fi, DNS and email security in mixed environments. By appointment, on-site or remote. 27 years. No hardware repair, no monthly retainers."
+twitter_description = "Senior Apple-centric IT consultant for La Jolla and the wider San Diego — Mac first, with Linux and Windows, Wi‑Fi, DNS and email security in mixed environments. Software, systems, networks, and data — not physical devices. By appointment, on-site or remote. 27 years. No monthly retainers."
 twitter_image       = "/images/og-home.png"
 twitter_card        = "summary_large_image"
 +++
@@ -41,7 +41,7 @@ twitter_card        = "summary_large_image"
       "name": "Do you service physical device damage?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "No. We work on operating systems, software, networking, and data security — not physical device damage. For existing clients, we offer a concierge device replacement: we pick up a factory-fresh iPhone from Apple and migrate your data on-site while you watch. For physical-screen work, we refer to a vetted local technician."
+        "text": "No — that is a body-shop job, and we are not a body shop. We work on operating systems, software, networking, and data security: what runs on the device, not the device itself. For existing clients we offer a concierge device replacement — we pick up a factory-fresh iPhone from Apple and migrate your data on-site while you watch — and for physical-screen work we refer to a vetted local technician."
       }
     },
     {
@@ -101,7 +101,7 @@ twitter_card        = "summary_large_image"
   "sameAs": [
     "https://www.linkedin.com/company/it-help-san-diego"
   ],
-  "description": "Apple‑centric IT and deep-research diagnostics for La Jolla & San Diego — Mac first, with Linux and Windows. No hardware sales, no monthly retainers.",
+  "description": "Apple‑centric IT and deep-research diagnostics for La Jolla & San Diego — Mac first, with Linux and Windows. Software, systems, networks, and data — not physical devices. No monthly retainers.",
   "knowsAbout": [
     "macOS troubleshooting",
     "iOS troubleshooting",
@@ -198,7 +198,7 @@ twitter_card        = "summary_large_image"
       "@id": "https://www.it-help.tech/#webpage",
       "url": "https://www.it-help.tech/",
       "name": "Mac IT Support San Diego (La Jolla) | IT Help San Diego",
-      "description": "Apple-centric IT, deep-research diagnostics, and systems work for La Jolla and San Diego. macOS and iOS first, with Linux and Windows — a system is a system. 27 years across systems, networks, DNS, and email security (SPF · DKIM · DMARC). No hardware sales, no monthly retainers.",
+      "description": "Apple-centric IT, deep-research diagnostics, and systems work for La Jolla and San Diego. macOS and iOS first, with Linux and Windows — a system is a system. 27 years across systems, networks, DNS, and email security (SPF · DKIM · DMARC). Software, systems, networks, and data — not physical devices. No monthly retainers.",
       "inLanguage": "en-US",
       "isPartOf": {
         "@id": "https://www.it-help.tech/#website"

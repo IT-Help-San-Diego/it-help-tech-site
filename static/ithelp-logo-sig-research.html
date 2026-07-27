@@ -5,11 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Email Signature</title>
 </head>
-<body bgcolor="#111827" style="margin:0; padding:0; background-color:#111827; -webkit-text-size-adjust:100%;">
-<!-- Blank lines ABOVE the card: gives the writer a real cursor line to type
+<!-- Body is WHITE: the dark card carries its own background, so a ⌘A copy
+     doesn't drag a black canvas around/below the card into the email. -->
+<body style="margin:0; padding:12px; background-color:#ffffff; -webkit-text-size-adjust:100%;">
+<!-- Blank line ABOVE the card: gives the writer a real cursor line to type
      their message on above the signature (editors can't place a cursor above
      a leading table). -->
-<div style="font-size:13px; line-height:20px;">&nbsp;</div>
 <div style="font-size:13px; line-height:20px;">&nbsp;</div>
 <!-- Email-safe signature: fully inline styles (Gmail strips <style> blocks),
      no table float (a float lets reply text wrap up beside the card). -->
@@ -71,8 +72,7 @@
         </tr>
     </tbody>
 </table>
-<!-- Blank lines BELOW the card: quoted reply text drops well clear of the card. -->
-<div style="font-size:13px; line-height:20px;">&nbsp;</div>
+<!-- One blank line BELOW the card: quoted reply text drops clear of the card. -->
 <div style="font-size:13px; line-height:20px;">&nbsp;</div>
 </body>
 </html>

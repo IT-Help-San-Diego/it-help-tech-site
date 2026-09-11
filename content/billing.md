@@ -27,7 +27,7 @@ An optional **[Managed Agent](/managed-agent/)** device-maintenance and security
   * **Remote / phone / screen-sharing support:** 30-minute minimum (**booking deposit**)
 * **Billing Increments:** All work beyond the initial minimum is billed in **1-minute increments**, based on session timers and documented work.  
 
-* **Specialty Rate:** $400/hour for advanced networking and scientific engineering engagements. Scope is defined and agreed upon during the discovery call. Work performed within that scope is billed at the specialty rate; all other services are billed at the standard rate.
+* **Specialty Rate:** $400/hour for advanced networking and scientific engineering engagements, **30-minute minimum**. Scope is defined and agreed upon during the discovery call. Work performed within that scope is billed at the specialty rate; all other services are billed at the standard rate.
 
 For complex projects that benefit from sustained focus, primary-source research, and uninterrupted execution, see **[Full-Day & Multi-Day Engagements →](/full-day-engagements/)**.
 
@@ -38,7 +38,7 @@ Our support line exists for three kinds of caller: paying clients, colleagues, a
 
 **If you are a telemarketer, robocenter, or lead-generation operation, you are none of those three, and this schedule applies to you:**
 
-* **Rate for unsolicited marketing calls received on any published IT Help San Diego line:** **$400.00 per hour, 15-minute minimum per incident**, billed in 1-minute increments thereafter. This is our standard specialty-engineering rate, and it applies to the time each unsolicited call occupies — including interruption, triage, callback, and documentation of the call itself.
+* **Rate for unsolicited marketing calls received on any published IT Help San Diego line:** **$400.00 per hour, 30-minute minimum per incident**, billed in 1-minute increments thereafter. This is our standard specialty-engineering rate with the standard minimum that applies to all specialty work — specialty engagements are never billed below the specialty minimum. The charge applies to the time each unsolicited call occupies — including interruption, triage, callback, and documentation of the call itself.
 * **Why our rate is lower than the statutory one:** the Telephone Consumer Protection Act allows a called party to recover actual monetary loss **or $500 per violation, whichever is greater, trebled to $1,500 per call** for willful or knowing violations (47 U.S.C. § 227(b)(3)). Our posted rate is offered as a settled, documented alternative to pursuing statutory damages. A recipient who answers in small-claims court — a venue the U.S. Supreme Court has confirmed is open to an unrepresented party, *Mims v. Arrow Financial Services, LLC*, 565 U.S. 368 (2012) — does not get the $100 discount.
 * **What counts:** calls placed without prior express consent by or on behalf of a seller, using live agents, autodialers, or prerecorded voice, to a number whose published purpose is inbound technical support. Congress has found that such calls to businesses "are a nuisance, are an invasion of privacy, and interfere with interstate commerce" (Pub. L. 102-243, § 2(14)–(15) (1991)).
 * **Evidence:** every call to this line is logged with carrier-grade records, timestamps, and where available full transcripts. Records are retained and provided with any invoice.
@@ -171,7 +171,7 @@ Clear billing, agreed work, documented time.
       "name": "Do you charge telemarketers for calling your support line?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. Unsolicited marketing calls to our published support line are billed at $400 per hour with a 15-minute minimum per incident, per the posted rate schedule on this page. The schedule offers two resolutions: pay the invoice, or permanently stop calling. It is offered as a documented alternative to the Telephone Consumer Protection Act's statutory remedy of $500 per violation, trebled to $1,500 per call for willful violations."
+        "text": "Yes. Unsolicited marketing calls to our published support line are billed at $400 per hour with a 30-minute minimum per incident, per the posted rate schedule on this page. The schedule offers two resolutions: pay the invoice, or permanently stop calling. It is offered as a documented alternative to the Telephone Consumer Protection Act's statutory remedy of $500 per violation, trebled to $1,500 per call for willful violations."
       }
     },
     {

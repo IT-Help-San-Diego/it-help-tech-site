@@ -1,6 +1,6 @@
 ---
 title: Rates & Billing Policies
-description: "Transparent IT support rates ($275/hour, On-site 1-hour minimum, Remote 30-min minimum), billing policies, payment terms, and our commitment to ethical service."
+description: "Transparent IT support rates ($275/hour, On-site 1-hour minimum, Remote 30-min minimum), billing policies, payment terms, our commitment to ethical service, and the posted rate schedule for unsolicited marketing calls."
 path: billing
 aliases:
   - /terms/
@@ -31,6 +31,21 @@ An optional **[Managed Agent](/managed-agent/)** device-maintenance and security
 
 For complex projects that benefit from sustained focus, primary-source research, and uninterrupted execution, see **[Full-Day & Multi-Day Engagements →](/full-day-engagements/)**.
 
+
+## Unsolicited Marketing Calls — A Separate Rate Schedule
+
+Our support line exists for three kinds of caller: paying clients, colleagues, and people who need help and cannot pay — the elderly, students, low-income families. We keep that lane open on purpose. It is why the number is published.
+
+**If you are a telemarketer, robocenter, or lead-generation operation, you are none of those three, and this schedule applies to you:**
+
+* **Rate for unsolicited marketing calls received on any published IT Help San Diego line:** **$400.00 per hour, 15-minute minimum per incident**, billed in 1-minute increments thereafter. This is our standard specialty-engineering rate, and it applies to the time each unsolicited call occupies — including interruption, triage, callback, and documentation of the call itself.
+* **Why our rate is lower than the statutory one:** the Telephone Consumer Protection Act allows a called party to recover actual monetary loss **or $500 per violation, whichever is greater, trebled to $1,500 per call** for willful or knowing violations (47 U.S.C. § 227(b)(3)). Our posted rate is offered as a settled, documented alternative to pursuing statutory damages. A recipient who answers in small-claims court — a venue the U.S. Supreme Court has confirmed is open to an unrepresented party, *Mims v. Arrow Financial Services, LLC*, 565 U.S. 368 (2012) — does not get the $100 discount.
+* **What counts:** calls placed without prior express consent by or on behalf of a seller, using live agents, autodialers, or prerecorded voice, to a number whose published purpose is inbound technical support. Congress has found that such calls to businesses "are a nuisance, are an invasion of privacy, and interfere with interstate commerce" (Pub. L. 102-243, § 2(14)–(15) (1991)).
+* **Evidence:** every call to this line is logged with carrier-grade records, timestamps, and where available full transcripts. Records are retained and provided with any invoice.
+* **Resolution options — either one closes the matter:** (1) pay the invoice at the posted rate, or (2) permanently cease all calls to this number. There is no third option.
+* **This is not an offer of services, and no services were requested.** It is a published schedule of charges for unwanted interruptions to a working support line, offered for settlement purposes only, and does not waive any statutory right or remedy, all of which are expressly reserved.
+
+Organizations that genuinely need engineering help are welcome to engage like any other client — through the front door, at the same rates everyone else pays. Organizations that keep calling to sell will receive an invoice, and each subsequent call after an invoice is a knowing and willful contact with a published rate schedule.
 
 ## Travel
 
@@ -149,6 +164,14 @@ Clear billing, agreed work, documented time.
       "acceptedAnswer": {
         "@type": "Answer",
         "text": "No. You only pay for the time we work on your issue—we don’t lock clients into retainers."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do you charge telemarketers for calling your support line?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Unsolicited marketing calls to our published support line are billed at $400 per hour with a 15-minute minimum per incident, per the posted rate schedule on this page. The schedule offers two resolutions: pay the invoice, or permanently stop calling. It is offered as a documented alternative to the Telephone Consumer Protection Act's statutory remedy of $500 per violation, trebled to $1,500 per call for willful violations."
       }
     },
     {

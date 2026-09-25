@@ -34,7 +34,7 @@ For complex projects that benefit from sustained focus, primary-source research,
 
 ## Unsolicited Marketing Calls — A Separate Rate Schedule
 
-Our support line exists for three kinds of caller: paying clients, colleagues, and people who need help and cannot pay — the elderly, students, low-income families. We keep that lane open on purpose. It is why the number is published.
+Our support line exists for three kinds of caller: paying clients, pre-approved and established scientific colleagues, and people who need help and cannot pay — the elderly, students, low-income families. We keep that lane open on purpose. It is why the number is published.
 
 **If you are a telemarketer, robocenter, or lead-generation operation, you are none of those three, and this schedule applies to you:**
 
@@ -46,6 +46,8 @@ Our support line exists for three kinds of caller: paying clients, colleagues, a
 * **This is not an offer of services, and no services were requested.** It is a published schedule of charges for unwanted interruptions to a working support line, offered for settlement purposes only, and does not waive any statutory right or remedy, all of which are expressly reserved.
 
 Organizations that genuinely need engineering help are welcome to engage like any other client — through the front door, at the same rates everyone else pays. Organizations that keep calling to sell will receive an invoice, and each subsequent call after an invoice is a knowing and willful contact with a published rate schedule.
+
+IF YOU WANT TO DISCUSS YOUR SPAM PRODUCT IT WILL COST YOU $400HR, BILLED PER MINUTE with a valid card on file, and we can talk about your shitty spam all day long. 
 
 ## Travel
 

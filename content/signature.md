@@ -25,7 +25,7 @@ toc = false
 <tbody>
 <tr>
 <td width="142" valign="middle" class="sig-avatar-cell">
-<a href="https://dnstool.it-help.tech" class="sig-avatar-link"><img src="/images/owl-signature.png" width="130" height="130" alt="Owl of Athena" class="sig-avatar-img" /></a>
+<a href="https://intellectualresistance.com/dose/01" class="sig-avatar-link"><img src="/images/owl-signature-meta.png" width="130" height="130" alt="Metacognitive Owl" class="sig-avatar-img" /></a>
 </td>
 <td width="1" class="sig-divider-cell">&nbsp;</td>
 <td valign="middle" class="sig-content-cell">
@@ -47,9 +47,7 @@ La Jolla, CA 92037<br>
 <span class="sig-sep">&nbsp;|&nbsp;</span>
 <a href="https://dnstool.it-help.tech" class="sig-link">DNS Tool</a>
 <span class="sig-sep">&nbsp;|&nbsp;</span>
-<a href="https://calibrationscope.com" class="sig-link">Calibration Scope</a>
-<span class="sig-sep">&nbsp;|&nbsp;</span>
-<a href="https://intellectualresistance.com" class="sig-link">Intellectual Resistance</a>
+<a href="https://intellectualresistance.com/dose/01" class="sig-link">Intellectual Resistance: Dose 01</a>
 </div>
 </td>
 </tr>

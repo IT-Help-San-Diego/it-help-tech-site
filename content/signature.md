@@ -25,7 +25,7 @@ toc = false
 <tbody>
 <tr>
 <td width="142" valign="middle" class="sig-avatar-cell">
-<a href="https://intellectualresistance.com/dose/01" class="sig-avatar-link"><img src="/images/owl-signature-meta.png" width="130" height="130" alt="Metacognitive Owl" class="sig-avatar-img" /></a>
+<a href="https://intellectualresistance.com/dose/01" class="sig-avatar-link"><img src="/images/tetrasemaphore-metacognitive.png" width="130" height="130" alt="METACOGNITIVE Tetrasemaphore" class="sig-avatar-img" /></a>
 </td>
 <td width="1" class="sig-divider-cell">&nbsp;</td>
 <td valign="middle" class="sig-content-cell">

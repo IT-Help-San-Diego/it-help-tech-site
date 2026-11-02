@@ -50,14 +50,17 @@ the past, not live surfaces.
    (`hermes/retire-schedule-footer`, squash-merged, CI green incl. CodeQL/guard/lighthouse)
    → deploy-aws.sh in flight → verify footer on dnstool.it-help.tech after deploy.
 
-## Phase 2 — Square-side cleanup (Carey's dashboard clicks; can be done any time before/after DNS cut)
+## Phase 2 — Square-side cleanup (RESOLVED: moving on without Square)
 
-- Square Online → Settings → remove `schedule.it-help.tech` as custom domain
-  (it is verified by the `a585aec0-…` TXT currently in our zone; after DNS deletion
-  Square will show it disconnected — tidy it in their UI regardless).
-- Check appointments settings: confirmation email templates must reference
-  `book.squareup.com`, never the custom domain (private note: any confirmation that
-  embeds the custom domain would silently break at DNS cut).
+Checked Square docs (support article 6916): self-service domain **disconnect** exists
+(Dashboard → Channels → Square Online → Website → Domains → Manage → Manage domain →
+Edit site destination → Disconnect from my current site → Save), but the article
+scopes domain management to **Square Online Plus/Premium subscribers** — Carey could
+not see the option in the dashboard. RULING (2026-11-02): proceed without Square.
+The DNS teardown disconnects the domain unilaterally at the wire; Square's dashboard
+will simply show the connection as unverified/stale. Their edge no longer receives
+traffic for the name. Bookings flow through `book.squareup.com` (Square's own domain,
+independent of any custom-domain record) — unaffected by design.
 
 ## Phase 3 — CISA WAS scope coordination
 
@@ -69,15 +72,17 @@ the past, not live surfaces.
 - Expected effect on the NEXT monthly report: schedule absent; if the in-flight scan
   already ran, one `unreachable`/error row for it is expected and is the honest record.
 
-## Phase 4 — DNS teardown (Route 53, one change batch)
+## Phase 4 — DNS teardown ✅ DONE 2026-11-02 (change/C0713346TROMQA2T3NH9)
 
-DELETE from `Z01245183GUCWF9WBTBAL`:
-- `schedule.it-help.tech.` A, CAA, MX, TXT (incl. the Square verification token)
+One `change-resource-record-sets` batch on `Z01245183GUCWF9WBTBAL`, 5 records DELETEd:
+- `schedule.it-help.tech.` A 199.34.228.179, CAA, MX `0 .`, TXT (Square verify token
+  `a585aec0-…` + spf -all)
 - `_dmarc.schedule.it-help.tech.` TXT
 
-Verify: `dig @1.1.1.1 schedule.it-help.tech` → NXDOMAIN on 1.1.1.1/8.8.8.8/9.9.9.9 +
-authoritative NS. Old bookmarks then fail honestly (NXDOMAIN) instead of landing on
-Square's page. TTL 300 = <5 min to full propagation of the deletion.
+VERIFIED post-change: authoritative NS → NXDOMAIN for every type; 0 schedule records
+remain in the zone (list-resource-record-sets count); public resolvers
+(1.1.1.1/8.8.8.8/9.9.9.9) serve no answer after TTL expiry; https://schedule.it-help.tech
+→ 000 (dead). Pre-change record-set snapshot: /tmp/ithzone.json.
 
 ## Phase 5 — Post-cut verification
 

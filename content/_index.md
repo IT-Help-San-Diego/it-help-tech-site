@@ -233,7 +233,7 @@ twitter_card        = "summary_large_image"
   <p class="hero-subtagline">Apple-centric IT, deep-research diagnostics, systems &amp; networks — La Jolla concierge for greater San Diego.</p>
 </section>
 
-<p><a class="cta-button" href="https://schedule.it-help.tech/" target="_blank" rel="noopener noreferrer">Book an On‑Site Visit</a></p>
+<p><a class="cta-button" href="https://book.squareup.com/appointments/mwhvoaiqecb5o2/location/LA35149CK62SV/services" target="_blank" rel="noopener noreferrer">Book an On‑Site Visit</a></p>
 <p><a class="cta-button cta-secondary" href="https://dnstool.it-help.tech" target="_blank" rel="noopener noreferrer">See Our Research</a></p>
 
 ## What we do
@@ -307,4 +307,4 @@ The same instinct produced our public DNS research platform at <a href="https://
 <strong>Phone:</strong> <a class="phone-line" href="tel:16198535008">(619) 853‑5008</a>
 </p>
 
-<p><a class="cta-button" href="https://schedule.it-help.tech/" target="_blank" rel="noopener noreferrer">Book an On-Site Visit</a></p>
+<p><a class="cta-button" href="https://book.squareup.com/appointments/mwhvoaiqecb5o2/location/LA35149CK62SV/services" target="_blank" rel="noopener noreferrer">Book an On-Site Visit</a></p>

@@ -121,7 +121,7 @@ Why does your wireless network suck? Almost always because the chain between the
 
 An Ethernet backbone is rarely glamorous, and it is almost always the answer. Done well, it delivers the full speed your ISP sold you to the device on your lap, with headroom left over for whatever comes next.
 
-Call 619-853-5008 and [schedule a walkthrough](https://schedule.it-help.tech/) for a rock-solid plan for your home or office.
+Call 619-853-5008 and [schedule a walkthrough](https://book.squareup.com/appointments/mwhvoaiqecb5o2/location/LA35149CK62SV/services) for a rock-solid plan for your home or office.
 
 ---
 

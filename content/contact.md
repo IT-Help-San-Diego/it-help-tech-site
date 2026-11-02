@@ -14,7 +14,7 @@ skip_author = true
 The fastest way to start is to book directly. Tell us what you're
 dealing with and pick a time.
 
-[Schedule an appointment →](https://schedule.it-help.tech/)
+[Schedule an appointment →](https://book.squareup.com/appointments/mwhvoaiqecb5o2/location/LA35149CK62SV/services)
 
 ## Call
 

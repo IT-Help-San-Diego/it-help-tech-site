@@ -69,7 +69,7 @@ weight = 6
 
 [[extra.menu]]
 name   = "Schedule"
-url    = "https://schedule.it-help.tech/"
+url    = "https://book.squareup.com/appointments/mwhvoaiqecb5o2/location/LA35149CK62SV/services"
 weight = 99
 blank  = true
 slash  = false

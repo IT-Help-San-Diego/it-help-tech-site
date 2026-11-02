@@ -469,4 +469,4 @@ We believe in using best-in-class tools to achieve the best security and reliabi
 * **<a href="https://www.devontechnologies.com/apps/devonagent" target="_blank" rel="noopener noreferrer" class="gold-link">DEVONagent Express:</a>** Lightweight DEVONagent build for ad-hoc research.
 
 Need expert Mac IT help to solve your tech challenges?
-<p><a class="cta-button" href="https://schedule.it-help.tech/" target="_blank" rel="noopener noreferrer">Book an on-site Appointment Now</a></p>
+<p><a class="cta-button" href="https://book.squareup.com/appointments/mwhvoaiqecb5o2/location/LA35149CK62SV/services" target="_blank" rel="noopener noreferrer">Book an on-site Appointment Now</a></p>

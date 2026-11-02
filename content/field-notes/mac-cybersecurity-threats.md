@@ -194,7 +194,7 @@ Apple's stack on a current Mac is genuinely good. The single highest-impact thin
 
 If you want any of this maintained for you on a transparent per-device fee, that is what the [Managed Agent](/managed-agent/) page is for — read the math before enrolling in any managed service, including ours.
 
-If you have questions, the first ten minutes of a call are no-charge per the [billing policy](/billing/) — long enough to figure out whether you actually need a senior person at all. Phone: **619-853-5008**. Or [schedule a consultation](https://schedule.it-help.tech/).
+If you have questions, the first ten minutes of a call are no-charge per the [billing policy](/billing/) — long enough to figure out whether you actually need a senior person at all. Phone: **619-853-5008**. Or [schedule a consultation](https://book.squareup.com/appointments/mwhvoaiqecb5o2/location/LA35149CK62SV/services).
 
 ---
 

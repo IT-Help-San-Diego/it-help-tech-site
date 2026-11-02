@@ -1,6 +1,6 @@
 # Schedule Subdomain Retirement — Internal Plan
 
-**Status:** Plan — awaiting Carey's go on Phase 1 execution
+**Status:** Phase 1 (code swaps) DONE + verified live 2026-11-02 — awaiting Carey's go on Phases 3–4 (CISA email + DNS teardown)
 **Owner:** Hermes lane (DNS + code swaps); Square-side steps are Carey's dashboard clicks
 **Canonical replacement URL:** `https://book.squareup.com/appointments/mwhvoaiqecb5o2/location/LA35149CK62SV/services`
 (the booking URL already live on the Google Business Profile since 2026-11-02, verified on the live Maps listing)
@@ -36,17 +36,19 @@ Historical/test-data mentions (`PROJECT_EVOLUTION_LOG.md`, dns-tool `docs/resear
 `dns-eval/Inputs/*`, icsae testdata, memory-archive) stay as-is — they are records of
 the past, not live surfaces.
 
-## Phase 1 — Cut live references (code swaps)
+## Phase 1 — Cut live references (code swaps) ✅ SHIPPED 2026-11-02
 
-1. **it-help-tech-site**: replace every `https://schedule.it-help.tech*` link with the
-   canonical `book.squareup.com` URL above (nav label "Schedule" stays; CTA text stays).
-   Keep `PROJECT_EVOLUTION_LOG.md` untouched (changelog records history).
-   Push to main → auto-deploy → verify live on www.it-help.tech.
-2. **organiccomputer**: same swap in `index.html`, `AGENTS.md` (rewrite the operating
-   rule line "bookings always route through schedule.it-help.tech" → canonical URL),
-   `llms-full.txt`. Push to main → auto-deploy → verify.
-3. **dns-tool-intel**: swap `_footer.html` consulting link; PR → merge → deploy-aws.sh →
-   verify footer on dnstool.it-help.tech.
+1. **it-help-tech-site**: every `https://schedule.it-help.tech*` link replaced with the
+   canonical `book.squareup.com` URL (nav label "Schedule" stays; CTA text stays).
+   `PROJECT_EVOLUTION_LOG.md` untouched (changelog records history).
+   Commit `5d6f620` on main → auto-deploy → **verified live**: 0 old-schedule refs on
+   www.it-help.tech (home + llms.txt), canonical URL serving.
+2. **organiccomputer**: same swap in `index.html`, `AGENTS.md` (operating rule line
+   rewritten), `llms-full.txt`. Commit `b7ed7e6` → auto-deploy → **verified live**:
+   0 old-schedule refs on organiccomputer.me.
+3. **dns-tool-intel**: `_footer.html` consulting link swapped, PR #548
+   (`hermes/retire-schedule-footer`, squash-merged, CI green incl. CodeQL/guard/lighthouse)
+   → deploy-aws.sh in flight → verify footer on dnstool.it-help.tech after deploy.
 
 ## Phase 2 — Square-side cleanup (Carey's dashboard clicks; can be done any time before/after DNS cut)
 
@@ -59,9 +61,11 @@ the past, not live surfaces.
 
 ## Phase 3 — CISA WAS scope coordination
 
-- Email CISA (vulnerability@cisa.dhs.gov) + reference the WAS App A (Private Sector)
-  form: remove `schedule.it-help.tech` from the authorized webapp list (5 → 4).
-  Note DNS is being retired effective <date>; the authorized list should match reality.
+- **DRAFT READY (not sent)** — Gmail draft r-8454772465141031661
+  ("WAS scope update — remove schedule, finalize our list", drafted 2026-08-29) to
+  vulnerability@cisa.dhs.gov: removes `schedule.it-help.tech` (Square/Weebly-hosted,
+  not our infrastructure), cleans up the dns-evil-* fixtures, finalizes the webapp
+  list to four (server, www, dnstool, screen). Send-on-go after the DNS cut is exercised.
 - Expected effect on the NEXT monthly report: schedule absent; if the in-flight scan
   already ran, one `unreachable`/error row for it is expected and is the honest record.
 

@@ -9,6 +9,6 @@
     "check": "zola check"
   },
   "devDependencies": {
-    "lighthouse": "12.8.2"
+    "lighthouse": "13.4.1"
   }
 }

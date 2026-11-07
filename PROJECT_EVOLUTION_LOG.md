@@ -13,6 +13,17 @@ Purpose: Track meaningful AI/developer changes with enough context to roll back 
 
 ## Entries
 
+### 2026-11-07 — Remove Square/CISA bug-bounty field note from public surfaces
+- Actor: AI (working from Carey's explicit ruling: remove the Square/CISA note unless it can later return as a measured structural critique that clearly helps the public; private anger/carrier color is not enough for the corporate site).
+- Scope: public content removal with private preservation.
+- Files:
+  - `content/field-notes/bug-bounty-programs-are-a-corporate-controlled-casino.md` — DELETED from generated content so Zola no longer publishes the page or its `/blog/...` alias. A local private copy was saved outside the repo at `~/Downloads/it-help-tech-site-private-removed-field-notes/`; the prior public commit history remains the provenance record.
+  - `content/field-notes/_index.md` — removed the note from the JSON-LD `ItemList`; positions renumbered and `numberOfItems` 9 → 8.
+  - `PROJECT_EVOLUTION_LOG.md` — this entry.
+- Why: the piece centered a named vendor dispute and high-carrier-color title. Carey ruled that if it is not immediately useful and clearly good for the world, it should not remain on the public corporate surface. Future reuse requires a calmer, receipt-grade structural critique of vendor-controlled disclosure economics.
+- Consequences: `/field-notes/bug-bounty-programs-are-a-corporate-controlled-casino/` and its `/blog/...` alias are no longer generated and will be removed by the deploy sync. No replacement redirect is added; this is an intentional removal signal.
+- Rollback: restore the markdown from git history (or the local private copy) to `content/field-notes/` and restore its `ItemList` entry in `content/field-notes/_index.md`.
+
 ### 2026-06-27 — Zola de-theming migration (Option A): remove abridge theme, vendor + simplify, keep byte-identical output
 - Actor: AI (working from the owner's directive to make it-help.tech as clean/lightweight/low-maintenance as the single-page siblings organiccomputer.me & intellectualresistance.com — "all one language, clean, no errors, trace-the-source" — WITHOUT losing the hero owl animation, and always revertable).
 - Scope: build-system refactor across 4 shipped phases (5 PRs). The site stays Zola (correct tool for a 21-page + 10-post-blog site; raw HTML would duplicate head/CSP/nav/footer across 31 files), but the external `abridge` theme dependency is removed and its used pieces are vendored into the repo. NON-NEGOTIABLE invariant: rendered HTML byte-identical to the pre-migration baseline (snapshot at /tmp/baseline-public), proven by `diff -rq` after every change.

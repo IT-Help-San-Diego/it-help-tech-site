@@ -13,6 +13,17 @@ Purpose: Track meaningful AI/developer changes with enough context to roll back 
 
 ## Entries
 
+### 2026-11-13: Three body sentences corrected, logged in their notes' entries
+- Actor: AI (Claude Code, on the owner's word to fix and log the three sentences that the day's corrected references no longer supported).
+- Scope: one sentence each in three field notes; the three matching corrections entries.
+- Files:
+  - `content/field-notes/mac-cybersecurity-threats.md`: CVE-2021-30632 was listed as a WebKit flaw; the CVE record assigns it to Google Chrome (an out-of-bounds write in V8), and the sentence now says so.
+  - `content/field-notes/apple-sends-you-to-ijail.md` and its `.bib`: the sentence on risk-based sign-in cited a page that does not describe it; it now cites Google's own statement and keeps the Safety Center page for what that page does say. One reference added.
+  - `content/field-notes/holding-root-entities-accountable-for-spam.md`: a superlative about a passive DNS database that the vendor's page does not make is removed.
+  - `data/corrections.toml`: entries C-20261113-01, -04 and -05 each gain the sentence as it was and as it reads now. `data/field-note-citations.json` regenerated.
+- Why: a sentence should claim no more than the source it cites. Each edit was made by one pass and checked against the source by a second.
+- Rollback: revert this PR.
+
 ### 2026-11-13: References corrected in seven field notes; the first corrections entries
 - Actor: AI (Claude Code, on the owner's decisions of 13 November 2026: a wrong reference in a note whose argument stands is fixed and logged, with no label on the note, and the log is one entry per note).
 - Scope: the reference lists of seven field notes and five BibTeX files; seven corrections entries; the wording of `/corrections/`.

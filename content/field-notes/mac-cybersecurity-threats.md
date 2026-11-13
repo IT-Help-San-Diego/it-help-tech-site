@@ -71,7 +71,7 @@ This is the realistic everyday Mac threat: not Pegasus, but the slow accretion o
 
 ### WebKit memory-corruption RCEs
 
-Beyond the FORCEDENTRY chain, multiple in-the-wild WebKit vulnerabilities have been used in targeted Safari attacks. **CVE-2021-30858** (a use-after-free in WebKit) [^4] and **CVE-2021-30632** (a JIT type-confusion bug) [^5] were both exploited in the wild and patched in 2021 emergency updates. Disabling JIT compilation in Safari is exactly what **Lockdown Mode** does for a reason: removing the JIT removes the most commonly exploited optimization surface in modern browser engines.
+Beyond the FORCEDENTRY chain, multiple in-the-wild WebKit vulnerabilities have been used in targeted Safari attacks. **CVE-2021-30858** (a use-after-free in WebKit) [^4] was exploited in the wild and patched in a 2021 emergency update. The problem is not limited to WebKit: **CVE-2021-30632** (an out-of-bounds write in V8, the JavaScript engine in Google Chrome) [^5] was exploited in the wild and patched the same year. Disabling JIT compilation in Safari is exactly what **Lockdown Mode** does for a reason: removing the JIT removes the most commonly exploited optimization surface in modern browser engines.
 
 ### Social engineering
 

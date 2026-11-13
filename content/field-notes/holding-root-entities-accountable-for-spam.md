@@ -158,7 +158,7 @@ Let's walk through the real toolchain and show exactly how you'd trace a spam me
 
 #### 2. Farsight DNSDB (now part of DomainTools)
 
-**What it is**: The world's largest passive DNS database, capturing real-time and historical DNS resolution data [^4].
+**What it is**: A passive DNS database, capturing near-real-time and historical DNS resolution data [^4].
 
 **What it contributes**:
 

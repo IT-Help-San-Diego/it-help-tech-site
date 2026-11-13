@@ -99,9 +99,13 @@
 {%- set cid = c.id | lower %}
 {%- set c_url = config.base_url ~ "/corrections/#" ~ cid %}
 {%- set c_name = c.id ~ " (" ~ c.severity ~ ")" %}
+{%- if c.summary %}
+{%- set c_text = c.summary %}
+{%- else %}
 {%- set c_wrong = c.wrong | trim | markdown(inline=true) | striptags %}
 {%- set c_now = c.now | trim | markdown(inline=true) | striptags %}
 {%- set c_text = c_wrong ~ " " ~ c_now %}
+{%- endif %}
     {
       "@type": "CorrectionComment",
       "@id": {{ c_url | json_encode | safe }},

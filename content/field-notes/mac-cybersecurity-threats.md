@@ -205,13 +205,13 @@ If you have questions, the first ten minutes of a call are no-charge per the [bi
 
 [^1]: Apple Inc. *Apple Platform Security Guide — Protecting against malware in macOS.* Documents XProtect, XProtect Remediator, Gatekeeper, Notarization, and the layered code-signing/Notarization chain. <https://support.apple.com/guide/security/protecting-against-malware-sec469d47bd8/web>
 
-[^2]: Marczak, B., Scott-Railton, J., Razzak, B. A., Al-Jizawi, N., Anstis, S., Berdan, K., & Deibert, R. (2021). *FORCEDENTRY: NSO Group iMessage Zero-Click Exploit Captured in the Wild.* The Citizen Lab, University of Toronto, September 13, 2021. <https://citizenlab.ca/research/forcedentry-nso-group-imessage-zero-click-exploit-captured-in-the-wild/>
+[^2]: Marczak, B., Scott-Railton, J., Abdul Razzak, B., Aljizawi, N., Anstis, S., Berdan, K., & Deibert, R. (2021). *FORCEDENTRY: NSO Group iMessage Zero-Click Exploit Captured in the Wild.* The Citizen Lab, University of Toronto, September 13, 2021. <https://citizenlab.ca/research/forcedentry-nso-group-imessage-zero-click-exploit-captured-in-the-wild/>
 
 [^3]: MITRE Corporation. *CVE-2021-30860 — Apple CoreGraphics integer overflow processing maliciously crafted PDF (FORCEDENTRY).* <https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-30860>
 
 [^4]: MITRE Corporation. *CVE-2021-30858 — Use-after-free in WebKit; exploited in the wild against Safari.* <https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-30858>
 
-[^5]: MITRE Corporation. *CVE-2021-30632 — JIT type-confusion in WebKit; exploited in the wild.* <https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-30632>
+[^5]: MITRE Corporation. *CVE-2021-30632 — Out-of-bounds write in V8 in Google Chrome; exploited in the wild.* <https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-30632>
 
 [^6]: Wardle, P. *LuLu — the free, open-source macOS firewall.* Objective-See Foundation. <https://objective-see.org/products/lulu.html>
 
@@ -219,7 +219,7 @@ If you have questions, the first ten minutes of a call are no-charge per the [bi
 
 [^8]: Wardle, P. *About — Objective-See Foundation.* Confirms prior NSA tenure. <https://objective-see.org/about.html>
 
-[^9]: Malwarebytes. *State of Malware (annual report series).* Documents Mac-vs-Windows threat-detection volumes and the adware/PUP-dominated composition of Mac detections. <https://www.threatdown.com/2025-state-of-malware/>
+[^9]: Malwarebytes / ThreatDown. *State of Malware (annual report series).* Documents Mac-vs-Windows threat-detection volumes and the adware/PUP-dominated composition of Mac detections. <https://www.threatdown.com/dl-state-of-malware-2025/>
 
 [^10]: Apple Inc. *About Stolen Device Protection for iPhone.* Specifies the iOS 17.3 release, the Face ID/Touch ID biometric requirement with no passcode fallback, and the security-delay behavior away from familiar locations. <https://support.apple.com/en-us/120340>
 
@@ -227,7 +227,7 @@ If you have questions, the first ten minutes of a call are no-charge per the [bi
 
 [^12]: Verizon. *Data Breach Investigations Report* (annual). Repeatedly identifies the human element — phishing, pretexting, and credential abuse — as the dominant initial-access vector across breaches in scope. <https://www.verizon.com/business/resources/reports/dbir/>
 
-A BibTeX file for these references is available at [`/field-notes/mac-cybersecurity-threats.bib`](/field-notes/mac-cybersecurity-threats.bib) for one-click import into Zotero or any reference manager.
+A BibTeX file for these references is available at [`/field-notes/mac-cybersecurity-threats.bib`](/field-notes/mac-cybersecurity-threats.bib?v=20261113) for one-click import into Zotero or any reference manager.
 
 *Last updated April 30, 2026 — verified against Apple Platform Security Guide, Citizen Lab FORCEDENTRY disclosure, MITRE CVE entries, Objective-See / LuLu primary sources, Malwarebytes State of Malware, and the Verizon DBIR.*
 

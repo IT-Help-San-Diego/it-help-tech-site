@@ -184,17 +184,17 @@ In digital security, an ounce of prevention is worth a pound of cure. With these
 
 [^7]: Apple Inc. *If your Apple Account is locked, not active, or disabled.* Apple Support, updated December 5, 2025. <https://support.apple.com/en-us/102640> (formerly catalogued as `HT204106`).
 
-[^8]: Apple Inc. *How to use account recovery when you can't reset your Apple Account password.* Apple Support, updated December 5, 2025. <https://support.apple.com/en-us/118574> (verbatim quote source for "it might take several days or longer").
+[^8]: Apple Inc. *What to expect during account recovery.* Apple Support, updated October 5, 2026. <https://support.apple.com/en-us/118574> (titled *How to use account recovery when you can't reset your Apple Account password* in the December 5, 2025 revision, which is the verbatim quote source for "it might take several days or longer"; that revision is archived at <https://web.archive.org/web/20251206115233/https://support.apple.com/en-us/118574>).
 
-[^9]: Apple Inc. *If you forgot your Apple Account password.* Apple Support, updated April 21, 2026. <https://support.apple.com/en-us/102656>
+[^9]: Apple Inc. *If you forgot your password and can't sign in to your Apple Account.* Apple Support, updated October 5, 2026. <https://support.apple.com/en-us/102656> (titled *If you forgot your Apple Account password* in the April 21, 2026 revision cited in the text, archived at <https://web.archive.org/web/20260426031447/https://support.apple.com/en-us/102656>).
 
-[^10]: Apple Inc. *Apple Platform Security — Passcodes and passwords.* <https://support.apple.com/guide/security/passcodes-and-passwords-sec20230a10d/web> (canonical published source for the iPhone passcode-escalation table and the Erase Data 10-attempt threshold; the simplified Apple Support article, updated January 14, 2026, is at <https://support.apple.com/en-us/119586>, formerly catalogued as `HT204060`).
+[^10]: Apple Inc. *Apple Platform Security — Passcodes and passwords.* <https://support.apple.com/guide/security/passcodes-and-passwords-sec20230a10d/web> (canonical published source for the iPhone passcode-escalation table and the Erase Data 10-attempt threshold; the simplified Apple Support article, updated May 13, 2026, is at <https://support.apple.com/en-us/119586>, formerly catalogued as `HT204060`).
 
-[^11]: Google. *How Google authenticates users* / risk-based sign-in challenges. Google Safety Center. <https://safety.google/intl/en_us/safety/authentication/>
+[^11]: Google. *Authentication Tools for Secure Sign-In.* Google Safety Center. <https://safety.google/intl/en_us/safety/authentication/>
 
 [^12]: Google. *How to recover your Google Account or Gmail.* Google Account Help. <https://support.google.com/accounts/answer/7682439>
 
-A BibTeX file for these references is available at [`/field-notes/apple-sends-you-to-ijail.bib`](/field-notes/apple-sends-you-to-ijail.bib) for one-click import into Zotero or any reference manager.
+A BibTeX file for these references is available at [`/field-notes/apple-sends-you-to-ijail.bib`](/field-notes/apple-sends-you-to-ijail.bib?v=20261113) for one-click import into Zotero or any reference manager.
 
 ---
 

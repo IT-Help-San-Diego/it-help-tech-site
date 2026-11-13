@@ -42,22 +42,6 @@
       "National Institute of Standards and Technology. (2025). Digital Identity Guidelines: Authentication and Authenticator Management (SP 800-63B, Revision 4). U.S. Department of Commerce. https://pages.nist.gov/800-63-4/sp800-63b.html",
       "World Wide Web Consortium. (2026). Web Authentication: An API for Accessing Public Key Credentials, Level 3 (W3C Candidate Recommendation Snapshot, 13 January 2026). The Working Group has stated this CR is not expected to advance to Recommendation any earlier than 10 February 2026; the previous version is WebAuthn Level 2, an April 2021 W3C Recommendation. https://www.w3.org/TR/webauthn-3/"
     ],
-    "/field-notes/holding-root-entities-accountable-for-spam/": [
-      "Spamhaus Project. (n.d.). The Domain Block List (DBL). Retrieved June 17, 2026, from https://www.spamhaus.org/blocklists/domain-blocklist/",
-      "Mailhardener. (n.d.). BIMI: Brand Indicators for Message Identification. Retrieved June 17, 2026, from https://www.mailhardener.com/kb/bimi",
-      "DomainTools. (n.d.). Iris Investigate Platform. Retrieved June 17, 2026, from https://www.domaintools.com/",
-      "Farsight Security. (n.d.). DNSDB: Passive DNS Historical Database. Retrieved June 17, 2026, from https://www.farsightsecurity.com/solutions/dnsdb/",
-      "ICANN. (n.d.). Registration Data Access Protocol (RDAP). Retrieved June 17, 2026, from https://www.icann.org/rdap",
-      "Shodan. (n.d.). Shodan: The Search Engine for Internet-Connected Devices. Retrieved June 17, 2026, from https://www.shodan.io/",
-      "Maltego. (n.d.). Maltego: OSINT and Graphical Link Analysis. Retrieved June 17, 2026, from https://www.maltego.com/",
-      "DMARC.org. (n.d.). DMARC Overview. Retrieved June 17, 2026, from https://dmarc.org/overview/",
-      "Hao, S., Feamster, N., & Pandrangi, R. (2007). RepuScore: Collaborative reputation management framework for email infrastructure. ACM. https://scispace.com/papers/repuscore-collaborative-reputation-management-framework-for-xiaomd0zhy",
-      "Hao, S., & Kang, B. B. (2009). Towards sender accountability on email infrastructure using sender identity and reputation management. ACM. https://scispace.com/papers/towards-sender-accountability-on-email-infrastructure-using-13k3g1i4eo",
-      "Ramachandran, A., & Feamster, N. (2010). A collaboration-based autonomous reputation system for email services. IEEE INFOCOM. https://doi.org/10.1109/INFCOM.2010.5461948",
-      "Borgolte, K., et al. (2024). Sandi: A system for accountability in email delivery. arXiv. https://doi.org/10.48550/arxiv.2401.16759",
-      "Ouyang, T., & Rabinovich, M. (2008). Weeding spammers at the root: A precise approach to spam reduction. IEEE INFOCOM. https://doi.org/10.1109/INFOCOM.2008.4544636",
-      "Thomas, K., et al. (2016). Understanding cross-channel abuse with SMS-spam support infrastructure attribution. Springer. https://doi.org/10.1007/978-3-319-45744-4_1"
-    ],
     "/field-notes/mac-cybersecurity-threats/": [
       "Apple Inc. Apple Platform Security Guide — Protecting against malware in macOS. Documents XProtect, XProtect Remediator, Gatekeeper, Notarization, and the layered code-signing/Notarization chain. https://support.apple.com/guide/security/protecting-against-malware-sec469d47bd8/web",
       "Marczak, B., Scott-Railton, J., Razzak, B. A., Al-Jizawi, N., Anstis, S., Berdan, K., & Deibert, R. (2021). FORCEDENTRY: NSO Group iMessage Zero-Click Exploit Captured in the Wild. The Citizen Lab, University of Toronto, September 13, 2021. https://citizenlab.ca/research/forcedentry-nso-group-imessage-zero-click-exploit-captured-in-the-wild/",

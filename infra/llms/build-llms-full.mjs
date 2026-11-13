@@ -333,7 +333,7 @@ const absolutize = (s, baseUrl) => s.replace(/\]\(\/(?!\/)/g, `](${baseUrl}/`);
 
 function renderCorrectionsIndex(register) {
   const published = register.filter((r) => r.status === "published").sort((a, b) => (a.id < b.id ? 1 : -1));
-  if (published.length === 0) return "No corrections have been logged yet.";
+  if (published.length === 0) return "Entries appear here as they are logged.";
   return published.map((r) => r.entry ? `## ${r.heading}\n\n${r.entry.trim()}` : [
     `## ${r.id} · ${r.severity} · ${r.work}`,
     "",

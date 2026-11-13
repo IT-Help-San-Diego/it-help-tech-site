@@ -80,9 +80,9 @@ That is iJail. Apple's current support article (rewritten December 5, 2025) docu
 
 How long the recovery actually takes depends on what you have left to prove identity with:
 
-- **Trusted device already signed in (iPhone, iPad, or Mac):** minutes to about an hour. You can reset the password directly from `Settings → [Your Name] → Sign-In & Security → Change Password`, and Apple's own password-reset page treats this as the fast path. With Stolen Device Protection on, Apple may impose a one-hour security delay on a password change even from a trusted device [^9].
-- **Web reset without a trusted device:** Apple's documented language is that the reset "might take a little longer" [^9].
-- **Account Recovery (locked account, no trusted device, failed verification):** Apple's documented worst case is that "it might take several days or longer before you can use your account again," and Apple states that contacting Apple Support cannot shorten this time [^8]. A paired hardware security key can unlock a frozen account on-device *once you regain access* — but keys are most useful for *preventing* lockouts, not recovering from them after the fact.
+- **Trusted device already signed in (iPhone, iPad, or Mac):** minutes to about an hour. You can reset the password directly from `Settings → [Your Name] → Sign-In & Security → Change Password`, and Apple's own password-reset page treats this as the fast path. With Stolen Device Protection on, Apple may impose a one-hour security delay on a password change even from a trusted device [^8].
+- **Web reset without a trusted device:** Apple's documented language is that the reset "might take a little longer" [^8].
+- **Account Recovery (locked account, no trusted device, failed verification):** Apple's documented worst case is that "it might take several days or longer before you can use your account again," and Apple states that contacting Apple Support cannot shorten this time [^9]. A paired hardware security key can unlock a frozen account on-device *once you regain access* — but keys are most useful for *preventing* lockouts, not recovering from them after the fact.
 
 The iPhone *device passcode* is a separate system with a published escalation worth memorizing because it can erase your phone. The current escalation, from the Apple Platform Security Guide entry on passcodes and passwords [^10], is:
 
@@ -102,7 +102,7 @@ If **Erase Data** is enabled (`Settings → [Face ID / Touch ID] & Passcode → 
 
 Google's behavior splits cleanly into two phases — *sign-in challenges*, and *account recovery* — and they have very different attempt-cost rules.
 
-The **sign-in path** is risk-based. Rather than counting attempts to a fixed number, Google's authentication system evaluates each sign-in against a model of expected behavior — same device? same network? same time of day? known location? — and escalates challenges proportionally [^11].
+The **sign-in path** is risk-based. Google's Safety Center gives an overview of the sign-in tools it offers, such as passkeys and 2-Step Verification [^11], and Google has said that when it detects a suspicious sign-in attempt, for example from a new location or device, it asks for additional proof that it is really you [^12].
 
 In practice, that means:
 
@@ -110,7 +110,7 @@ In practice, that means:
 2. **Wrong guesses on an unknown device or network** escalate faster. Google does not publish a fixed attempt count; in practice I see accounts hit a "couldn't verify it's you" dead-end in under five attempts.
 3. **Persistent failures push you into Account Recovery at `g.co/recover`.**
 
-The **recovery path** is where Google differs sharply from Apple. Google's own recovery page states, verbatim: *"Wrong guesses won't kick you out of the account recovery process. There's no limit to the number of times you can attempt to recover your account"* [^12]. The recovery questionnaire collects identity signals — previous passwords, account creation date, recovery email — and Google explicitly wants your best-known information, not best-current-guess. Unlike Apple, you will *not* be locked out of recovery itself for trying. The friction lives in the *sign-in* challenges, not in the recovery flow. (An earlier version of this article said "persistent failures push you into Account Recovery, which … can take time," implying the recovery flow itself enforces wait penalties. That conflated Apple's behavior with Google's. The correction: only the sign-in side has escalating friction; the recovery side is unlimited-attempt.)
+The **recovery path** is where Google differs sharply from Apple. Google's own recovery page states, verbatim: *"Wrong guesses won't kick you out of the account recovery process. There's no limit to the number of times you can attempt to recover your account"* [^13]. The recovery questionnaire collects identity signals — previous passwords, account creation date, recovery email — and Google explicitly wants your best-known information, not best-current-guess. Unlike Apple, you will *not* be locked out of recovery itself for trying. The friction lives in the *sign-in* challenges, not in the recovery flow. (An earlier version of this article said "persistent failures push you into Account Recovery, which … can take time," implying the recovery flow itself enforces wait penalties. That conflated Apple's behavior with Google's. The correction: only the sign-in side has escalating friction; the recovery side is unlimited-attempt.)
 
 So why does the "stop after two attempts" rule still apply to Google? Because the sign-in challenges escalate based on risk, and each failed attempt makes you look more like an attacker. By the time you arrive at recovery, you want your recovery information already in hand — not after burning five attempts and triggering maximum friction.
 
@@ -184,15 +184,18 @@ In digital security, an ounce of prevention is worth a pound of cure. With these
 
 [^7]: Apple Inc. *If your Apple Account is locked, not active, or disabled.* Apple Support, updated December 5, 2025. <https://support.apple.com/en-us/102640> (formerly catalogued as `HT204106`).
 
-[^8]: Apple Inc. *What to expect during account recovery.* Apple Support, updated October 5, 2026. <https://support.apple.com/en-us/118574> (titled *How to use account recovery when you can't reset your Apple Account password* in the December 5, 2025 revision, which is the verbatim quote source for "it might take several days or longer"; that revision is archived at <https://web.archive.org/web/20251206115233/https://support.apple.com/en-us/118574>).
+[^8]: Apple Inc. *If you forgot your password and can't sign in to your Apple Account.* Apple Support, updated October 5, 2026. <https://support.apple.com/en-us/102656> (titled *If you forgot your Apple Account password* in the April 21, 2026 revision cited in the text, archived at <https://web.archive.org/web/20260426031447/https://support.apple.com/en-us/102656>).
 
-[^9]: Apple Inc. *If you forgot your password and can't sign in to your Apple Account.* Apple Support, updated October 5, 2026. <https://support.apple.com/en-us/102656> (titled *If you forgot your Apple Account password* in the April 21, 2026 revision cited in the text, archived at <https://web.archive.org/web/20260426031447/https://support.apple.com/en-us/102656>).
+[^9]: Apple Inc. *What to expect during account recovery.* Apple Support, updated October 5, 2026. <https://support.apple.com/en-us/118574> (titled *How to use account recovery when you can't reset your Apple Account password* in the December 5, 2025 revision, which is the verbatim quote source for "it might take several days or longer"; that revision is archived at <https://web.archive.org/web/20251206115233/https://support.apple.com/en-us/118574>).
 
 [^10]: Apple Inc. *Apple Platform Security — Passcodes and passwords.* <https://support.apple.com/guide/security/passcodes-and-passwords-sec20230a10d/web> (canonical published source for the iPhone passcode-escalation table and the Erase Data 10-attempt threshold; the simplified Apple Support article, updated May 13, 2026, is at <https://support.apple.com/en-us/119586>, formerly catalogued as `HT204060`).
 
 [^11]: Google. *Authentication Tools for Secure Sign-In.* Google Safety Center. <https://safety.google/intl/en_us/safety/authentication/>
 
-[^12]: Google. *How to recover your Google Account or Gmail.* Google Account Help. <https://support.google.com/accounts/answer/7682439>
+[^12]: Thomas, K., & Moscicki, A. *New research: How effective is basic account hygiene at preventing hijacking.* Google Online Security Blog, May 17, 2019. <https://security.googleblog.com/2019/05/new-research-how-effective-is-basic.html>
+
+[^13]: Google. *How to recover your Google Account or Gmail.* Google Account Help. <https://support.google.com/accounts/answer/7682439>
+
 
 A BibTeX file for these references is available at [`/field-notes/apple-sends-you-to-ijail.bib`](/field-notes/apple-sends-you-to-ijail.bib?v=20261113) for one-click import into Zotero or any reference manager.
 

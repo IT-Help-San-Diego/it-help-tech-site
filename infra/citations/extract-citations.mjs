@@ -122,6 +122,19 @@ function extract() {
       if (!m[2].trim()) die(`${where}: empty definition`);
       cites.push(referenceText(m[2], base, where));
     }
+    // The page numbers footnotes by order of first citation, whatever their
+    // labels say. Require label = displayed number, and the reference list in
+    // that order, so the note's source, the page, the corrections entries and
+    // llms-full.txt all call a reference by the same number.
+    const cited = [];
+    for (const line of lines) {
+      if (DEF.test(line)) continue;
+      for (const r of line.matchAll(/\[\^([^\]]+)\]/g)) if (!cited.includes(r[1])) cited.push(r[1]);
+    }
+    const defined = [...seenLabels];
+    const want = cited.map((_, k) => String(k + 1));
+    if (cited.join(",") !== want.join(",") || defined.join(",") !== want.join(","))
+      die(`${f}: footnote labels must be 1..n in order of first citation, with the reference list in the same order (cited: ${cited.join(" ")}; listed: ${defined.join(" ")})`);
     notes[`/field-notes/${f.replace(/\.md$/, "")}/`] = cites;
   }
   return JSON.stringify({ generated_by: "infra/citations/extract-citations.mjs", notes }, null, 2) + "\n";

@@ -28,6 +28,29 @@ Purpose: Track meaningful AI/developer changes with enough context to roll back 
 - Consequences: the three removed URLs answer 404 until the CloudFront viewer-request function serves the redirects in `infra/cloudfront/redirects.json`. Do not deploy this change without them. The entry's identifier and date are placeholders until the day it goes live, because an entry may not state an event before it happens: run `scripts/stamp-withdrawal.sh YYYY-MM-DD` on that day. The build stops while they remain.
 - Rollback: revert this PR and remove the five redirects.
 
+### 2026-11-13: Reference numbers in the corrections entries matched to the pages
+- Actor: AI (Claude Code, correcting its own error in the day's corrections entries).
+- Scope: footnote labels in four field notes; the reference numbers in five corrections entries; one build check.
+- Files:
+  - `content/field-notes/` (`apple-sends-you-to-ijail`, `mac-cybersecurity-threats`, `the-owl-semaphore`, `why-your-wireless-network-sucks`): footnote labels renumbered to the numbers the page displays (order of first citation), and each reference list put in that order. No reference text and no body text changed, and every reference keeps the number readers already saw.
+  - `data/corrections.toml`: entries C-20261113-01, -05 and -07 named some references by their source label where the page displays a different number; -06 named two by label text; -03 and -07 used bare numbers. All seven now say "Reference N" with the displayed number, in numerical order, and -01, -05, -06 and -07 each state what was changed.
+  - `infra/citations/extract-citations.mjs`: stops the build if a note's footnote labels are not 1..n in order of first citation with the reference list in the same order.
+  - `data/field-note-citations.json` regenerated (order only).
+- Why: the page numbers references by order of first citation, not by label, so an entry that used labels pointed readers at the wrong reference. Checked by building the site before and after and comparing each entry's text with the reference the page displays under that number.
+- Rollback: revert this PR.
+
+### 2026-11-13: Three body sentences corrected, logged in their notes' entries
+- Actor: AI (Claude Code, on the owner's word to fix and log the three sentences that the day's corrected references no longer supported).
+- Scope: one sentence each in three field notes; the three matching corrections entries.
+- Files:
+  - `content/field-notes/mac-cybersecurity-threats.md`: CVE-2021-30632 was listed as a WebKit flaw; the CVE record assigns it to Google Chrome (an out-of-bounds write in V8), and the sentence now says so.
+  - `content/field-notes/apple-sends-you-to-ijail.md` and its `.bib`: the sentence on risk-based sign-in cited a page that does not describe it; it now cites Google's own statement and keeps the Safety Center page for what that page does say. One reference added.
+  - `content/field-notes/holding-root-entities-accountable-for-spam.md`: a superlative about a passive DNS database that the vendor's page does not make is removed.
+  - `data/corrections.toml`: entries C-20261113-01, -04 and -05 each gain the sentence as it was and as it reads now. `data/field-note-citations.json` regenerated.
+- Why: a sentence should claim no more than the source it cites. Each edit was made by one pass and checked against the source by a second.
+- Rollback: revert this PR.
+
+
 ### 2026-11-13: References corrected in seven field notes; the first corrections entries
 - Actor: AI (Claude Code, on the owner's decisions of 13 November 2026: a wrong reference in a note whose argument stands is fixed and logged, with no label on the note, and the log is one entry per note).
 - Scope: the reference lists of seven field notes and five BibTeX files; seven corrections entries; the wording of `/corrections/`.

@@ -29,7 +29,7 @@ It is easiest to describe in three layers, each true at a different level of pre
 
 The four states are **NORMATIVE**, **NON-NORMATIVE**, **CRITICAL**, and **METACOGNITIVE**. Each is drawn as the Owl of Athena in a distinct orientation and color, and—this is the part that matters for honesty—each is *also* spelled out in a literal text label. The picture is a convenience; the word is the contract.
 
-This Field Note ports and updates the standalone description that has lived on the [DNS Tool](https://dnstool.it-help.tech/owl-semaphore) site, bringing it in line with the **v3.0.0** release of the system [^repo]. The v3 release does not change the four states or their algebra; it adds the formal justification for *why* there are exactly four, states the system's limits plainly, and tightens the language so the analogies it borrows stay analogies.
+This Field Note ports and updates the standalone description that has lived on the [DNS Tool](https://dnstool.it-help.tech/owl-semaphore) site, bringing it in line with the **v3.0.0** release of the system [^1]. The v3 release does not change the four states or their algebra; it adds the formal justification for *why* there are exactly four, states the system's limits plainly, and tightens the language so the analogies it borrows stay analogies.
 
 ---
 
@@ -59,7 +59,7 @@ Each state is a symmetry of one upright owl. Read the owl as a coordinate plane:
 - **Operator:** identity, *I* — determinant **+1**
 - **Transform:** (x, y) → (x, y) (no change)
 - **Reads as:** *"This is the standard."*
-- **Register:** RFC 2119 **MUST / SHALL** [^rfc2119]
+- **Register:** RFC 2119 **MUST / SHALL** [^2]
 
 The upright gold owl is the baseline: operationally validated within a stated domain. It is the thing other states are measured against. NORMATIVE does not mean "true" and it does not mean "approved by the people in charge"—it means *this is the established convention here.*
 
@@ -81,7 +81,7 @@ The owl faces the other way. NON-NORMATIVE is a legitimate, structured explorati
 - **Operator:** 180° rotation, C₂ — determinant **+1**
 - **Transform:** (x, y) → (−x, −y) (half-turn)
 - **Reads as:** *"This inverts the standard."*
-- **Register:** RFC 2119 **MUST NOT / SHALL NOT** [^rfc2119]
+- **Register:** RFC 2119 **MUST NOT / SHALL NOT** [^2]
 
 The owl is turned fully upside down. CRITICAL marks a claim that has been subjected to adversarial or falsification analysis—the standard's own logic turned against it. Note the algebra: a half-turn is the *composition* of the two reflections (mirror left-right, then flip top-bottom). CRITICAL is not a fourth idea bolted on; it is what the other two moves *make* when combined. "Critical" here means *examined to the point of inversion*, not *condemned*.
 
@@ -118,7 +118,7 @@ Four is the unique answer that is both **complete** (closed under composition) a
 
 ## The Mathematical Foundation
 
-The four states are the four elements of the **Klein four-group**, written V₄ [^klein]. Mapping the states onto a finite group is what makes the system *checkable* rather than merely asserted: you can verify closure with a multiplication table instead of trusting a taxonomy.
+The four states are the four elements of the **Klein four-group**, written V₄ [^3]. Mapping the states onto a finite group is what makes the system *checkable* rather than merely asserted: you can verify closure with a multiplication table instead of trusting a taxonomy.
 
 | State | Operator | det | Transform | Reads as | Register |
 |---|---|---|---|---|---|
@@ -153,7 +153,7 @@ A notation that depends on color alone excludes the people most likely to be rea
 2. **Orientation** — upright, mirrored, inverted, flipped.
 3. **Literal label** — the words NORMATIVE, NON-NORMATIVE, CRITICAL, METACOGNITIVE.
 
-The label is authoritative. Color and orientation are aids; the text is the contract. This satisfies the spirit of WCAG 2.2 Success Criterion 1.4.1, *Use of Color*: meaning is never carried by color alone [^wcag141].
+The label is authoritative. Color and orientation are aids; the text is the contract. This satisfies the spirit of WCAG 2.2 Success Criterion 1.4.1, *Use of Color*: meaning is never carried by color alone [^4].
 
 The CRITICAL state makes this rule unusually vivid. Its composite is intentionally rendered as a low-contrast crimson-on-crimson figure—roughly 1.10:1, far below any legibility threshold. That is deliberate: it is the acute test of the system's own rule. If you cannot reliably distinguish CRITICAL by *looking*, you fall back to the orientation and, above all, to the label—which is exactly what the design intends. The badge is unreadable by color; the state is never unreadable, because the word is always present.
 
@@ -172,7 +172,7 @@ The four states line up cleanly with the conformance vocabulary practitioners al
 | CRITICAL | MUST NOT / SHALL NOT | A position reached by inversion or falsification analysis. |
 | METACOGNITIVE | META (framework) | An audit of the evaluative frame itself. |
 
-The mapping to RFC 2119 keywords [^rfc2119] is an *analogy of register*, not a claim that the IETF defined a metacognitive state. It exists so that someone fluent in standards documents can read an owl without learning a new severity scale from scratch.
+The mapping to RFC 2119 keywords [^2] is an *analogy of register*, not a claim that the IETF defined a metacognitive state. It exists so that someone fluent in standards documents can read an owl without learning a new severity scale from scratch.
 
 ---
 
@@ -217,7 +217,7 @@ The Owl Semaphore was not invented to decorate pages. It grew inside the [DNS To
 
 ## Download, Cite, and License
 
-The Owl Semaphore is published openly under **CC BY 4.0** [^ccby]. The canonical specification, the full operator definitions, the accessibility conformance notes, and the owl assets live in the GitHub repository [^repo]; the archival record is on Zenodo.
+The Owl Semaphore is published openly under **CC BY 4.0** [^5]. The canonical specification, the full operator definitions, the accessibility conformance notes, and the owl assets live in the GitHub repository [^1]; the archival record is on Zenodo.
 
 - **Cite this version (v3.0.0):** DOI [10.5281/zenodo.20468727](https://doi.org/10.5281/zenodo.20468727)
 - **Cite all versions (concept DOI, resolves to latest):** DOI [10.5281/zenodo.19473697](https://doi.org/10.5281/zenodo.19473697)
@@ -246,15 +246,15 @@ If you want this kind of disciplined, citable rigor applied to your own DNS, ema
 
 ## References
 
-[^repo]: Balboa, C. J. (2026). *Owl Semaphore Badge System* (v3.0.0) [Source code and specification]. GitHub. <https://github.com/IT-Help-San-Diego/owl-semaphore>
+[^1]: Balboa, C. J. (2026). *Owl Semaphore Badge System* (v3.0.0) [Source code and specification]. GitHub. <https://github.com/IT-Help-San-Diego/owl-semaphore>
 
-[^rfc2119]: Bradner, S. (1997). *Key words for use in RFCs to Indicate Requirement Levels* (RFC 2119). Internet Engineering Task Force. <https://www.rfc-editor.org/rfc/rfc2119>
+[^2]: Bradner, S. (1997). *Key words for use in RFCs to Indicate Requirement Levels* (RFC 2119). Internet Engineering Task Force. <https://www.rfc-editor.org/rfc/rfc2119>
 
-[^klein]: Wikipedia. (n.d.). *Klein four-group*. Retrieved June 20, 2026, from <https://en.wikipedia.org/wiki/Klein_four-group>
+[^3]: Wikipedia. (n.d.). *Klein four-group*. Retrieved June 20, 2026, from <https://en.wikipedia.org/wiki/Klein_four-group>
 
-[^wcag141]: W3C. (2025). *Understanding Success Criterion 1.4.1: Use of Color* (WCAG 2.2). <https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html>
+[^4]: W3C. (2025). *Understanding Success Criterion 1.4.1: Use of Color* (WCAG 2.2). <https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html>
 
-[^ccby]: Creative Commons. (n.d.). *Attribution 4.0 International (CC BY 4.0)*. Retrieved June 20, 2026, from <https://creativecommons.org/licenses/by/4.0/>
+[^5]: Creative Commons. (n.d.). *Attribution 4.0 International (CC BY 4.0)*. Retrieved June 20, 2026, from <https://creativecommons.org/licenses/by/4.0/>
 
 ---
 

@@ -26,11 +26,11 @@ extra:
 
 Apple's built-in stack on a current Mac is genuinely good. **XProtect** (signature scan), **XProtect Remediator** (background remediation), **Gatekeeper** (code-signing enforcement), and **Notarization** (Apple-side malware scan of every distributed binary) together stop the overwhelming majority of commodity malware before it ever touches user data [^1]. The myth that Macs are immune is wrong; the inverted myth that Apple ships a defenseless OS is also wrong.
 
-The single highest-leverage *free* thing you can add is **LuLu** by Patrick Wardle — outbound-network-connection visibility that Apple does not ship and that costs nothing [^6][^7]. After that, **Malwarebytes** is a fine consumer-grade anti-malware layer if you want one [^9]. That stack — **Apple's defaults left on, plus LuLu, plus optionally Malwarebytes** — already puts you ahead of most Mac users you know. You do not need to buy anything else to be meaningfully safer than you are right now.
+The single highest-leverage *free* thing you can add is **LuLu** by Patrick Wardle — outbound-network-connection visibility that Apple does not ship and that costs nothing [^2][^3]. After that, **Malwarebytes** is a fine consumer-grade anti-malware layer if you want one [^4]. That stack — **Apple's defaults left on, plus LuLu, plus optionally Malwarebytes** — already puts you ahead of most Mac users you know. You do not need to buy anything else to be meaningfully safer than you are right now.
 
 If you would rather have all of this maintained for you on a per-device monthly basis, that is what our [Managed Agent](/managed-agent/) page covers — read it once, decide, and move on. The point of *this* article is that the cheap, do-it-yourself version is already most of the protection.
 
-For iPhone: turn on **Stolen Device Protection** today [^10]. Reserve **Lockdown Mode** for the elevated-threat windows it is actually built for [^11].
+For iPhone: turn on **Stolen Device Protection** today [^5]. Reserve **Lockdown Mode** for the elevated-threat windows it is actually built for [^6].
 
 ---
 
@@ -59,23 +59,23 @@ This is a serious, layered set of controls. It is also exactly that — a *set* 
 
 ### Targeted exploit chains and state-grade spyware
 
-The most rigorously documented case of an Apple platform being broken by a real adversary in production is **FORCEDENTRY** (**CVE-2021-30860**), an iMessage zero-click exploit chain attributed to NSO Group's Pegasus toolkit, reverse-engineered and disclosed by The Citizen Lab at the University of Toronto in September 2021 [^2][^3]. The chain exploited an integer overflow in CoreGraphics' processing of malicious PDF content delivered via iMessage — no user interaction required — and was used in the wild against journalists and activists. Apple shipped a fix in iOS 14.8, iPadOS 14.8, macOS 11.6, and watchOS 7.6.2 within days of the disclosure.
+The most rigorously documented case of an Apple platform being broken by a real adversary in production is **FORCEDENTRY** (**CVE-2021-30860**), an iMessage zero-click exploit chain attributed to NSO Group's Pegasus toolkit, reverse-engineered and disclosed by The Citizen Lab at the University of Toronto in September 2021 [^7][^8]. The chain exploited an integer overflow in CoreGraphics' processing of malicious PDF content delivered via iMessage — no user interaction required — and was used in the wild against journalists and activists. Apple shipped a fix in iOS 14.8, iPadOS 14.8, macOS 11.6, and watchOS 7.6.2 within days of the disclosure.
 
 The takeaway is not that everyone is a Pegasus target — most people are not. It is that the operational pattern (zero-click delivery, memory-safety bug in a privileged parser, immediate full-device compromise) is real, has been documented end-to-end with primary-source forensics, and is the *actual* upper bound on what a determined nation-state-grade adversary can do to a current Apple device. Anyone telling you Macs and iPhones cannot be compromised has not read the Citizen Lab report. Anyone telling you they will be compromised on Tuesday by a generic ransomware crew is also wrong.
 
 ### Adware, PUPs, and "valid" software that misbehaves
 
-Malwarebytes' annual *State of Malware* reports have, for several years, found that Macs see a higher *count* of detected threats than Windows endpoints in their telemetry — but with the important caveat that the bulk of that count is **adware and PUPs**, not destructive malware [^9]. Adware and PUPs frequently arrive as bundled installers — software the user did intentionally install, whose installer also drops a browser hijacker, an "optimizer," or a search redirect. These programs are often signed and notarized (Apple's process scans for *malware*, not *bad software-design choices*), so Gatekeeper and XProtect have nothing to flag.
+Malwarebytes' annual *State of Malware* reports have, for several years, found that Macs see a higher *count* of detected threats than Windows endpoints in their telemetry — but with the important caveat that the bulk of that count is **adware and PUPs**, not destructive malware [^4]. Adware and PUPs frequently arrive as bundled installers — software the user did intentionally install, whose installer also drops a browser hijacker, an "optimizer," or a search redirect. These programs are often signed and notarized (Apple's process scans for *malware*, not *bad software-design choices*), so Gatekeeper and XProtect have nothing to flag.
 
 This is the realistic everyday Mac threat: not Pegasus, but the slow accretion of low-quality signed software that is technically "valid" yet is reading data, pushing ads, and phoning home in ways the user never authorized. Defending against this requires *visibility into the outbound network connections each application is opening* — which is exactly what LuLu provides, and exactly what Apple's built-in stack does not.
 
 ### WebKit memory-corruption RCEs
 
-Beyond the FORCEDENTRY chain, multiple in-the-wild WebKit vulnerabilities have been used in targeted Safari attacks. **CVE-2021-30858** (a use-after-free in WebKit) [^4] and **CVE-2021-30632** (a JIT type-confusion bug) [^5] were both exploited in the wild and patched in 2021 emergency updates. Disabling JIT compilation in Safari is exactly what **Lockdown Mode** does for a reason: removing the JIT removes the most commonly exploited optimization surface in modern browser engines.
+Beyond the FORCEDENTRY chain, multiple in-the-wild WebKit vulnerabilities have been used in targeted Safari attacks. **CVE-2021-30858** (a use-after-free in WebKit) [^9] was exploited in the wild and patched in a 2021 emergency update. The problem is not limited to WebKit: **CVE-2021-30632** (an out-of-bounds write in V8, the JavaScript engine in Google Chrome) [^10] was exploited in the wild and patched the same year. Disabling JIT compilation in Safari is exactly what **Lockdown Mode** does for a reason: removing the JIT removes the most commonly exploited optimization surface in modern browser engines.
 
 ### Social engineering
 
-No technical control fully defends against a user being persuaded to type their password into a convincing fake. macOS user-experience defenses help (the security-context prompts, the credential-dialog isolation, password autofill that refuses to fill on the wrong domain), but social engineering remains the single most common successful initial-access vector across all platforms [^12].
+No technical control fully defends against a user being persuaded to type their password into a convincing fake. macOS user-experience defenses help (the security-context prompts, the credential-dialog isolation, password autofill that refuses to fill on the wrong domain), but social engineering remains the single most common successful initial-access vector across all platforms [^11].
 
 ---
 
@@ -107,7 +107,7 @@ Don't disable Gatekeeper. Don't disable SIP. Don't override Notarization for one
 
 If you do nothing else from this article, do this one.
 
-**LuLu** is a free, open-source, host-based application firewall for macOS [^6]. It is licensed under **GPLv3** [^7] and developed by **Patrick Wardle**, a former NSA security researcher [^8] who founded the **Objective-See Foundation** to ship the defensive macOS tools Apple does not. What LuLu does, mechanically, is straightforward and exactly what Apple has not built into the OS: it intercepts outbound network connections from each application and prompts you to allow or deny them, then remembers the decision. It does not require a paid subscription. The source code is on GitHub [^7] — open to anyone who wants to audit it for unwanted network behavior.
+**LuLu** is a free, open-source, host-based application firewall for macOS [^2]. It is licensed under **GPLv3** [^3] and developed by **Patrick Wardle**, a former NSA security researcher [^12] who founded the **Objective-See Foundation** to ship the defensive macOS tools Apple does not. What LuLu does, mechanically, is straightforward and exactly what Apple has not built into the OS: it intercepts outbound network connections from each application and prompts you to allow or deny them, then remembers the decision. It does not require a paid subscription. The source code is on GitHub [^3] — open to anyone who wants to audit it for unwanted network behavior.
 
 What this gives you in practice:
 
@@ -129,7 +129,7 @@ A note on the historical alternative: in the older Mac-IT literature you will se
 
 ### 3. Optional: Malwarebytes for the familiar anti-malware layer.
 
-If you want a consumer-friendly anti-malware layer on top of Apple's defaults — the kind your CFO or your relatives expect to see installed — **Malwarebytes** is a fine choice [^9]. Their annual *State of Malware* reports are the data source for the "Macs do see threats, just mostly adware/PUPs" claim above; the company knows the Mac threat landscape because it is the one measuring it.
+If you want a consumer-friendly anti-malware layer on top of Apple's defaults — the kind your CFO or your relatives expect to see installed — **Malwarebytes** is a fine choice [^4]. Their annual *State of Malware* reports are the data source for the "Macs do see threats, just mostly adware/PUPs" claim above; the company knows the Mac threat landscape because it is the one measuring it.
 
 A free tier exists; the paid Premium product is reasonably priced for what it is — check current pricing on their site. It is not a substitute for the layers above; it is an additive baseline that catches the kind of nuisanceware that signature-based detection still does well against.
 
@@ -155,13 +155,13 @@ iPhone is a different threat model than Mac and the right defenses are different
 
 ### Stolen Device Protection (iOS 17.3+)
 
-Apple introduced **Stolen Device Protection** in iOS 17.3 (January 2024). It addresses a specific, common, and previously-unsolved attack: a thief who shoulder-surfs the device passcode and then steals the unlocked phone. With Stolen Device Protection on, sensitive actions away from a familiar location require Face ID or Touch ID with no passcode fallback, and high-impact actions (such as changing the Apple ID password) require a one-hour security delay followed by a second biometric scan [^10].
+Apple introduced **Stolen Device Protection** in iOS 17.3 (January 2024). It addresses a specific, common, and previously-unsolved attack: a thief who shoulder-surfs the device passcode and then steals the unlocked phone. With Stolen Device Protection on, sensitive actions away from a familiar location require Face ID or Touch ID with no passcode fallback, and high-impact actions (such as changing the Apple ID password) require a one-hour security delay followed by a second biometric scan [^5].
 
 This is high value, low friction. **Turn it on for every iPhone you own.** The setting lives under Settings → Face ID & Passcode → Stolen Device Protection.
 
 ### Lockdown Mode (iOS 16+)
 
-**Lockdown Mode** is Apple's hardened operating mode, introduced in iOS 16 / iPadOS 16 / macOS Ventura. When enabled, it imposes a deliberate, exhaustive set of restrictions designed to remove the attack surface that mercenary spyware (Pegasus-class) actually uses [^11]:
+**Lockdown Mode** is Apple's hardened operating mode, introduced in iOS 16 / iPadOS 16 / macOS Ventura. When enabled, it imposes a deliberate, exhaustive set of restrictions designed to remove the attack surface that mercenary spyware (Pegasus-class) actually uses [^6]:
 
 - Most message attachments are blocked except for certain images, video, and audio. Links and link previews are disabled.
 - Web technologies including JIT JavaScript compilation are disabled in Safari unless the user explicitly excludes a site.
@@ -205,27 +205,27 @@ If you have questions, the first ten minutes of a call are no-charge per the [bi
 
 [^1]: Apple Inc. *Apple Platform Security Guide — Protecting against malware in macOS.* Documents XProtect, XProtect Remediator, Gatekeeper, Notarization, and the layered code-signing/Notarization chain. <https://support.apple.com/guide/security/protecting-against-malware-sec469d47bd8/web>
 
-[^2]: Marczak, B., Scott-Railton, J., Abdul Razzak, B., Aljizawi, N., Anstis, S., Berdan, K., & Deibert, R. (2021). *FORCEDENTRY: NSO Group iMessage Zero-Click Exploit Captured in the Wild.* The Citizen Lab, University of Toronto, September 13, 2021. <https://citizenlab.ca/research/forcedentry-nso-group-imessage-zero-click-exploit-captured-in-the-wild/>
+[^2]: Wardle, P. *LuLu — the free, open-source macOS firewall.* Objective-See Foundation. <https://objective-see.org/products/lulu.html>
 
-[^3]: MITRE Corporation. *CVE-2021-30860 — Apple CoreGraphics integer overflow processing maliciously crafted PDF (FORCEDENTRY).* <https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-30860>
+[^3]: Objective-See Foundation. *LuLu source repository* (license: GNU General Public License v3.0). GitHub. <https://github.com/objective-see/LuLu>
 
-[^4]: MITRE Corporation. *CVE-2021-30858 — Use-after-free in WebKit; exploited in the wild against Safari.* <https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-30858>
+[^4]: Malwarebytes / ThreatDown. *State of Malware (annual report series).* Documents Mac-vs-Windows threat-detection volumes and the adware/PUP-dominated composition of Mac detections. <https://www.threatdown.com/dl-state-of-malware-2025/>
 
-[^5]: MITRE Corporation. *CVE-2021-30632 — Out-of-bounds write in V8 in Google Chrome; exploited in the wild.* <https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-30632>
+[^5]: Apple Inc. *About Stolen Device Protection for iPhone.* Specifies the iOS 17.3 release, the Face ID/Touch ID biometric requirement with no passcode fallback, and the security-delay behavior away from familiar locations. <https://support.apple.com/en-us/120340>
 
-[^6]: Wardle, P. *LuLu — the free, open-source macOS firewall.* Objective-See Foundation. <https://objective-see.org/products/lulu.html>
+[^6]: Apple Inc. *About Lockdown Mode.* Specifies the iOS 16 / iPadOS 16 / macOS Ventura release and enumerates the restrictions imposed when Lockdown Mode is enabled. <https://support.apple.com/en-us/105120>
 
-[^7]: Objective-See Foundation. *LuLu source repository* (license: GNU General Public License v3.0). GitHub. <https://github.com/objective-see/LuLu>
+[^7]: Marczak, B., Scott-Railton, J., Abdul Razzak, B., Aljizawi, N., Anstis, S., Berdan, K., & Deibert, R. (2021). *FORCEDENTRY: NSO Group iMessage Zero-Click Exploit Captured in the Wild.* The Citizen Lab, University of Toronto, September 13, 2021. <https://citizenlab.ca/research/forcedentry-nso-group-imessage-zero-click-exploit-captured-in-the-wild/>
 
-[^8]: Wardle, P. *About — Objective-See Foundation.* Confirms prior NSA tenure. <https://objective-see.org/about.html>
+[^8]: MITRE Corporation. *CVE-2021-30860 — Apple CoreGraphics integer overflow processing maliciously crafted PDF (FORCEDENTRY).* <https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-30860>
 
-[^9]: Malwarebytes / ThreatDown. *State of Malware (annual report series).* Documents Mac-vs-Windows threat-detection volumes and the adware/PUP-dominated composition of Mac detections. <https://www.threatdown.com/dl-state-of-malware-2025/>
+[^9]: MITRE Corporation. *CVE-2021-30858 — Use-after-free in WebKit; exploited in the wild against Safari.* <https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-30858>
 
-[^10]: Apple Inc. *About Stolen Device Protection for iPhone.* Specifies the iOS 17.3 release, the Face ID/Touch ID biometric requirement with no passcode fallback, and the security-delay behavior away from familiar locations. <https://support.apple.com/en-us/120340>
+[^10]: MITRE Corporation. *CVE-2021-30632 — Out-of-bounds write in V8 in Google Chrome; exploited in the wild.* <https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-30632>
 
-[^11]: Apple Inc. *About Lockdown Mode.* Specifies the iOS 16 / iPadOS 16 / macOS Ventura release and enumerates the restrictions imposed when Lockdown Mode is enabled. <https://support.apple.com/en-us/105120>
+[^11]: Verizon. *Data Breach Investigations Report* (annual). Repeatedly identifies the human element — phishing, pretexting, and credential abuse — as the dominant initial-access vector across breaches in scope. <https://www.verizon.com/business/resources/reports/dbir/>
 
-[^12]: Verizon. *Data Breach Investigations Report* (annual). Repeatedly identifies the human element — phishing, pretexting, and credential abuse — as the dominant initial-access vector across breaches in scope. <https://www.verizon.com/business/resources/reports/dbir/>
+[^12]: Wardle, P. *About — Objective-See Foundation.* Confirms prior NSA tenure. <https://objective-see.org/about.html>
 
 A BibTeX file for these references is available at [`/field-notes/mac-cybersecurity-threats.bib`](/field-notes/mac-cybersecurity-threats.bib?v=20261113) for one-click import into Zotero or any reference manager.
 

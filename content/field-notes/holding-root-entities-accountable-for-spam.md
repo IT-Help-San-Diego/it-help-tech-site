@@ -414,33 +414,33 @@ If your organization needs help hardening its email authentication or untangling
 
 ## References
 
-[^1]: Spamhaus Project. (n.d.). *The Domain Block List (DBL)*. Retrieved June 17, 2026, from <https://www.spamhaus.org/blocklists/domain-blocklist/>
+[^1]: Spamhaus Project. (n.d.). *Domain Blocklist (DBL)*. Retrieved June 17, 2026, from <https://www.spamhaus.org/blocklists/domain-blocklist/>
 
 [^2]: Mailhardener. (n.d.). *BIMI: Brand Indicators for Message Identification*. Retrieved June 17, 2026, from <https://www.mailhardener.com/kb/bimi>
 
-[^3]: DomainTools. (n.d.). *Iris Investigate Platform*. Retrieved June 17, 2026, from <https://www.domaintools.com/>
+[^3]: DomainTools. (n.d.). *Threat Intelligence & Domain Security Platform*. Retrieved June 17, 2026, from <https://www.domaintools.com/>
 
-[^4]: Farsight Security. (n.d.). *DNSDB: Passive DNS Historical Database*. Retrieved June 17, 2026, from <https://www.farsightsecurity.com/solutions/dnsdb/>
+[^4]: DomainTools. (n.d.). *Farsight DNSDB*. Retrieved November 13, 2026, from <https://docs.domaintools.com/dnsdb/>
 
 [^5]: ICANN. (n.d.). *Registration Data Access Protocol (RDAP)*. Retrieved June 17, 2026, from <https://www.icann.org/rdap>
 
 [^6]: Shodan. (n.d.). *Shodan: The Search Engine for Internet-Connected Devices*. Retrieved June 17, 2026, from <https://www.shodan.io/>
 
-[^7]: Maltego. (n.d.). *Maltego: OSINT and Graphical Link Analysis*. Retrieved June 17, 2026, from <https://www.maltego.com/>
+[^7]: Maltego. (n.d.). *Maltego: OSINT & Cyber Investigations Platform for High-Stakes Cases*. Retrieved June 17, 2026, from <https://www.maltego.com/>
 
 [^8]: DMARC.org. (n.d.). *DMARC Overview*. Retrieved June 17, 2026, from <https://dmarc.org/overview/>
 
-[^9]: Hao, S., Feamster, N., & Pandrangi, R. (2007). *RepuScore: Collaborative reputation management framework for email infrastructure*. ACM. <https://scispace.com/papers/repuscore-collaborative-reputation-management-framework-for-xiaomd0zhy>
+[^9]: Singaraju, G., & Kang, B. B. (2007). *RepuScore: Collaborative reputation management framework for email infrastructure*. USENIX LISA '07. <https://www.usenix.org/conference/lisa-07/repuscore-collaborative-reputation-management-framework-email-infrastructure>
 
-[^10]: Hao, S., & Kang, B. B. (2009). *Towards sender accountability on email infrastructure using sender identity and reputation management*. ACM. <https://scispace.com/papers/towards-sender-accountability-on-email-infrastructure-using-13k3g1i4eo>
+[^10]: Singaraju, G. (2009). *Towards sender accountability on email infrastructure using sender identity and reputation management* [Doctoral dissertation]. University of North Carolina at Charlotte. <https://ninercommons.charlotte.edu/record/3450>
 
-[^11]: Ramachandran, A., & Feamster, N. (2010). *A collaboration-based autonomous reputation system for email services*. IEEE INFOCOM. <https://doi.org/10.1109/INFCOM.2010.5461948>
+[^11]: Xie, M., & Wang, H. (2010). *A collaboration-based autonomous reputation system for email services*. IEEE INFOCOM. <https://doi.org/10.1109/INFCOM.2010.5461948>
 
-[^12]: Borgolte, K., et al. (2024). *Sandi: A system for accountability in email delivery*. arXiv. <https://doi.org/10.48550/arxiv.2401.16759>
+[^12]: Durak, F. B., et al. (2024). *Sandi: A system for accountability*. arXiv. <https://doi.org/10.48550/arxiv.2401.16759>
 
-[^13]: Ouyang, T., & Rabinovich, M. (2008). *Weeding spammers at the root: A precise approach to spam reduction*. IEEE INFOCOM. <https://doi.org/10.1109/INFOCOM.2008.4544636>
+[^13]: Ouyang, T., & Rabinovich, M. (2008). *Weeding spammers at the root: A precise approach to spam reduction*. IEEE INFOCOM Workshops. <https://doi.org/10.1109/INFOCOM.2008.4544636>
 
-[^14]: Thomas, K., et al. (2016). *Understanding cross-channel abuse with SMS-spam support infrastructure attribution*. Springer. <https://doi.org/10.1007/978-3-319-45744-4_1>
+[^14]: Srinivasan, B., et al. (2016). *Understanding cross-channel abuse with SMS-spam support infrastructure attribution*. Springer. <https://doi.org/10.1007/978-3-319-45744-4_1>
 
 ---
 

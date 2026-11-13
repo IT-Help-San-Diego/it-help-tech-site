@@ -199,13 +199,13 @@ If you want a second set of eyes, we offer practical DNS/email security reviews 
 
 ## References
 
-[^1]: Kucherawy, M., & Zwicky, E. (Eds.) (2015). *Domain-based Message Authentication, Reporting, and Conformance (DMARC)*. RFC 7489. Internet Engineering Task Force. <https://datatracker.ietf.org/doc/html/rfc7489> (See §10.1 on the SPF `-all` short-circuit risk: <https://datatracker.ietf.org/doc/html/rfc7489#section-10.1>.)
+[^1]: Kucherawy, M., & Zwicky, E. (Eds.) (2015). *Domain-based Message Authentication, Reporting, and Conformance (DMARC)*. RFC 7489. RFC Editor (Independent Submission). <https://datatracker.ietf.org/doc/html/rfc7489> (See §10.1 on the SPF `-all` short-circuit risk: <https://datatracker.ietf.org/doc/html/rfc7489#section-10.1>.)
 
 [^2]: Kitterman, S. (2014). *Sender Policy Framework (SPF) for Authorizing Use of Domains in Email, Version 1*. RFC 7208. Internet Engineering Task Force. <https://datatracker.ietf.org/doc/html/rfc7208> (See §4.6.4 on the 10-DNS-lookup processing limit.)
 
 [^3]: Crocker, D., Hansen, T., & Kucherawy, M. (Eds.) (2011). *DomainKeys Identified Mail (DKIM) Signatures*. RFC 6376. Internet Engineering Task Force. <https://datatracker.ietf.org/doc/html/rfc6376>
 
-[^4]: Chandramouli, R., Garfinkel, S., Nightingale, S., & Rose, S. (2019). *Trustworthy Email* (NIST Special Publication 800-177 Rev. 1). National Institute of Standards and Technology. <https://doi.org/10.6028/NIST.SP.800-177r1>
+[^4]: Rose, S., Nightingale, J. S., Garfinkel, S., & Chandramouli, R. (2019). *Trustworthy Email* (NIST Special Publication 800-177 Rev. 1). National Institute of Standards and Technology. <https://doi.org/10.6028/NIST.SP.800-177r1>
 
 [^5]: Margolis, D., Risher, M., Ramakrishnan, B., Brotman, A., & Jones, J. (2018). *SMTP MTA Strict Transport Security (MTA-STS)*. RFC 8461. Internet Engineering Task Force. <https://datatracker.ietf.org/doc/html/rfc8461>
 
@@ -217,19 +217,19 @@ If you want a second set of eyes, we offer practical DNS/email security reviews 
 
 [^9]: Federal Bureau of Investigation, Internet Crime Complaint Center. (2024). *2023 Internet Crime Report*. <https://www.ic3.gov/Media/PDF/AnnualReport/2023_IC3Report.pdf>
 
-[^10]: Verizon. (2024). *2024 Data Breach Investigations Report*. <https://www.verizon.com/business/resources/reports/dbir/>
+[^10]: Verizon. (2024). *2024 Data Breach Investigations Report*. <https://www.verizon.com/business/resources/reports/2024-dbir-data-breach-investigations-report.pdf>
 
-[^11]: Cybersecurity and Infrastructure Security Agency. (2017). *Binding Operational Directive 18-01: Enhance Email and Web Security*. U.S. Department of Homeland Security. <https://www.cisa.gov/news-events/directives/bod-18-01-enhance-email-and-web-security>
+[^11]: U.S. Department of Homeland Security. (2017). *Binding Operational Directive 18-01: Enhance Email and Web Security*. Cybersecurity and Infrastructure Security Agency. <https://www.cisa.gov/news-events/directives/bod-18-01-enhance-email-and-web-security>
 
 [^12]: Google. (2024). *Email sender guidelines (effective February 2024)*. <https://support.google.com/mail/answer/81126>. See also Yahoo Postmaster's parallel guidance: <https://senders.yahooinc.com/best-practices/>.
 
-[^13]: Internet Engineering Task Force, DMARC Working Group. *DMARC working group* (charter and active drafts, including the DMARCbis revision of RFC 7489). <https://datatracker.ietf.org/wg/dmarc/about/>
+[^13]: Internet Engineering Task Force, DMARC Working Group. *DMARC working group* (charter and working-group documents; the DMARCbis revision of RFC 7489 was published in May 2026 as RFC 9989, RFC 9990, and RFC 9991). <https://datatracker.ietf.org/wg/dmarc/about/>
 
-[^14]: Kitterman, S. (2018). *Cryptographic Algorithm and Key Usage Update to DKIM*. RFC 8301. Internet Engineering Task Force. <https://datatracker.ietf.org/doc/html/rfc8301>
+[^14]: Kitterman, S. (2018). *Cryptographic Algorithm and Key Usage Update to DomainKeys Identified Mail (DKIM)*. RFC 8301. Internet Engineering Task Force. <https://datatracker.ietf.org/doc/html/rfc8301>
 
 [^15]: AuthIndicators Working Group. *BIMI: Brand Indicators for Message Identification* (specifications, FAQ, and implementation guidance). <https://bimigroup.org/>
 
-A BibTeX file for these references is available at [`/field-notes/dns-security-best-practices.bib`](/field-notes/dns-security-best-practices.bib) for one-click import into Zotero or any reference manager.
+A BibTeX file for these references is available at [`/field-notes/dns-security-best-practices.bib`](/field-notes/dns-security-best-practices.bib?v=20261113) for one-click import into Zotero or any reference manager.
 
 *Last updated April 19, 2026 — verified against RFC 7489, RFC 7208, RFC 6376, NIST SP 800-177 Rev. 1, and current operational email-authentication best practices.*
 

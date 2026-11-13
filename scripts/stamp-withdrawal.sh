@@ -15,6 +15,8 @@ d = datetime.date.fromisoformat(sys.argv[1])
 ident = f"C-{d:%Y%m%d}-01"
 human = f"{d.day} {d:%B %Y}"
 files = ["data/corrections.toml", "content/use-policy.md", "infra/cloudfront/redirects.json", "PROJECT_EVOLUTION_LOG.md"]
+if f'id = "{ident}"' in pathlib.Path("data/corrections.toml").read_text():
+    sys.exit(f"{ident} is already in the register: give the withdrawal the next free number for that date by hand")
 for f in files:
     p = pathlib.Path(f); t = p.read_text()
     n = t.replace("C-YYYYMMDD-01", ident).replace("c-yyyymmdd-01", ident.lower()).replace("[DEPLOY DATE]", human).replace('logged = "YYYY-MM-DD"', f'logged = "{d.isoformat()}"')

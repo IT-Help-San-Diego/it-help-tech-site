@@ -116,11 +116,11 @@ A working test: if you would feel comfortable typing the phrase in front of the 
 
 [^6]: Slamecka, N. J., & Graf, P. (1978). The generation effect: Delineation of a phenomenon. *Journal of Experimental Psychology: Human Learning and Memory*, 4(6), 592–604. <https://doi.org/10.1037/0278-7393.4.6.592>
 
-[^7]: National Institute of Standards and Technology. (2025). *Digital Identity Guidelines: Authentication and Authenticator Management* (SP 800-63B, Revision 4). U.S. Department of Commerce. <https://pages.nist.gov/800-63-4/sp800-63b.html>
+[^7]: Temoshok, D., Fenton, J. L., Choong, Y.-Y., Lefkovitz, N., Regenscheid, A., Galluzzo, R., & Richer, J. P. (2025). *Digital Identity Guidelines: Authentication and Authenticator Management* (SP 800-63B, Revision 4). National Institute of Standards and Technology. <https://pages.nist.gov/800-63-4/sp800-63b.html>
 
-[^8]: World Wide Web Consortium. (2026). *Web Authentication: An API for Accessing Public Key Credentials, Level 3* (W3C Candidate Recommendation Snapshot, 13 January 2026). The Working Group has stated this CR is not expected to advance to Recommendation any earlier than 10 February 2026; the previous version is WebAuthn Level 2, an April 2021 W3C Recommendation. <https://www.w3.org/TR/webauthn-3/>
+[^8]: World Wide Web Consortium. (2026). *Web Authentication: An API for Accessing Public Key Credentials, Level 3* (W3C Recommendation, 25 August 2026). Level 3 is the successor to WebAuthn Level 2, an April 2021 W3C Recommendation. <https://www.w3.org/TR/webauthn-3/> Earlier version: W3C Candidate Recommendation Snapshot, 13 January 2026. <https://www.w3.org/TR/2026/CR-webauthn-3-20260113/>
 
-A BibTeX file for these references is available at [`/field-notes/hack-your-engrams.bib`](/field-notes/hack-your-engrams.bib) for one-click import into Zotero or any reference manager.
+A BibTeX file for these references is available at [`/field-notes/hack-your-engrams.bib`](/field-notes/hack-your-engrams.bib?v=20261113) for one-click import into Zotero or any reference manager.
 
 *Last updated April 25, 2026 — verified against NIST SP 800-63B, Revision 4 (Final, published July 31, 2025; in particular Section 3.1.1 on password length requirements at <https://pages.nist.gov/800-63-4/sp800-63b/authenticators/>), W3C WebAuthn Level 3 (Candidate Recommendation Snapshot, 13 January 2026), and the DOI-confirmed primary sources for each cited neuroscience paper (Baumeister 2001, McGaugh 2004, LaBar &amp; Cabeza 2006, Hunt 1995, Josselyn &amp; Tonegawa 2020, Slamecka &amp; Graf 1978).*
 

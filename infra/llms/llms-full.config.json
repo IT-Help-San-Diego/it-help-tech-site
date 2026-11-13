@@ -4,12 +4,30 @@
     {
       "heading": "Main",
       "entries": [
-        { "label": "IT Help San Diego", "file": "content/_index.md" },
-        { "label": "Pricing", "file": "content/billing.md" },
-        { "label": "Managed Agent", "file": "content/managed-agent.md" },
-        { "label": "Services", "file": "content/services.md" },
-        { "label": "DNS Tool", "file": "content/dns-tool.md" },
-        { "label": "Our Expertise", "file": "content/about.md" },
+        {
+          "label": "IT Help San Diego",
+          "file": "content/_index.md"
+        },
+        {
+          "label": "Pricing",
+          "file": "content/billing.md"
+        },
+        {
+          "label": "Managed Agent",
+          "file": "content/managed-agent.md"
+        },
+        {
+          "label": "Services",
+          "file": "content/services.md"
+        },
+        {
+          "label": "DNS Tool",
+          "file": "content/dns-tool.md"
+        },
+        {
+          "label": "Our Expertise",
+          "file": "content/about.md"
+        },
         {
           "label": "Schedule",
           "url": "https://book.squareup.com/appointments/mwhvoaiqecb5o2/location/LA35149CK62SV/services",
@@ -22,7 +40,38 @@
     {
       "heading": "Optional",
       "entries": [
-        { "label": "Field Notes", "file": "content/field-notes/_index.md" }
+        {
+          "label": "Field Notes",
+          "file": "content/field-notes/_index.md"
+        },
+        {
+          "label": "The Owl Semaphore",
+          "file": "content/field-notes/the-owl-semaphore.md"
+        },
+        {
+          "label": "Hack Your Engrams: Memorable Passphrases That Stay Private",
+          "file": "content/field-notes/hack-your-engrams-to-remember-passwords.md"
+        },
+        {
+          "label": "Don't Guess Wrong: Apple, Google, and the Memory Science Behind Account Lockouts",
+          "file": "content/field-notes/apple-sends-you-to-ijail.md"
+        },
+        {
+          "label": "DNS Security Best Practices: Defend Your Domain with DMARC, SPF & DKIM",
+          "file": "content/field-notes/dns-security-best-practices.md"
+        },
+        {
+          "label": "Why Your Wireless Network Sucks: Copy of a Copy, and the Ethernet Backbone That Fixes It",
+          "file": "content/field-notes/why-your-wireless-network-sucks.md"
+        },
+        {
+          "label": "Mac Cybersecurity: What Apple Already Protects, What to Add Yourself for Free, and Where the Real Gaps Are",
+          "file": "content/field-notes/mac-cybersecurity-threats.md"
+        },
+        {
+          "label": "Corrections",
+          "file": "content/corrections.md"
+        }
       ]
     }
   ]

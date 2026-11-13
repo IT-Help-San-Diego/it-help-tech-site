@@ -9,6 +9,9 @@ description: "Wireless degrades like a photocopy of a photocopy — and the phys
 aliases:
   - /blog/why-your-wireless-network-sucks/
 extra:
+  schema_type: "TechArticle"
+  proficiency_level: "Intermediate"
+  keywords: ["Wi-Fi", "Ethernet backbone", "Cat6A", "Cat8", "Wi-Fi 6", "Wi-Fi 7", "CSMA/CA", "mesh", "PoE", "IT Help San Diego"]
   image: images/sad-wifi-extender.png
   image_responsive_base: images/sad-wifi-extender
   og_title: "Why Your Wireless Network Sucks: Copy of a Copy, and the Ethernet Backbone That Fixes It"
@@ -159,26 +162,3 @@ A BibTeX file for these references is available at [`/field-notes/why-your-wirel
 
 *Last updated April 25, 2026 — verified against IEEE 802.11-2024 (REVme, current rolled-up base; supersedes 802.11-2020), IEEE 802.11ax-2021, IEEE 802.11be-2024 (MLO/STR/EMLSR/NSTR mode definitions), IEEE 802.3-2022, IEEE 802.3bt-2018 (PoE++ Type 3/4 wattages), IEEE 802.3bz-2016 (NBASE-T 2.5/5GBASE-T), IEEE 802.3bq-2016 (Cat8 25/40GBASE-T), ANSI/TIA-568.2-E (2024, supersedes -D), TIA TSB-155 (Cat6 10GBASE-T 55 m / 37 m AXT-dependent reach), TIA TSB-184-A (2017, PoE bundle thermal), and current operational deployment experience.*
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "isAccessibleForFree": true,
-  "headline": "Why Your Wireless Network Sucks: Copy of a Copy, and the Ethernet Backbone That Fixes It",
-  "description": "Why wireless degrades like a photocopy of a photocopy — half-duplex CSMA/CA, Shannon-Hartley capacity, and retransmit compounding — and how an Ethernet backbone, proper Cat6A/Cat8 cabling, and modern Wi-Fi 6/7 deliver the speed you are paying for to your endpoint.",
-  "proficiencyLevel": "Intermediate",
-  "author": {
-    "@type": "Person",
-    "name": "Carey Balboa",
-    "url": "https://www.it-help.tech/about/"
-  },
-  "publisher": {
-    "@id": "https://www.it-help.tech/#business"
-  },
-  "image": "https://www.it-help.tech/images/sad-wifi-extender.png",
-  "datePublished": "2025-05-24",
-  "dateModified": "2026-04-25",
-  "mainEntityOfPage": "https://www.it-help.tech/field-notes/why-your-wireless-network-sucks/",
-  "keywords": ["Wi-Fi", "Ethernet backbone", "Cat6A", "Cat8", "Wi-Fi 6", "Wi-Fi 7", "CSMA/CA", "mesh", "PoE", "IT Help San Diego"]
-}
-</script>

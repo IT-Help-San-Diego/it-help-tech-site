@@ -9,6 +9,9 @@ description: "Configure and verify SPF, DKIM, DMARC, MTA-STS, TLS-RPT, DANE, and
 aliases:
   - /blog/dns-security-best-practices/
 extra:
+  schema_type: "TechArticle"
+  proficiency_level: "Intermediate"
+  keywords: ["DMARC", "SPF", "DKIM", "DNSSEC", "Email Security", "DNS Security", "BEC", "IT Help San Diego"]
   seo_title: "DMARC, SPF & DKIM Security Guide"
   image: /images/dns-security-dmarc.png
   image_responsive_base: images/dns-security-dmarc
@@ -230,29 +233,6 @@ A BibTeX file for these references is available at [`/field-notes/dns-security-b
 
 *Last updated April 19, 2026 — verified against RFC 7489, RFC 7208, RFC 6376, NIST SP 800-177 Rev. 1, and current operational email-authentication best practices.*
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "isAccessibleForFree": true,
-  "headline": "DNS Security Best Practices: Defend Your Domain with DMARC, SPF & DKIM",
-  "description": "Step-by-step setup guide for DMARC, SPF, DKIM, DNSSEC, and email transport controls to prevent spoofing and phishing.",
-  "proficiencyLevel": "Intermediate",
-  "author": { 
-    "@type": "Person", 
-    "name": "Carey Balboa",
-    "url": "https://www.it-help.tech/about/"
-  },
-  "publisher": { 
-    "@id": "https://www.it-help.tech/#business"
-  },
-  "image": "https://www.it-help.tech/images/dns-security-dmarc.png",
-  "datePublished": "2025-05-25",
-  "dateModified": "2026-04-19",
-  "mainEntityOfPage": "https://www.it-help.tech/field-notes/dns-security-best-practices/",
-  "keywords": ["DMARC", "SPF", "DKIM", "DNSSEC", "Email Security", "DNS Security", "BEC", "IT Help San Diego"]
-}
-</script>
 
 <script type="application/ld+json">
 {

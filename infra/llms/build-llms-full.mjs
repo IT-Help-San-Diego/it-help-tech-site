@@ -13,6 +13,7 @@ const REPO_ROOT = process.cwd();
 const CONFIG_PATH = path.join(REPO_ROOT, "infra/llms/llms-full.config.json");
 const SITE_CONFIG_PATH = path.join(REPO_ROOT, "config.toml");
 const OUTPUT_PATH = path.join(REPO_ROOT, "build/llms-full.txt");
+const CORRECTIONS_PATH = path.join(REPO_ROOT, "data/corrections.toml");
 
 const dryRun = process.argv.includes("--dry-run");
 
@@ -86,7 +87,7 @@ function parseFrontmatter(raw, filePath) {
 
   // Extract values. Both TOML and YAML support "key = value" and "key: value" respectively.
   // We only need title, description, and extra.llms_label.
-  const fm = { title: null, description: null, llms_label: null };
+  const fm = { title: null, description: null, llms_label: null, date: null, updated: null, author: null };
   let inExtra = false;
   for (const line of fmLines) {
     const trimmed = line.trim();
@@ -101,7 +102,7 @@ function parseFrontmatter(raw, filePath) {
       if (inExtra && k === "llms_label") fm.llms_label = value;
     } else {
       // YAML: very narrow subset — top-level "key: value", and extra: block with 2-space indent "  llms_label: value".
-      const top = trimmed.match(/^(title|description):\s*"?(.*?)"?\s*$/);
+      const top = trimmed.match(/^(title|description|date|updated|author):\s*"?(.*?)"?\s*$/);
       if (top && /^[a-z]/.test(line)) { fm[top[1]] = top[2]; continue; }
       if (/^extra:\s*$/.test(trimmed)) { inExtra = true; continue; }
       if (inExtra) {
@@ -122,8 +123,12 @@ function parseFrontmatter(raw, filePath) {
 // happens BEFORE tag-aware steps so reconstituted tags get caught by the
 // downstream strip passes. Entity decode is single-pass (decodeEntities) to
 // avoid the cascade-double-unescape bug ("&amp;lt;" → "&lt;" → "<").
-function transformBody(body, filePath) {
+function transformBody(body, filePath, ctx = {}) {
   let s = body;
+
+  // 0. The corrections index shortcode expands to register text first, so
+  //    every sanitization step below applies to it like any other page text.
+  s = s.replace(/\{\{-?\s*corrections_index\s*\(\s*\)\s*-?\}\}/g, () => renderCorrectionsIndex(ctx.register ?? []));
 
   // Helper: strip a tag pair until stable, then strip any orphan opening or
   // closing tokens of the same name. Defends against reassembly attacks like
@@ -179,7 +184,7 @@ function transformBody(body, filePath) {
   //     variant.
   s = s.replace(/\{\{-?\s*([a-z_]\w*)\s*\(([\s\S]*?)\)\s*-?\}\}/gi, (_match, name, args) => {
     const lname = name.toLowerCase();
-    if (lname === "picture" || lname === "image" || lname === "img") {
+    if (lname === "picture" || lname === "picture_simple" || lname === "image" || lname === "img") {
       // Try double-quoted alt first, then single-quoted. Both support the
       // standard backslash-escape form. Whichever matches first wins.
       const dq = args.match(/\balt\s*=\s*"((?:[^"\\]|\\.)*)"/);
@@ -197,6 +202,12 @@ function transformBody(body, filePath) {
   });
   s = stripUntilStable(s, /\{%-?[\s\S]*?-?%\}/g);
 
+  // 2e. Markdown autolinks (<https://...>, <mailto:...>) are links, not HTML
+  //     tags: turn them into [url](url) before any tag stripping, or every
+  //     reference URL in a field note's footnotes would be stripped as an
+  //     "unrecognized tag". The output contains no angle brackets.
+  s = s.replace(/<((?:https?:\/\/|mailto:)[^<>\s]+)>/g, "[$1]($1)");
+
   // 3. Normalize <br> and </p> to line breaks.
   s = s.replace(/<br\s*\/?>/gi, "\n");
   s = s.replace(/<\/p>/gi, "\n");
@@ -211,7 +222,7 @@ function transformBody(body, filePath) {
     }
     const href = hrefMatch[1];
     const label = stripUntilStable(inner, /<[^>]+>/g).trim();
-    if (!label) return `<${href}>`;
+    if (!label) return `[${href}](${href})`;
     return `[${label}](${href})`;
   });
 
@@ -247,10 +258,93 @@ function transformBody(body, filePath) {
   //      Lines beginning with list/quote/heading/code markers are preserved.
   s = s.replace(/[ \t]+\n/g, "\n");
   s = s.replace(/^[ \t]+(?=[A-Za-z])/gm, "");
+  s = s.replace(/^[ \t]+(?=\[Image: )/gm, "");
   s = s.replace(/\n{3,}/g, "\n\n");
   s = s.replace(/^\s+|\s+$/g, "");
 
+  // 8. Root-relative links become absolute: llms-full.txt is read off-site,
+  //    where "/services/" resolves to nothing.
+  if (ctx.baseUrl) s = absolutize(s, ctx.baseUrl);
+
+  // 9. Footnote labels are numbered per page, and this file concatenates
+  //    pages: prefix each label with its page's slug so [^1] in one note can
+  //    never resolve to another note's first reference.
+  if (ctx.slug) s = s.replace(/\[\^([^\]\s]+)\]/g, (_m, label) => `[^${ctx.slug}-${label}]`);
+
   return s;
+}
+
+// --- Corrections register (data/corrections.toml) ---
+// A strict parser for the register's subset of TOML: comment lines, blank
+// lines, [[correction]] table headers, key = "basic string" and
+// key = """multi-line basic string""". Anything else stops the build, so the
+// register cannot drift into syntax this generator silently misreads.
+function parseCorrections(raw) {
+  const records = [];
+  const lines = raw.split(/\r?\n/);
+  let cur = null;
+  const unescape = (v, n) => {
+    if (v.replace(/\\["\\]/g, "").includes("\\")) die(`data/corrections.toml line ${n}: unsupported escape in string`);
+    return v.replace(/\\(["\\])/g, "$1");
+  };
+  const set = (key, value, n) => {
+    if (key in cur) die(`data/corrections.toml line ${n}: key '${key}' repeats within a record`);
+    cur[key] = value;
+  };
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    if (/^\s*(#.*)?$/.test(line)) continue;
+    if (line.trim() === "[[correction]]") { cur = {}; records.push(cur); continue; }
+    if (!cur) die(`data/corrections.toml line ${i + 1}: key before the first [[correction]]`);
+    let m = line.match(/^([a-z_]+)\s*=\s*"""\s*$/);
+    if (m) {
+      const buf = [];
+      let j = i + 1;
+      while (j < lines.length && lines[j] !== '"""') {
+        // The closing delimiter must be alone on its line; any other use of
+        // three quotes is valid TOML this parser would misread.
+        if (lines[j].includes('"""')) die(`data/corrections.toml line ${j + 1}: put the closing \"\"\" alone on its own line`);
+        buf.push(lines[j++]);
+      }
+      if (j >= lines.length) die(`data/corrections.toml line ${i + 1}: unterminated multi-line string`);
+      set(m[1], unescape(buf.join("\n"), i + 1), i + 1);
+      i = j;
+      continue;
+    }
+    m = line.match(/^([a-z_]+)\s*=\s*"((?:\\.|[^"\\])*)"\s*$/);
+    if (m) { set(m[1], unescape(m[2], i + 1), i + 1); continue; }
+    die(`data/corrections.toml line ${i + 1}: unsupported syntax: ${line.slice(0, 60)}`);
+  }
+  // A correction made in place carries the full field set; a withdrawal
+  // carries its heading and the exact text of its entry.
+  const IN_PLACE = ["id", "status", "severity", "logged", "fixed", "work", "work_path", "original_date", "published", "wrong", "now", "propagated"];
+  const WITHDRAWAL = ["id", "status", "logged", "work", "heading", "entry"];
+  for (const r of records) {
+    for (const k of r.entry ? WITHDRAWAL : IN_PLACE) {
+      if (r.status === "published" && !r[k]) die(`data/corrections.toml: ${r.id ?? "record"} is published but has no '${k}'`);
+    }
+  }
+  return records;
+}
+
+// Root-relative links become absolute, because llms-full.txt is read outside
+// the site. Protocol-relative links (//host/...) are left alone.
+const absolutize = (s, baseUrl) => s.replace(/\]\(\/(?!\/)/g, `](${baseUrl}/`);
+
+function renderCorrectionsIndex(register) {
+  const published = register.filter((r) => r.status === "published").sort((a, b) => (a.id < b.id ? 1 : -1));
+  if (published.length === 0) return "Entries appear here as they are logged.";
+  return published.map((r) => r.entry ? `## ${r.heading}\n\n${r.entry.trim()}` : [
+    `## ${r.id} · ${r.severity} · ${r.work}`,
+    "",
+    `- Logged: ${r.logged}`,
+    `- Corrected: ${r.fixed}`,
+    `- The work: [${r.work}](${r.work_path}), first published ${r.original_date}`,
+    `- What was published: ${r.published.trim()}`,
+    `- What was wrong: ${r.wrong.trim()}`,
+    `- What it says now: ${r.now.trim()}`,
+    `- Where it propagated: ${r.propagated.trim()}`,
+  ].join("\n")).join("\n\n");
 }
 
 // Demote every heading line in `s` so the smallest level present is at least
@@ -273,6 +367,7 @@ function demoteHeadings(s, targetMin) {
 function main() {
   const config = JSON.parse(fs.readFileSync(CONFIG_PATH, "utf8"));
   const site = readSiteConfig();
+  const register = fs.existsSync(CORRECTIONS_PATH) ? parseCorrections(fs.readFileSync(CORRECTIONS_PATH, "utf8")) : [];
 
   // Build a Zola-canonical URL for a content file (always trailing-slash,
   // matching the live site's URL canonicalization for both root and section pages).
@@ -333,12 +428,31 @@ function main() {
       const { fm, body } = parseFrontmatter(raw, entry.file);
       const finalLabel = entry.label ?? fm.llms_label ?? fm.title;
       const url = fileToUrl(entry.file);
-      const cleanedBody = transformBody(body, entry.file);
+      const slug = path.basename(entry.file, ".md").replace(/^_index$/, path.basename(path.dirname(entry.file)));
+      const cleanedBody = transformBody(body, entry.file, { register, baseUrl: site.base_url, slug });
 
       out.push(`### ${finalLabel}`);
       out.push("");
       out.push(`Source: [${url}](${url})`);
       out.push("");
+      // Dates and author, for pages that carry them (field notes).
+      const meta = [];
+      if (fm.date) meta.push(`Published: ${fm.date}`);
+      if (fm.updated && fm.updated !== fm.date) meta.push(`Updated: ${fm.updated}`);
+      if (fm.author) meta.push(`Author: ${fm.author}`);
+      if (meta.length) {
+        out.push(meta.join(". ") + ".");
+        out.push("");
+      }
+      // Published correction notices for this page, as they appear above its body.
+      const pagePath = url.slice(site.base_url.length);
+      for (const r of register.filter((x) => x.status === "published" && x.work_path === pagePath && x.notice)) {
+        out.push(`Correction ${r.id} (${r.severity}):`);
+        out.push("");
+        const notice = transformBody(r.notice, "data/corrections.toml", { baseUrl: site.base_url });
+        out.push(notice.split("\n").map((l) => (l ? `> ${l}` : ">")).join("\n"));
+        out.push("");
+      }
       if (cleanedBody) {
         out.push(cleanedBody);
         out.push("");
@@ -351,6 +465,13 @@ function main() {
   // Final normalization: single trailing newline, LF endings.
   let result = out.join("\n").replace(/\r\n/g, "\n").replace(/\n{3,}/g, "\n\n");
   if (!result.endsWith("\n")) result += "\n";
+
+  // No footnote label may be defined twice in the assembled file.
+  const labels = new Set();
+  for (const m of result.matchAll(/^\[\^([^\]]+)\]:/gm)) {
+    if (labels.has(m[1])) die(`footnote label defined twice in the assembled output: [^${m[1]}]`);
+    labels.add(m[1]);
+  }
 
   if (dryRun) {
     process.stdout.write(result);

@@ -315,8 +315,12 @@ function parseCorrections(raw) {
     if (m) { set(m[1], unescape(m[2], i + 1), i + 1); continue; }
     die(`data/corrections.toml line ${i + 1}: unsupported syntax: ${line.slice(0, 60)}`);
   }
+  // A correction made in place carries the full field set; a withdrawal
+  // carries its heading and the exact text of its entry.
+  const IN_PLACE = ["id", "status", "severity", "logged", "fixed", "work", "work_path", "original_date", "published", "wrong", "now", "propagated"];
+  const WITHDRAWAL = ["id", "status", "logged", "work", "heading", "entry"];
   for (const r of records) {
-    for (const k of ["id", "status", "severity", "logged", "fixed", "work", "work_path", "original_date", "published", "wrong", "now", "propagated"]) {
+    for (const k of r.entry ? WITHDRAWAL : IN_PLACE) {
       if (r.status === "published" && !r[k]) die(`data/corrections.toml: ${r.id ?? "record"} is published but has no '${k}'`);
     }
   }
@@ -330,7 +334,7 @@ const absolutize = (s, baseUrl) => s.replace(/\]\(\/(?!\/)/g, `](${baseUrl}/`);
 function renderCorrectionsIndex(register) {
   const published = register.filter((r) => r.status === "published").sort((a, b) => (a.id < b.id ? 1 : -1));
   if (published.length === 0) return "No corrections have been logged yet.";
-  return published.map((r) => [
+  return published.map((r) => r.entry ? `## ${r.heading}\n\n${r.entry.trim()}` : [
     `## ${r.id} · ${r.severity} · ${r.work}`,
     "",
     `- Logged: ${r.logged}`,

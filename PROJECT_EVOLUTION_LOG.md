@@ -13,6 +13,17 @@ Purpose: Track meaningful AI/developer changes with enough context to roll back 
 
 ## Entries
 
+### 2026-11-13: Reference numbers in the corrections entries matched to the pages
+- Actor: AI (Claude Code, correcting its own error in the day's corrections entries).
+- Scope: footnote labels in four field notes; the reference numbers in five corrections entries; one build check.
+- Files:
+  - `content/field-notes/` (`apple-sends-you-to-ijail`, `mac-cybersecurity-threats`, `the-owl-semaphore`, `why-your-wireless-network-sucks`): footnote labels renumbered to the numbers the page displays (order of first citation), and each reference list put in that order. No reference text and no body text changed, and every reference keeps the number readers already saw.
+  - `data/corrections.toml`: entries C-20261113-01, -05 and -07 named some references by their source label where the page displays a different number; -06 named two by label text; -03 and -07 used bare numbers. All seven now say "Reference N" with the displayed number, in numerical order, and -01, -05, -06 and -07 each state what was changed.
+  - `infra/citations/extract-citations.mjs`: stops the build if a note's footnote labels are not 1..n in order of first citation with the reference list in the same order.
+  - `data/field-note-citations.json` regenerated (order only).
+- Why: the page numbers references by order of first citation, not by label, so an entry that used labels pointed readers at the wrong reference. Checked by building the site before and after and comparing each entry's text with the reference the page displays under that number.
+- Rollback: revert this PR.
+
 ### 2026-11-13: Three body sentences corrected, logged in their notes' entries
 - Actor: AI (Claude Code, on the owner's word to fix and log the three sentences that the day's corrected references no longer supported).
 - Scope: one sentence each in three field notes; the three matching corrections entries.

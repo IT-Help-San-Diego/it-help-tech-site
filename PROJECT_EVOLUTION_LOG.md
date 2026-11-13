@@ -13,6 +13,21 @@ Purpose: Track meaningful AI/developer changes with enough context to roll back 
 
 ## Entries
 
+### [DEPLOY DATE]: The Real Bot field note withdrawn; its address redirects to a corrections entry
+- Actor: AI (Claude Code, on the owner's ruling of 13 November 2026 that the note is withdrawn, not corrected in place).
+- Files added for the stamp: `scripts/stamp-withdrawal.sh`; the index shortcode stops the build on an unstamped record.
+- Scope: one field note, its companion PDF and its BibTeX file removed; one corrections entry; the pages that named them.
+- Files:
+  - `content/field-notes/the-real-bot-hasnt-been-built-yet.md`, `static/field-notes/the-real-bot-hasnt-been-built-yet.pdf`, `static/field-notes/the-real-bot-hasnt-been-built-yet.bib`: REMOVED. The note leaves the field-notes index, the previous/next links of its two neighbours and the sitemap with it.
+  - `data/corrections.toml`: entry C-YYYYMMDD-01, the withdrawal. It says what the note was, that the author withdrew it, where its argument now lives (`10.2139/ssrn.6722059`), and that reference 12 and the BibTeX file gave the note's own manifesto a DOI that belongs to a different work. It names the BibTeX key and the DOI, so a reader who imported that file can find the entry and delete it.
+  - `content/corrections.md`: one sentence on what a withdrawal does.
+  - `content/use-policy.md`: section 4 names the note and PDF as withdrawn and links the entry instead of a page that no longer resolves. The reservation of rights is unchanged.
+  - `content/field-notes/_index.md`: the hand-written ItemList loses the note (9 items to 8).
+  - `infra/cloudfront/redirects.json`: NEW. The five 301s this needs (the note's three URL forms, the PDF, the BibTeX file), all to the entry.
+- Why: the note is self-published, never deposited and declared commercial work product by `/use-policy/`, so it carries no obligation to stay online under a label. One obligation remains: readers who imported its BibTeX file hold a reference with a wrong identifier. A redirect to an entry that explains itself meets it; a 404 or a silent deletion would not.
+- Consequences: the three removed URLs answer 404 until the CloudFront viewer-request function serves the redirects in `infra/cloudfront/redirects.json`. Do not deploy this change without them. The entry's identifier and date are placeholders until the day it goes live, because an entry may not state an event before it happens: run `scripts/stamp-withdrawal.sh YYYY-MM-DD` on that day. The build stops while they remain.
+- Rollback: revert this PR and remove the five redirects.
+
 ### 2026-11-13: Field notes made machine-readable: references in llms-full.txt and in each note's JSON-LD
 - Actor: AI (Claude Code, under the same owner GO as the corrections page: make the field notes' references legible to the machines the site invites to read it).
 - Scope: the llms-full generator and its config; one derived data file and its extractor; the field-note Article JSON-LD; three content files; docs and CI.

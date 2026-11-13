@@ -1,0 +1,10 @@
+{
+  "_comment": "Permanent redirects this site needs from the CloudFront viewer-request function. A Zola alias cannot produce these: it writes a 200 page with a script, not a 301. Each `from` is matched exactly; `to` is site-relative and may carry a fragment. The target must be live before the redirect is published.",
+  "redirects": [
+    { "from": "/field-notes/the-real-bot-hasnt-been-built-yet/", "to": "/corrections/#c-yyyymmdd-01", "status": 301 },
+    { "from": "/field-notes/the-real-bot-hasnt-been-built-yet", "to": "/corrections/#c-yyyymmdd-01", "status": 301 },
+    { "from": "/field-notes/the-real-bot-hasnt-been-built-yet/index.html", "to": "/corrections/#c-yyyymmdd-01", "status": 301 },
+    { "from": "/field-notes/the-real-bot-hasnt-been-built-yet.pdf", "to": "/corrections/#c-yyyymmdd-01", "status": 301 },
+    { "from": "/field-notes/the-real-bot-hasnt-been-built-yet.bib", "to": "/corrections/#c-yyyymmdd-01", "status": 301 }
+  ]
+}

@@ -101,11 +101,11 @@ software, source, or outputs. When in doubt, defer to the `LICENSE`,
 
 Pages, prototypes, naming, and design work tied to our **Immutable
 Fact AI** / "The Real Bot" product path — including the field note
-[*The Real Bot Hasn't Been Built
-Yet*](/field-notes/the-real-bot-hasnt-been-built-yet/) and its
-companion PDF — are protected commercial work product. They are
-**not** offered under CC BY 4.0 or any other open license, even though
-they appear under `/field-notes/`. The CC BY 4.0 marker described in
+*The Real Bot Hasn't Been Built Yet* and its companion PDF, both
+[withdrawn on [DEPLOY DATE]](/corrections/#c-yyyymmdd-01) — are
+protected commercial work product. They are **not** offered under
+CC BY 4.0 or any other open license, even though they appeared under
+`/field-notes/`. The CC BY 4.0 marker described in
 section 2 will not be applied to these pages. Licensing or
 collaboration: `licensing@it-help.tech`.
 

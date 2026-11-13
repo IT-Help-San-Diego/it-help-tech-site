@@ -7,6 +7,9 @@
 <p>Entries appear here as they are logged.</p>
 {%- endif -%}
 {%- for c in published %}
+{%- if c.id is containing("YYYYMMDD") or c.heading is defined and c.heading is containing("DEPLOY DATE") %}
+{{ throw(message="corrections register: " ~ c.id ~ " is not stamped. Run scripts/stamp-withdrawal.sh YYYY-MM-DD on the day it goes live.") }}
+{%- endif %}
 <section class="correction-entry" id="{{ c.id | lower }}" aria-labelledby="{{ c.id | lower }}-h">
 {%- if c.entry %}
 <h2 id="{{ c.id | lower }}-h">{{ c.heading }}</h2>

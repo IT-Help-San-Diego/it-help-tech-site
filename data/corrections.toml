@@ -45,3 +45,28 @@ notice = """
 
 This note argues that an unverifiable citation is the floor that fails first. It was right, and it did not hold itself to that floor. See [Corrections](/corrections/#c-20261107-01).
 """
+
+[[correction]]
+id = "C-20261107-03"
+status = "published"
+severity = "Substantive"
+logged = "2026-11-07"
+fixed = "2026-11-13"
+work = "The Real Bot Hasn't Been Built Yet"
+work_path = "/field-notes/the-real-bot-hasnt-been-built-yet/"
+original_date = "2026-04-26"
+published = """
+The note presented a sentence from Neil Postman's *Amusing Ourselves to Death* (1985) as a verbatim quotation. Reference 8 cited the book and a Library of Congress catalog record, and the note's closing paragraph said the wording had been checked against "the *Amusing Ourselves to Death* Wikipedia article for the verbatim Postman 1985 disinformation quote".
+"""
+wrong = """
+The wording was never checked against the book. A catalog record shows that a book exists and cannot verify a sentence inside it, so the citation read as primary while the check was secondary.
+"""
+now = """
+The passage is a paraphrase of Postman's argument, without quotation marks, cited to chapter 7 ("Now… This") and the 20th-anniversary edition (ISBN 978-0-14-303653-1). The sentence about the Wikipedia check is gone, and nothing replaces it.
+"""
+propagated = """
+The BibTeX file quoted part of the same sentence in its note on this reference. That fragment was removed when the file was regenerated on 13 November 2026.
+"""
+notice = """
+**Corrected, 13 November 2026.** The Postman passage in this note was presented as a verbatim quotation, and the note said its wording had been checked against a Wikipedia article. Neither a catalog record nor an encyclopedia article can verify a sentence inside a book, so the passage is now a paraphrase, cited to the book's chapter and edition. See [Corrections](/corrections/#c-20261107-03).
+"""

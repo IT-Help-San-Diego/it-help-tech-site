@@ -3,7 +3,7 @@
     status = "published" renders). Included by page.html above the body,
     because the reader who arrives from a search engine does not scroll. -#}
 {%- set register = load_data(path="data/corrections.toml") -%}
-{%- for c in register.correction | reverse -%}
+{%- for c in register.correction -%}
 {%- if c.status == "published" and c.work_path == page.path and c.notice %}
 <aside class="correction-notice" id="correction-{{ c.id | lower }}" aria-label="Correction {{ c.id }}">
 {{ c.notice | markdown | safe }}

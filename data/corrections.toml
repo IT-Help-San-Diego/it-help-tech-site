@@ -37,7 +37,7 @@ fixed = "2026-11-13"
 work = "Don't Guess Wrong"
 work_path = "/field-notes/apple-sends-you-to-ijail/"
 original_date = "2025-06-01"
-summary = "4 references in this note were corrected on 13 November 2026 to match the records they cite. The entry quotes each as it was and as it reads now."
+summary = "4 references in this note were corrected on 13 November 2026 to match the records they cite. The entry quotes each as it was and as it reads now. One sentence in the note was corrected the same day."
 heading = "C-20261113-01 · Don't Guess Wrong · references corrected 13 November 2026"
 entry = """
 [Don't Guess Wrong](/field-notes/apple-sends-you-to-ijail/). 4 of this note's references did not match the records they cite. They were corrected on 13 November 2026. Each is given below as it was, then as it reads now.
@@ -73,6 +73,18 @@ It now says:
 It now says:
 
 > Google. *Authentication Tools for Secure Sign-In.* Google Safety Center. <https://safety.google/intl/en_us/safety/authentication/>
+
+**A sentence in the note** said:
+
+> The **sign-in path** is risk-based. Rather than counting attempts to a fixed number, Google's authentication system evaluates each sign-in against a model of expected behavior — same device? same network? same time of day? known location? — and escalates challenges proportionally (reference 11).
+
+It now says:
+
+> The **sign-in path** is risk-based. Google's Safety Center gives an overview of the sign-in tools it offers, such as passkeys and 2-Step Verification (reference 11), and Google has said that when it detects a suspicious sign-in attempt, for example from a new location or device, it asks for additional proof that it is really you (reference 13).
+
+A reference was added for it:
+
+> Thomas, K., & Moscicki, A. *New research: How effective is basic account hygiene at preventing hijacking.* Google Online Security Blog, May 17, 2019. <https://security.googleblog.com/2019/05/new-research-how-effective-is-basic.html>
 """
 
 [[correction]]
@@ -181,7 +193,7 @@ fixed = "2026-11-13"
 work = "Holding Root Entities Accountable for Spam"
 work_path = "/field-notes/holding-root-entities-accountable-for-spam/"
 original_date = "2026-06-17"
-summary = "8 references in this note were corrected on 13 November 2026 to match the records they cite. The entry quotes each as it was and as it reads now."
+summary = "8 references in this note were corrected on 13 November 2026 to match the records they cite. The entry quotes each as it was and as it reads now. One sentence in the note was corrected the same day."
 heading = "C-20261113-04 · Holding Root Entities Accountable for Spam · references corrected 13 November 2026"
 entry = """
 [Holding Root Entities Accountable for Spam](/field-notes/holding-root-entities-accountable-for-spam/). 8 of this note's references did not match the records they cite. They were corrected on 13 November 2026. Each is given below as it was, then as it reads now.
@@ -249,6 +261,14 @@ It now says:
 It now says:
 
 > DomainTools. (n.d.). *Threat Intelligence & Domain Security Platform*. Retrieved June 17, 2026, from <https://www.domaintools.com/>
+
+**A sentence in the note** said:
+
+> **What it is**: The world's largest passive DNS database, capturing real-time and historical DNS resolution data (reference 4).
+
+It now says:
+
+> **What it is**: A passive DNS database, capturing near-real-time and historical DNS resolution data (reference 4).
 """
 
 [[correction]]
@@ -261,7 +281,7 @@ fixed = "2026-11-13"
 work = "Mac Cybersecurity"
 work_path = "/field-notes/mac-cybersecurity-threats/"
 original_date = "2025-05-23"
-summary = "2 references in this note were corrected on 13 November 2026 to match the records they cite. The entry quotes each as it was and as it reads now."
+summary = "2 references in this note were corrected on 13 November 2026 to match the records they cite. The entry quotes each as it was and as it reads now. One sentence in the note was corrected the same day."
 heading = "C-20261113-05 · Mac Cybersecurity · references corrected 13 November 2026"
 entry = """
 [Mac Cybersecurity](/field-notes/mac-cybersecurity-threats/). 2 of this note's references did not match the records they cite. They were corrected on 13 November 2026. Each is given below as it was, then as it reads now.
@@ -281,6 +301,14 @@ It now says:
 It now says:
 
 > Malwarebytes / ThreatDown. *State of Malware (annual report series).* Documents Mac-vs-Windows threat-detection volumes and the adware/PUP-dominated composition of Mac detections. <https://www.threatdown.com/dl-state-of-malware-2025/>
+
+**A sentence in the note** said:
+
+> **CVE-2021-30858** (a use-after-free in WebKit) (reference 4) and **CVE-2021-30632** (a JIT type-confusion bug) (reference 5) were both exploited in the wild and patched in 2021 emergency updates.
+
+It now says:
+
+> **CVE-2021-30858** (a use-after-free in WebKit) (reference 4) was exploited in the wild and patched in a 2021 emergency update. The problem is not limited to WebKit: **CVE-2021-30632** (an out-of-bounds write in V8, the JavaScript engine in Google Chrome) (reference 5) was exploited in the wild and patched the same year.
 """
 
 [[correction]]

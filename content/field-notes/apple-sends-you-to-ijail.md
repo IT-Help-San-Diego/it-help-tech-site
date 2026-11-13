@@ -102,7 +102,7 @@ If **Erase Data** is enabled (`Settings → [Face ID / Touch ID] & Passcode → 
 
 Google's behavior splits cleanly into two phases — *sign-in challenges*, and *account recovery* — and they have very different attempt-cost rules.
 
-The **sign-in path** is risk-based. Rather than counting attempts to a fixed number, Google's authentication system evaluates each sign-in against a model of expected behavior — same device? same network? same time of day? known location? — and escalates challenges proportionally [^11].
+The **sign-in path** is risk-based. Google's Safety Center gives an overview of the sign-in tools it offers, such as passkeys and 2-Step Verification [^11], and Google has said that when it detects a suspicious sign-in attempt, for example from a new location or device, it asks for additional proof that it is really you [^13].
 
 In practice, that means:
 
@@ -192,7 +192,10 @@ In digital security, an ounce of prevention is worth a pound of cure. With these
 
 [^11]: Google. *Authentication Tools for Secure Sign-In.* Google Safety Center. <https://safety.google/intl/en_us/safety/authentication/>
 
+[^13]: Thomas, K., & Moscicki, A. *New research: How effective is basic account hygiene at preventing hijacking.* Google Online Security Blog, May 17, 2019. <https://security.googleblog.com/2019/05/new-research-how-effective-is-basic.html>
+
 [^12]: Google. *How to recover your Google Account or Gmail.* Google Account Help. <https://support.google.com/accounts/answer/7682439>
+
 
 A BibTeX file for these references is available at [`/field-notes/apple-sends-you-to-ijail.bib`](/field-notes/apple-sends-you-to-ijail.bib?v=20261113) for one-click import into Zotero or any reference manager.
 

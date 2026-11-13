@@ -126,6 +126,10 @@ function parseFrontmatter(raw, filePath) {
 function transformBody(body, filePath, ctx = {}) {
   let s = body;
 
+  // 0. The corrections index shortcode expands to register text first, so
+  //    every sanitization step below applies to it like any other page text.
+  s = s.replace(/\{\{-?\s*corrections_index\s*\(\s*\)\s*-?\}\}/g, () => renderCorrectionsIndex(ctx.register ?? []));
+
   // Helper: strip a tag pair until stable, then strip any orphan opening or
   // closing tokens of the same name. Defends against reassembly attacks like
   // "<scr<script>alert()</script>ipt>" where pair-strip leaves a literal
@@ -180,7 +184,6 @@ function transformBody(body, filePath, ctx = {}) {
   //     variant.
   s = s.replace(/\{\{-?\s*([a-z_]\w*)\s*\(([\s\S]*?)\)\s*-?\}\}/gi, (_match, name, args) => {
     const lname = name.toLowerCase();
-    if (lname === "corrections_index") return renderCorrectionsIndex(ctx.register ?? [], ctx.baseUrl ?? "");
     if (lname === "picture" || lname === "picture_simple" || lname === "image" || lname === "img") {
       // Try double-quoted alt first, then single-quoted. Both support the
       // standard backslash-escape form. Whichever matches first wins.
@@ -219,7 +222,7 @@ function transformBody(body, filePath, ctx = {}) {
     }
     const href = hrefMatch[1];
     const label = stripUntilStable(inner, /<[^>]+>/g).trim();
-    if (!label) return `<${href}>`;
+    if (!label) return `[${href}](${href})`;
     return `[${label}](${href})`;
   });
 
@@ -261,7 +264,12 @@ function transformBody(body, filePath, ctx = {}) {
 
   // 8. Root-relative links become absolute: llms-full.txt is read off-site,
   //    where "/services/" resolves to nothing.
-  if (ctx.baseUrl) s = s.replace(/\]\(\/(?!\/)/g, `](${ctx.baseUrl}/`);
+  if (ctx.baseUrl) s = absolutize(s, ctx.baseUrl);
+
+  // 9. Footnote labels are numbered per page, and this file concatenates
+  //    pages: prefix each label with its page's slug so [^1] in one note can
+  //    never resolve to another note's first reference.
+  if (ctx.slug) s = s.replace(/\[\^([^\]\s]+)\]/g, (_m, label) => `[^${ctx.slug}-${label}]`);
 
   return s;
 }
@@ -276,8 +284,12 @@ function parseCorrections(raw) {
   const lines = raw.split(/\r?\n/);
   let cur = null;
   const unescape = (v, n) => {
-    if (/\\(?!["\\])/.test(v)) die(`data/corrections.toml line ${n}: unsupported escape in string`);
+    if (v.replace(/\\["\\]/g, "").includes("\\")) die(`data/corrections.toml line ${n}: unsupported escape in string`);
     return v.replace(/\\(["\\])/g, "$1");
+  };
+  const set = (key, value, n) => {
+    if (key in cur) die(`data/corrections.toml line ${n}: key '${key}' repeats within a record`);
+    cur[key] = value;
   };
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
@@ -288,14 +300,19 @@ function parseCorrections(raw) {
     if (m) {
       const buf = [];
       let j = i + 1;
-      while (j < lines.length && lines[j] !== '"""') buf.push(lines[j++]);
+      while (j < lines.length && lines[j] !== '"""') {
+        // The closing delimiter must be alone on its line; any other use of
+        // three quotes is valid TOML this parser would misread.
+        if (lines[j].includes('"""')) die(`data/corrections.toml line ${j + 1}: put the closing \"\"\" alone on its own line`);
+        buf.push(lines[j++]);
+      }
       if (j >= lines.length) die(`data/corrections.toml line ${i + 1}: unterminated multi-line string`);
-      cur[m[1]] = unescape(buf.join("\n"), i + 1);
+      set(m[1], unescape(buf.join("\n"), i + 1), i + 1);
       i = j;
       continue;
     }
     m = line.match(/^([a-z_]+)\s*=\s*"((?:\\.|[^"\\])*)"\s*$/);
-    if (m) { cur[m[1]] = unescape(m[2], i + 1); continue; }
+    if (m) { set(m[1], unescape(m[2], i + 1), i + 1); continue; }
     die(`data/corrections.toml line ${i + 1}: unsupported syntax: ${line.slice(0, 60)}`);
   }
   for (const r of records) {
@@ -306,11 +323,11 @@ function parseCorrections(raw) {
   return records;
 }
 
-// Root-relative links in register text become absolute, because llms-full.txt
-// is read outside the site.
-const absolutize = (s, baseUrl) => s.replace(/\]\(\//g, `](${baseUrl}/`);
+// Root-relative links become absolute, because llms-full.txt is read outside
+// the site. Protocol-relative links (//host/...) are left alone.
+const absolutize = (s, baseUrl) => s.replace(/\]\(\/(?!\/)/g, `](${baseUrl}/`);
 
-function renderCorrectionsIndex(register, baseUrl) {
+function renderCorrectionsIndex(register) {
   const published = register.filter((r) => r.status === "published").sort((a, b) => (a.id < b.id ? 1 : -1));
   if (published.length === 0) return "No corrections have been logged yet.";
   return published.map((r) => [
@@ -318,11 +335,11 @@ function renderCorrectionsIndex(register, baseUrl) {
     "",
     `- Logged: ${r.logged}`,
     `- Corrected: ${r.fixed}`,
-    `- The work: [${r.work}](${baseUrl}${r.work_path}), first published ${r.original_date}`,
-    `- What was published: ${absolutize(r.published.trim(), baseUrl)}`,
-    `- What was wrong: ${absolutize(r.wrong.trim(), baseUrl)}`,
-    `- What it says now: ${absolutize(r.now.trim(), baseUrl)}`,
-    `- Where it propagated: ${absolutize(r.propagated.trim(), baseUrl)}`,
+    `- The work: [${r.work}](${r.work_path}), first published ${r.original_date}`,
+    `- What was published: ${r.published.trim()}`,
+    `- What was wrong: ${r.wrong.trim()}`,
+    `- What it says now: ${r.now.trim()}`,
+    `- Where it propagated: ${r.propagated.trim()}`,
   ].join("\n")).join("\n\n");
 }
 
@@ -407,7 +424,8 @@ function main() {
       const { fm, body } = parseFrontmatter(raw, entry.file);
       const finalLabel = entry.label ?? fm.llms_label ?? fm.title;
       const url = fileToUrl(entry.file);
-      const cleanedBody = transformBody(body, entry.file, { register, baseUrl: site.base_url });
+      const slug = path.basename(entry.file, ".md").replace(/^_index$/, path.basename(path.dirname(entry.file)));
+      const cleanedBody = transformBody(body, entry.file, { register, baseUrl: site.base_url, slug });
 
       out.push(`### ${finalLabel}`);
       out.push("");
@@ -427,7 +445,8 @@ function main() {
       for (const r of register.filter((x) => x.status === "published" && x.work_path === pagePath && x.notice)) {
         out.push(`Correction ${r.id} (${r.severity}):`);
         out.push("");
-        out.push(absolutize(r.notice.trim(), site.base_url).split("\n").map((l) => (l ? `> ${l}` : ">")).join("\n"));
+        const notice = transformBody(r.notice, "data/corrections.toml", { baseUrl: site.base_url });
+        out.push(notice.split("\n").map((l) => (l ? `> ${l}` : ">")).join("\n"));
         out.push("");
       }
       if (cleanedBody) {
@@ -442,6 +461,13 @@ function main() {
   // Final normalization: single trailing newline, LF endings.
   let result = out.join("\n").replace(/\r\n/g, "\n").replace(/\n{3,}/g, "\n\n");
   if (!result.endsWith("\n")) result += "\n";
+
+  // No footnote label may be defined twice in the assembled file.
+  const labels = new Set();
+  for (const m of result.matchAll(/^\[\^([^\]]+)\]:/gm)) {
+    if (labels.has(m[1])) die(`footnote label defined twice in the assembled output: [^${m[1]}]`);
+    labels.add(m[1]);
+  }
 
   if (dryRun) {
     process.stdout.write(result);

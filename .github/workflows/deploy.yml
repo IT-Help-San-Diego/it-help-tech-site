@@ -33,6 +33,11 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Check field-note citations data is current
+        # Stops the deploy before anything is built or uploaded if a note's
+        # reference list changed without regenerating the derived data file.
+        run: node infra/citations/extract-citations.mjs --check
+
       - name: Install Zola
         uses: taiki-e/install-action@6a1bd70eaac3c8bdf093356838d7ee09fda951cf # v2
         with:

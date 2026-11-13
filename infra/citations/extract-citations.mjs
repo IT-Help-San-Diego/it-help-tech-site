@@ -7,13 +7,14 @@
 // source of truth; this file is derived from it. Run from the repo root:
 //   node infra/citations/extract-citations.mjs           write the data file
 //   node infra/citations/extract-citations.mjs --check   exit 1 if it is stale
-// CI runs --check on pull requests (.github/workflows/llms-validate.yml).
+// CI runs --check on pull requests (.github/workflows/llms-validate.yml) and
+// the deploy runs it before the site is built (.github/workflows/deploy.yml).
 //
-// What counts as a citation: every distinct http(s) URL, and every site-root
-// document link (/...pdf, /...bib), inside a footnote definition, except
-// ORCID profiles (an author identifier, not a cited work) and links into
-// /corrections/ (a correction record, not a source). One CreativeWork per URL;
-// the first URL of a footnote carries the footnote's text as its name.
+// Each citation is the reference exactly as the note's author wrote it, as
+// plain text: Markdown marks removed, every link written out as its full URL
+// in place. Nothing is paired with anything (no "name" attached to a "url"),
+// so a reference that names one work and links a page about it cannot come
+// out mislabelled. If the note's reference is wrong, fix the note.
 // Dependency-free and deterministic: same input, same bytes.
 
 import fs from "node:fs";
@@ -26,6 +27,7 @@ const OUT = path.join(REPO_ROOT, "data/field-note-citations.json");
 const SITE_CONFIG = path.join(REPO_ROOT, "config.toml");
 // Notes whose markup stays as it is until their rebuild ships.
 const EXCLUDE = new Set(["bug-bounty-programs-are-a-corporate-controlled-casino.md"]);
+const DEF = /^\[\^([^\]]+)\]:\s*(.*)$/;
 
 function die(msg) {
   console.error(`[extract-citations] ERROR: ${msg}`);
@@ -47,33 +49,50 @@ function bodyOf(raw, file) {
   return lines.slice(end + 1);
 }
 
-// Plain-text name for a reference: the text before its first link, with
-// markdown emphasis and code marks removed and trailing link labels trimmed.
-function nameOf(text) {
-  let s = text.split(/<https?:\/\/|\]\(|\[[^\]]*\]\(|https?:\/\//)[0];
-  s = s.replace(/\[([^\]]+)\]\([^)]*\)/g, "$1").replace(/[*`]/g, "").replace(/\s+/g, " ").trim();
-  const tail = /\s*(?:DOI|PDF|Docket via CourtListener|Library of Congress catalog record(?: for the \d{4} edition)?|Retrieved [^.]*?, from|Available at|URL)\s*:?\s*$/i;
-  for (let i = 0; i < 3; i++) s = s.replace(tail, "").trim();
-  return s.replace(/[\s,;:(]+$/, "").trim();
+const absolute = (url, base) => (url.startsWith("/") && !url.startsWith("//") ? base + url : url);
+
+// Write out every Markdown link in `text` as plain text with its full URL.
+// Link destinations follow CommonMark: balanced parentheses, optional <...>.
+function linksToText(text, base, where) {
+  let out = "";
+  let i = 0;
+  while (i < text.length) {
+    // Autolink <scheme:...>
+    if (text[i] === "<") {
+      const m = text.slice(i).match(/^<((?:https?:\/\/|mailto:)[^<>\s]+)>/);
+      if (m) { out += m[1]; i += m[0].length; continue; }
+    }
+    // Inline link [label](destination)
+    if (text[i] === "[") {
+      const close = text.indexOf("](", i);
+      const nextOpen = text.indexOf("[", i + 1);
+      if (close !== -1 && (nextOpen === -1 || nextOpen > close)) {
+        let j = close + 2, depth = 1;
+        while (j < text.length && depth > 0) {
+          if (text[j] === "(") depth++;
+          else if (text[j] === ")") depth--;
+          if (depth > 0) j++;
+        }
+        if (depth !== 0) die(`${where}: unbalanced link destination near "${text.slice(i, i + 40)}"`);
+        const label = text.slice(i + 1, close).replace(/[*`]/g, "").trim();
+        let dest = text.slice(close + 2, j).trim().replace(/^<|>$/g, "");
+        if (/\s/.test(dest)) die(`${where}: link destination with a title or space is not supported: "${dest}"`);
+        dest = absolute(dest, base);
+        out += label && label !== dest && absolute(label, base) !== dest ? `${label} (${dest})` : dest;
+        i = j + 1;
+        continue;
+      }
+    }
+    out += text[i++];
+  }
+  return out;
 }
 
-function urlsOf(text, base) {
-  const found = [];
-  const add = (u) => {
-    u = u.replace(/[.,;:]+$/, "");
-    if (u.startsWith("/")) {
-      if (u.startsWith("/corrections/")) return;
-      if (!/\.(pdf|bib)$/i.test(u)) return;
-      u = base + u;
-    }
-    if (/^https?:\/\/orcid\.org\//i.test(u)) return;
-    if (!found.includes(u)) found.push(u);
-  };
-  // Autolinks <https://...>, markdown links [x](url) and bare URLs, in the
-  // order they appear, so the first URL is the one the footnote's text names.
-  const token = /<(https?:\/\/[^>\s]+)>|\[[^\]]*\]\((\S+?)\)|(https?:\/\/[^\s<>)\]]+)/g;
-  for (const m of text.matchAll(token)) add((m[1] ?? m[2] ?? m[3]).replace(/^<|>$/g, ""));
-  return found;
+function referenceText(raw, base, where) {
+  let s = linksToText(raw, base, where);
+  s = s.replace(/[*`]/g, "").replace(/\s+/g, " ").trim();
+  if (/\]\(|<https?:\/\/|\[\^/.test(s)) die(`${where}: Markdown left in the reference text: "${s.slice(0, 80)}"`);
+  return s;
 }
 
 function extract() {
@@ -83,22 +102,21 @@ function extract() {
   for (const f of files) {
     const lines = bodyOf(fs.readFileSync(path.join(NOTES_DIR, f), "utf8"), f);
     const cites = [];
-    const seen = new Set();
+    const seenLabels = new Set();
     for (let i = 0; i < lines.length; i++) {
-      const m = lines[i].match(/^\[\^([^\]]+)\]:\s*(.*)$/);
+      const m = lines[i].match(DEF);
       if (!m) continue;
-      if (i + 1 < lines.length && /^ {4}\S/.test(lines[i + 1])) die(`${f}: footnote [^${m[1]}] continues on an indented line; extend the extractor before relying on it`);
-      const urls = urlsOf(m[2], base);
-      urls.forEach((url, k) => {
-        if (seen.has(url)) return;
-        seen.add(url);
-        const entry = { url };
-        if (k === 0) {
-          const name = nameOf(m[2]);
-          if (name) entry.name = name;
-        }
-        cites.push(entry);
-      });
+      const where = `${f} [^${m[1]}]`;
+      if (seenLabels.has(m[1])) die(`${where}: footnote label defined twice`);
+      seenLabels.add(m[1]);
+      // A definition must be one line: stop on every continuation form
+      // (a lazy line right after it, or an indented line after a blank one)
+      // rather than silently dropping part of a reference.
+      const next = lines[i + 1] ?? "";
+      if (next.trim() !== "" && !DEF.test(next)) die(`${where}: the definition continues on the next line; keep each reference on one line or extend the extractor`);
+      if (next.trim() === "" && /^( {4}|\t)\S/.test(lines[i + 2] ?? "")) die(`${where}: the definition continues in an indented paragraph; keep each reference on one line or extend the extractor`);
+      if (!m[2].trim()) die(`${where}: empty definition`);
+      cites.push(referenceText(m[2], base, where));
     }
     notes[`/field-notes/${f.replace(/\.md$/, "")}/`] = cites;
   }
@@ -113,5 +131,5 @@ if (process.argv.includes("--check")) {
 } else {
   fs.writeFileSync(OUT, next, "utf8");
   const n = Object.values(JSON.parse(next).notes).reduce((a, c) => a + c.length, 0);
-  console.error(`[extract-citations] wrote data/field-note-citations.json (${n} citations)`);
+  console.error(`[extract-citations] wrote data/field-note-citations.json (${n} references)`);
 }

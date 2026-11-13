@@ -10,6 +10,8 @@ aliases:
   - /blog/mac-cybersecurity-threats/
 extra:
   schema_type: "TechArticle"
+  proficiency_level: "Intermediate"
+  keywords: ["macOS Security", "iOS Security", "XProtect", "Gatekeeper", "Lockdown Mode", "Stolen Device Protection", "LuLu", "Malwarebytes", "Pegasus", "FORCEDENTRY", "IT Help San Diego"]
   seo_title: "Mac Cybersecurity in 2026: What's Already On, What to Add Free, Real Gaps"
   image: images/mac-cybersecurity.jpeg
   image_responsive_base: images/mac-cybersecurity

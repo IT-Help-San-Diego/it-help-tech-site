@@ -10,6 +10,8 @@ aliases:
   - /blog/why-your-wireless-network-sucks/
 extra:
   schema_type: "TechArticle"
+  proficiency_level: "Intermediate"
+  keywords: ["Wi-Fi", "Ethernet backbone", "Cat6A", "Cat8", "Wi-Fi 6", "Wi-Fi 7", "CSMA/CA", "mesh", "PoE", "IT Help San Diego"]
   image: images/sad-wifi-extender.png
   image_responsive_base: images/sad-wifi-extender
   og_title: "Why Your Wireless Network Sucks: Copy of a Copy, and the Ethernet Backbone That Fixes It"

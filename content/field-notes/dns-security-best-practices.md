@@ -10,6 +10,8 @@ aliases:
   - /blog/dns-security-best-practices/
 extra:
   schema_type: "TechArticle"
+  proficiency_level: "Intermediate"
+  keywords: ["DMARC", "SPF", "DKIM", "DNSSEC", "Email Security", "DNS Security", "BEC", "IT Help San Diego"]
   seo_title: "DMARC, SPF & DKIM Security Guide"
   image: /images/dns-security-dmarc.png
   image_responsive_base: images/dns-security-dmarc

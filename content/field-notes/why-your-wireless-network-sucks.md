@@ -134,19 +134,19 @@ Call 619-853-5008 and [schedule a walkthrough](https://book.squareup.com/appoint
 
 [^2]: Bianchi, G. (2000). Performance analysis of the IEEE 802.11 distributed coordination function. *IEEE Journal on Selected Areas in Communications*, 18(3), 535–547. <https://doi.org/10.1109/49.840210>
 
-[^3]: Shannon, C. E. (1948). A mathematical theory of communication. *Bell System Technical Journal*, 27(3), 379–423; 27(4), 623–656. <https://doi.org/10.1002/j.1538-7305.1948.tb01338.x>
+[^3]: Shannon, C. E. (1948). A mathematical theory of communication. *Bell System Technical Journal*, 27(3), 379–423; 27(4), 623–656. <https://doi.org/10.1002/j.1538-7305.1948.tb01338.x> (pp. 379–423); <https://doi.org/10.1002/j.1538-7305.1948.tb00917.x> (pp. 623–656)
 
 [^4]: Akyildiz, I. F., Wang, X., & Wang, W. (2005). Wireless mesh networks: A survey. *Computer Networks*, 47(4), 445–487. <https://doi.org/10.1016/j.comnet.2004.12.001>
 
-[^5]: IEEE. (2021). *IEEE Standard for Information Technology — Telecommunications and Information Exchange Between Systems — Local and Metropolitan Area Networks — Specific Requirements — Part 11: Wireless LAN MAC and PHY Specifications — Amendment 1: Enhancements for High-Efficiency WLAN* (IEEE Std 802.11ax-2021). <https://standards.ieee.org/ieee/802.11ax/7180/>
+[^5]: IEEE. (2021). *IEEE Standard for Information Technology — Telecommunications and Information Exchange Between Systems — Local and Metropolitan Area Networks — Specific Requirements — Part 11: Wireless LAN Medium Access Control (MAC) and Physical Layer (PHY) Specifications — Amendment 1: Enhancements for High-Efficiency WLAN* (IEEE Std 802.11ax-2021). <https://standards.ieee.org/ieee/802.11ax/7180/>
 
-[^6]: IEEE. (2024). *IEEE Standard for Information Technology — Telecommunications and Information Exchange Between Systems — Local and Metropolitan Area Networks — Specific Requirements — Part 11: Wireless LAN MAC and PHY Specifications — Amendment: Enhancements for Extremely High Throughput (EHT)* (IEEE Std 802.11be-2024). The IEEE 802.11 working group page tracks current amendment status: <https://www.ieee802.org/11/Reports/tgbe_update.htm>
+[^6]: IEEE. (2024). *IEEE Standard for Information Technology — Telecommunications and Information Exchange Between Systems — Local and Metropolitan Area Networks — Specific Requirements — Part 11: Wireless LAN Medium Access Control (MAC) and Physical Layer (PHY) Specifications — Amendment 2: Enhancements for Extremely High Throughput (EHT)* (IEEE Std 802.11be-2024). Approved September 26, 2024; published July 22, 2025. <https://standards.ieee.org/ieee/802.11be/7516/>. The IEEE 802.11 working group page tracks current amendment status: <https://www.ieee802.org/11/Reports/tgbe_update.htm>
 
-[^7]: IEEE. (2018). *IEEE Standard for Ethernet — Amendment 2: Physical Layer and Management Parameters for Power over Ethernet over 4 Pairs* (IEEE Std 802.3bt-2018). <https://standards.ieee.org/ieee/802.3bt/6749/>
+[^7]: IEEE. (2018). *IEEE Standard for Ethernet — Amendment 2: Physical Layer and Management Parameters for Power over Ethernet over 4 Pairs* (IEEE Std 802.3bt-2018). Approved September 27, 2018; published January 31, 2019. <https://standards.ieee.org/ieee/802.3bt/6749/>
 
-[^8]: National Institute for Occupational Safety and Health. *Mine communications research* — overview of leaky-feeder and through-the-earth communications systems used in underground mining and rescue. U.S. Centers for Disease Control and Prevention. <https://archive.cdc.gov/www_cdc_gov/niosh/mining/topics/EmergencyCommunicationsandTracking.html>
+[^8]: National Institute for Occupational Safety and Health. *Mining topic: Emergency communications and tracking* — overview of NIOSH research on underground mine communications and tracking systems, including ultra-high-frequency, medium-frequency and through-the-earth radio propagation. U.S. Centers for Disease Control and Prevention. <https://archive.cdc.gov/www_cdc_gov/niosh/mining/topics/EmergencyCommunicationsandTracking.html>. Leaky-feeder systems are described in the companion NIOSH page *Basic tutorial on wireless communication and electronic tracking: Technology overview* (section 2.2.2.1): <https://archive.cdc.gov/www_cdc_gov/niosh/mining/content/emergencymanagementandresponse/commtracking/commtrackingtutorial1.html>
 
-[^9]: Telecommunications Industry Association. *TIA-102 series* — Project 25 (P25) digital land-mobile radio standards for public-safety communications. <https://tiaonline.org/committee/tr-8-mobile-and-personal-private-radio-standards/>
+[^9]: Telecommunications Industry Association. *TIA-102 series* — Project 25 (P25) digital land-mobile radio standards for public-safety communications. <https://tiaonline.org/standard-committee/tr-8-mobile-and-personal-private-radio-standards/>
 
 [^10]: IEEE. (2016). *IEEE Standard for Ethernet — Amendment 7: Media Access Control Parameters, Physical Layers, and Management Parameters for 2.5 Gb/s and 5 Gb/s Operation, Types 2.5GBASE-T and 5GBASE-T* (IEEE Std 802.3bz-2016). <https://standards.ieee.org/ieee/802.3bz/6130/>
 
@@ -158,7 +158,7 @@ Call 619-853-5008 and [schedule a walkthrough](https://book.squareup.com/appoint
 
 [^14]: Telecommunications Industry Association. (2017). *Guidelines for Supporting Power Delivery Over Balanced Twisted-Pair Cabling* (TIA TSB-184-A). Documents temperature rise in cable bundles under Power over Ethernet loads and provides category and bundling guidance for high-power PoE installations. <https://store.accuristech.com/standards/tia-tsb-184-a?product_id=2594177>
 
-A BibTeX file for these references is available at [`/field-notes/why-your-wireless-network-sucks.bib`](/field-notes/why-your-wireless-network-sucks.bib) for one-click import into Zotero or any reference manager.
+A BibTeX file for these references is available at [`/field-notes/why-your-wireless-network-sucks.bib`](/field-notes/why-your-wireless-network-sucks.bib?v=20261113) for one-click import into Zotero or any reference manager.
 
 *Last updated April 25, 2026 — verified against IEEE 802.11-2024 (REVme, current rolled-up base; supersedes 802.11-2020), IEEE 802.11ax-2021, IEEE 802.11be-2024 (MLO/STR/EMLSR/NSTR mode definitions), IEEE 802.3-2022, IEEE 802.3bt-2018 (PoE++ Type 3/4 wattages), IEEE 802.3bz-2016 (NBASE-T 2.5/5GBASE-T), IEEE 802.3bq-2016 (Cat8 25/40GBASE-T), ANSI/TIA-568.2-E (2024, supersedes -D), TIA TSB-155 (Cat6 10GBASE-T 55 m / 37 m AXT-dependent reach), TIA TSB-184-A (2017, PoE bundle thermal), and current operational deployment experience.*
 

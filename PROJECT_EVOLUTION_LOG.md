@@ -13,6 +13,21 @@ Purpose: Track meaningful AI/developer changes with enough context to roll back 
 
 ## Entries
 
+### 2026-11-13: References corrected in seven field notes; the first corrections entries
+- Actor: AI (Claude Code, on the owner's decisions of 13 November 2026: a wrong reference in a note whose argument stands is fixed and logged, with no label on the note, and the log is one entry per note).
+- Scope: the reference lists of seven field notes and five BibTeX files; seven corrections entries; the wording of `/corrections/`.
+- Files:
+  - `content/field-notes/` (`apple-sends-you-to-ijail`, `dns-security-best-practices`, `hack-your-engrams-to-remember-passwords`, `holding-root-entities-accountable-for-spam`, `mac-cybersecurity-threats`, `the-owl-semaphore`, `why-your-wireless-network-sucks`): 36 references corrected against their registry records (Crossref, DataCite, the RFC Editor, the publisher's own page). The kinds: authors of a different work on a DOI; author order; a title or year that differs from the record; a cited page that was retitled or reworded after the note was written (the live page is cited and the archived revision the note quoted is added); dead URLs. Body prose is unchanged.
+  - `static/field-notes/*.bib` (five files): the same corrections. Each note's link to its `.bib` carries `?v=20261113` so a cached copy of the old file cannot answer for it.
+  - `data/corrections.toml`: C-20261113-01 to -07, one record per note, each quoting every corrected reference as it was and as it reads now (31 references; five typographic fixes get no entry).
+  - `content/corrections.md`: says a correction is recorded in an entry, not also in a notice on the work.
+  - `templates/partials/_jsonld.html`: a record in entry form contributes its `summary` to the note's `correction`.
+  - `infra/citations/extract-citations.mjs`, `infra/llms/llms-full.config.json`, `data/field-note-citations.json`: the spam-accountability note returns to the machine-readable outputs now that its references are right (seven notes, 80 references).
+- Why: a reference that names the wrong authors or the wrong work sends a reader who cites it to something false. Each correction was applied by one pass and checked against the registry evidence by a second.
+- Consequences: `/corrections/` carries its first seven entries. No label appears on any note. No CSP change.
+- Not changed, for the owner: body sentences that the corrected references no longer support as written (noted in the pull request).
+- Rollback: revert this PR.
+
 ### 2026-11-13: Field notes made machine-readable: references in llms-full.txt and in each note's JSON-LD
 - Actor: AI (Claude Code, under the same owner GO as the corrections page: make the field notes' references legible to the machines the site invites to read it).
 - Scope: the llms-full generator and its config; one derived data file and its extractor; the field-note Article JSON-LD; three content files; docs and CI.

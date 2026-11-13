@@ -228,8 +228,8 @@ BibTeX for the versioned release:
 
 ```bibtex
 @misc{balboa_owl_semaphore_2026,
-  author       = {Balboa, Carey},
-  title        = {The Owl Semaphore: A Four-State Visual Epistemic Notation},
+  author       = {Balboa, Carey James},
+  title        = {Owl Semaphore Badge System},
   year         = {2026},
   version      = {3.0.0},
   doi          = {10.5281/zenodo.20468727},
@@ -246,13 +246,13 @@ If you want this kind of disciplined, citable rigor applied to your own DNS, ema
 
 ## References
 
-[^repo]: IT Help San Diego. (2026). *Owl Semaphore* (v3.0.0) [Source code and specification]. GitHub. <https://github.com/IT-Help-San-Diego/owl-semaphore>
+[^repo]: Balboa, C. J. (2026). *Owl Semaphore Badge System* (v3.0.0) [Source code and specification]. GitHub. <https://github.com/IT-Help-San-Diego/owl-semaphore>
 
 [^rfc2119]: Bradner, S. (1997). *Key words for use in RFCs to Indicate Requirement Levels* (RFC 2119). Internet Engineering Task Force. <https://www.rfc-editor.org/rfc/rfc2119>
 
 [^klein]: Wikipedia. (n.d.). *Klein four-group*. Retrieved June 20, 2026, from <https://en.wikipedia.org/wiki/Klein_four-group>
 
-[^wcag141]: W3C. (2023). *Understanding Success Criterion 1.4.1: Use of Color* (WCAG 2.2). <https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html>
+[^wcag141]: W3C. (2025). *Understanding Success Criterion 1.4.1: Use of Color* (WCAG 2.2). <https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html>
 
 [^ccby]: Creative Commons. (n.d.). *Attribution 4.0 International (CC BY 4.0)*. Retrieved June 20, 2026, from <https://creativecommons.org/licenses/by/4.0/>
 

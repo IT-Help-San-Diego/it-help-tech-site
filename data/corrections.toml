@@ -9,9 +9,14 @@
 # Rules (see content/corrections.md for the public statement):
 # - id is C-YYYYMMDD-NN, the date the correction was logged; never reused.
 # - severity is "Material" or "Substantive". Housekeeping fixes get no record.
-# - A correction made in place carries the fields below and a `notice`. A
-#   withdrawal carries `heading` and `entry` instead (the exact text of its
-#   entry) and no `notice`, because the work is no longer published.
+# - A record carries either the field set (published, wrong, now, propagated)
+#   or `heading` and `entry`, the exact text of its entry. Reference
+#   corrections use one record per note, in entry form, with `work_path` and a
+#   one-sentence `summary` for the note's structured data. A withdrawal has no
+#   `work_path`, because the work is no longer published.
+# - `notice` is optional and renders a dated block above the work's body. By
+#   the owner's decision a corrected note carries no such block: the entry on
+#   /corrections/ is the record.
 # - status = "published" only once the fix itself has landed in the same
 #   change. Anything else ("pending") renders nowhere.
 # - Never delete the original claim: quote it in `published`.
@@ -21,3 +26,387 @@
 #   version query (?v=YYYYMMDD), so no browser's cached copy can answer for it.
 # - Dates are YYYY-MM-DD strings. `fixed` is the date the corrected text is
 #   published on this site.
+
+[[correction]]
+id = "C-20261113-01"
+status = "published"
+kind = "references"
+severity = "Material"
+logged = "2026-11-13"
+fixed = "2026-11-13"
+work = "Don't Guess Wrong"
+work_path = "/field-notes/apple-sends-you-to-ijail/"
+original_date = "2025-06-01"
+summary = "4 references in this note were corrected on 13 November 2026 to match the records they cite. The entry quotes each as it was and as it reads now."
+heading = "C-20261113-01 · Don't Guess Wrong · references corrected 13 November 2026"
+entry = """
+[Don't Guess Wrong](/field-notes/apple-sends-you-to-ijail/). 4 of this note's references did not match the records they cite. They were corrected on 13 November 2026. Each is given below as it was, then as it reads now.
+
+**Reference 8** said:
+
+> Apple Inc. *How to use account recovery when you can't reset your Apple Account password.* Apple Support, updated December 5, 2025. <https://support.apple.com/en-us/118574> (verbatim quote source for "it might take several days or longer").
+
+It now says:
+
+> Apple Inc. *What to expect during account recovery.* Apple Support, updated October 5, 2026. <https://support.apple.com/en-us/118574> (titled *How to use account recovery when you can't reset your Apple Account password* in the December 5, 2025 revision, which is the verbatim quote source for "it might take several days or longer"; that revision is archived at <https://web.archive.org/web/20251206115233/https://support.apple.com/en-us/118574>).
+
+**Reference 9** said:
+
+> Apple Inc. *If you forgot your Apple Account password.* Apple Support, updated April 21, 2026. <https://support.apple.com/en-us/102656>
+
+It now says:
+
+> Apple Inc. *If you forgot your password and can't sign in to your Apple Account.* Apple Support, updated October 5, 2026. <https://support.apple.com/en-us/102656> (titled *If you forgot your Apple Account password* in the April 21, 2026 revision cited in the text, archived at <https://web.archive.org/web/20260426031447/https://support.apple.com/en-us/102656>).
+
+**Reference 10** said:
+
+> Apple Inc. *Apple Platform Security — Passcodes and passwords.* <https://support.apple.com/guide/security/passcodes-and-passwords-sec20230a10d/web> (canonical published source for the iPhone passcode-escalation table and the Erase Data 10-attempt threshold; the simplified Apple Support article, updated January 14, 2026, is at <https://support.apple.com/en-us/119586>, formerly catalogued as `HT204060`).
+
+It now says:
+
+> Apple Inc. *Apple Platform Security — Passcodes and passwords.* <https://support.apple.com/guide/security/passcodes-and-passwords-sec20230a10d/web> (canonical published source for the iPhone passcode-escalation table and the Erase Data 10-attempt threshold; the simplified Apple Support article, updated May 13, 2026, is at <https://support.apple.com/en-us/119586>, formerly catalogued as `HT204060`).
+
+**Reference 11** said:
+
+> Google. *How Google authenticates users* / risk-based sign-in challenges. Google Safety Center. <https://safety.google/intl/en_us/safety/authentication/>
+
+It now says:
+
+> Google. *Authentication Tools for Secure Sign-In.* Google Safety Center. <https://safety.google/intl/en_us/safety/authentication/>
+"""
+
+[[correction]]
+id = "C-20261113-02"
+status = "published"
+kind = "references"
+severity = "Material"
+logged = "2026-11-13"
+fixed = "2026-11-13"
+work = "DNS Security Best Practices"
+work_path = "/field-notes/dns-security-best-practices/"
+original_date = "2025-05-25"
+summary = "6 references in this note were corrected on 13 November 2026 to match the records they cite. The entry quotes each as it was and as it reads now."
+heading = "C-20261113-02 · DNS Security Best Practices · references corrected 13 November 2026"
+entry = """
+[DNS Security Best Practices](/field-notes/dns-security-best-practices/). 6 of this note's references did not match the records they cite. They were corrected on 13 November 2026. Each is given below as it was, then as it reads now.
+
+**Reference 10** said:
+
+> Verizon. (2024). *2024 Data Breach Investigations Report*. <https://www.verizon.com/business/resources/reports/dbir/>
+
+It now says:
+
+> Verizon. (2024). *2024 Data Breach Investigations Report*. <https://www.verizon.com/business/resources/reports/2024-dbir-data-breach-investigations-report.pdf>
+
+**Reference 4** said:
+
+> Chandramouli, R., Garfinkel, S., Nightingale, S., & Rose, S. (2019). *Trustworthy Email* (NIST Special Publication 800-177 Rev. 1). National Institute of Standards and Technology. <https://doi.org/10.6028/NIST.SP.800-177r1>
+
+It now says:
+
+> Rose, S., Nightingale, J. S., Garfinkel, S., & Chandramouli, R. (2019). *Trustworthy Email* (NIST Special Publication 800-177 Rev. 1). National Institute of Standards and Technology. <https://doi.org/10.6028/NIST.SP.800-177r1>
+
+**Reference 1** said:
+
+> Kucherawy, M., & Zwicky, E. (Eds.) (2015). *Domain-based Message Authentication, Reporting, and Conformance (DMARC)*. RFC 7489. Internet Engineering Task Force. <https://datatracker.ietf.org/doc/html/rfc7489> (See §10.1 on the SPF `-all` short-circuit risk: <https://datatracker.ietf.org/doc/html/rfc7489#section-10.1>.)
+
+It now says:
+
+> Kucherawy, M., & Zwicky, E. (Eds.) (2015). *Domain-based Message Authentication, Reporting, and Conformance (DMARC)*. RFC 7489. RFC Editor (Independent Submission). <https://datatracker.ietf.org/doc/html/rfc7489> (See §10.1 on the SPF `-all` short-circuit risk: <https://datatracker.ietf.org/doc/html/rfc7489#section-10.1>.)
+
+**Reference 14** said:
+
+> Kitterman, S. (2018). *Cryptographic Algorithm and Key Usage Update to DKIM*. RFC 8301. Internet Engineering Task Force. <https://datatracker.ietf.org/doc/html/rfc8301>
+
+It now says:
+
+> Kitterman, S. (2018). *Cryptographic Algorithm and Key Usage Update to DomainKeys Identified Mail (DKIM)*. RFC 8301. Internet Engineering Task Force. <https://datatracker.ietf.org/doc/html/rfc8301>
+
+**Reference 11** said:
+
+> Cybersecurity and Infrastructure Security Agency. (2017). *Binding Operational Directive 18-01: Enhance Email and Web Security*. U.S. Department of Homeland Security. <https://www.cisa.gov/news-events/directives/bod-18-01-enhance-email-and-web-security>
+
+It now says:
+
+> U.S. Department of Homeland Security. (2017). *Binding Operational Directive 18-01: Enhance Email and Web Security*. Cybersecurity and Infrastructure Security Agency. <https://www.cisa.gov/news-events/directives/bod-18-01-enhance-email-and-web-security>
+
+**Reference 13** said:
+
+> Internet Engineering Task Force, DMARC Working Group. *DMARC working group* (charter and active drafts, including the DMARCbis revision of RFC 7489). <https://datatracker.ietf.org/wg/dmarc/about/>
+
+It now says:
+
+> Internet Engineering Task Force, DMARC Working Group. *DMARC working group* (charter and working-group documents; the DMARCbis revision of RFC 7489 was published in May 2026 as RFC 9989, RFC 9990, and RFC 9991). <https://datatracker.ietf.org/wg/dmarc/about/>
+"""
+
+[[correction]]
+id = "C-20261113-03"
+status = "published"
+kind = "references"
+severity = "Substantive"
+logged = "2026-11-13"
+fixed = "2026-11-13"
+work = "Hack Your Engrams"
+work_path = "/field-notes/hack-your-engrams-to-remember-passwords/"
+original_date = "2025-06-03"
+summary = "2 references in this note were corrected on 13 November 2026 to match the records they cite. The entry quotes each as it was and as it reads now."
+heading = "C-20261113-03 · Hack Your Engrams · references corrected 13 November 2026"
+entry = """
+[Hack Your Engrams](/field-notes/hack-your-engrams-to-remember-passwords/). 2 of this note's references did not match the records they cite. They were corrected on 13 November 2026. Each is given below as it was, then as it reads now.
+
+**7** said:
+
+> National Institute of Standards and Technology. (2025). *Digital Identity Guidelines: Authentication and Authenticator Management* (SP 800-63B, Revision 4). U.S. Department of Commerce. <https://pages.nist.gov/800-63-4/sp800-63b.html>
+
+It now says:
+
+> Temoshok, D., Fenton, J. L., Choong, Y.-Y., Lefkovitz, N., Regenscheid, A., Galluzzo, R., & Richer, J. P. (2025). *Digital Identity Guidelines: Authentication and Authenticator Management* (SP 800-63B, Revision 4). National Institute of Standards and Technology. <https://pages.nist.gov/800-63-4/sp800-63b.html>
+
+**8** said:
+
+> World Wide Web Consortium. (2026). *Web Authentication: An API for Accessing Public Key Credentials, Level 3* (W3C Candidate Recommendation Snapshot, 13 January 2026). The Working Group has stated this CR is not expected to advance to Recommendation any earlier than 10 February 2026; the previous version is WebAuthn Level 2, an April 2021 W3C Recommendation. <https://www.w3.org/TR/webauthn-3/>
+
+It now says:
+
+> World Wide Web Consortium. (2026). *Web Authentication: An API for Accessing Public Key Credentials, Level 3* (W3C Recommendation, 25 August 2026). Level 3 is the successor to WebAuthn Level 2, an April 2021 W3C Recommendation. <https://www.w3.org/TR/webauthn-3/> Earlier version: W3C Candidate Recommendation Snapshot, 13 January 2026. <https://www.w3.org/TR/2026/CR-webauthn-3-20260113/>
+"""
+
+[[correction]]
+id = "C-20261113-04"
+status = "published"
+kind = "references"
+severity = "Material"
+logged = "2026-11-13"
+fixed = "2026-11-13"
+work = "Holding Root Entities Accountable for Spam"
+work_path = "/field-notes/holding-root-entities-accountable-for-spam/"
+original_date = "2026-06-17"
+summary = "8 references in this note were corrected on 13 November 2026 to match the records they cite. The entry quotes each as it was and as it reads now."
+heading = "C-20261113-04 · Holding Root Entities Accountable for Spam · references corrected 13 November 2026"
+entry = """
+[Holding Root Entities Accountable for Spam](/field-notes/holding-root-entities-accountable-for-spam/). 8 of this note's references did not match the records they cite. They were corrected on 13 November 2026. Each is given below as it was, then as it reads now.
+
+**Reference 9** said:
+
+> Hao, S., Feamster, N., & Pandrangi, R. (2007). *RepuScore: Collaborative reputation management framework for email infrastructure*. ACM. <https://scispace.com/papers/repuscore-collaborative-reputation-management-framework-for-xiaomd0zhy>
+
+It now says:
+
+> Singaraju, G., & Kang, B. B. (2007). *RepuScore: Collaborative reputation management framework for email infrastructure*. USENIX LISA '07. <https://www.usenix.org/conference/lisa-07/repuscore-collaborative-reputation-management-framework-email-infrastructure>
+
+**Reference 10** said:
+
+> Hao, S., & Kang, B. B. (2009). *Towards sender accountability on email infrastructure using sender identity and reputation management*. ACM. <https://scispace.com/papers/towards-sender-accountability-on-email-infrastructure-using-13k3g1i4eo>
+
+It now says:
+
+> Singaraju, G. (2009). *Towards sender accountability on email infrastructure using sender identity and reputation management* [Doctoral dissertation]. University of North Carolina at Charlotte. <https://ninercommons.charlotte.edu/record/3450>
+
+**Reference 11** said:
+
+> Ramachandran, A., & Feamster, N. (2010). *A collaboration-based autonomous reputation system for email services*. IEEE INFOCOM. <https://doi.org/10.1109/INFCOM.2010.5461948>
+
+It now says:
+
+> Xie, M., & Wang, H. (2010). *A collaboration-based autonomous reputation system for email services*. IEEE INFOCOM. <https://doi.org/10.1109/INFCOM.2010.5461948>
+
+**Reference 12** said:
+
+> Borgolte, K., et al. (2024). *Sandi: A system for accountability in email delivery*. arXiv. <https://doi.org/10.48550/arxiv.2401.16759>
+
+It now says:
+
+> Durak, F. B., et al. (2024). *Sandi: A system for accountability*. arXiv. <https://doi.org/10.48550/arxiv.2401.16759>
+
+**Reference 14** said:
+
+> Thomas, K., et al. (2016). *Understanding cross-channel abuse with SMS-spam support infrastructure attribution*. Springer. <https://doi.org/10.1007/978-3-319-45744-4_1>
+
+It now says:
+
+> Srinivasan, B., et al. (2016). *Understanding cross-channel abuse with SMS-spam support infrastructure attribution*. Springer. <https://doi.org/10.1007/978-3-319-45744-4_1>
+
+**Reference 13** said:
+
+> Ouyang, T., & Rabinovich, M. (2008). *Weeding spammers at the root: A precise approach to spam reduction*. IEEE INFOCOM. <https://doi.org/10.1109/INFOCOM.2008.4544636>
+
+It now says:
+
+> Ouyang, T., & Rabinovich, M. (2008). *Weeding spammers at the root: A precise approach to spam reduction*. IEEE INFOCOM Workshops. <https://doi.org/10.1109/INFOCOM.2008.4544636>
+
+**Reference 4** said:
+
+> Farsight Security. (n.d.). *DNSDB: Passive DNS Historical Database*. Retrieved June 17, 2026, from <https://www.farsightsecurity.com/solutions/dnsdb/>
+
+It now says:
+
+> DomainTools. (n.d.). *Farsight DNSDB*. Retrieved November 13, 2026, from <https://docs.domaintools.com/dnsdb/>
+
+**Reference 3** said:
+
+> DomainTools. (n.d.). *Iris Investigate Platform*. Retrieved June 17, 2026, from <https://www.domaintools.com/>
+
+It now says:
+
+> DomainTools. (n.d.). *Threat Intelligence & Domain Security Platform*. Retrieved June 17, 2026, from <https://www.domaintools.com/>
+"""
+
+[[correction]]
+id = "C-20261113-05"
+status = "published"
+kind = "references"
+severity = "Material"
+logged = "2026-11-13"
+fixed = "2026-11-13"
+work = "Mac Cybersecurity"
+work_path = "/field-notes/mac-cybersecurity-threats/"
+original_date = "2025-05-23"
+summary = "2 references in this note were corrected on 13 November 2026 to match the records they cite. The entry quotes each as it was and as it reads now."
+heading = "C-20261113-05 · Mac Cybersecurity · references corrected 13 November 2026"
+entry = """
+[Mac Cybersecurity](/field-notes/mac-cybersecurity-threats/). 2 of this note's references did not match the records they cite. They were corrected on 13 November 2026. Each is given below as it was, then as it reads now.
+
+**Reference 5** said:
+
+> MITRE Corporation. *CVE-2021-30632 — JIT type-confusion in WebKit; exploited in the wild.* <https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-30632>
+
+It now says:
+
+> MITRE Corporation. *CVE-2021-30632 — Out-of-bounds write in V8 in Google Chrome; exploited in the wild.* <https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-30632>
+
+**Reference 9** said:
+
+> Malwarebytes. *State of Malware (annual report series).* Documents Mac-vs-Windows threat-detection volumes and the adware/PUP-dominated composition of Mac detections. <https://www.threatdown.com/2025-state-of-malware/>
+
+It now says:
+
+> Malwarebytes / ThreatDown. *State of Malware (annual report series).* Documents Mac-vs-Windows threat-detection volumes and the adware/PUP-dominated composition of Mac detections. <https://www.threatdown.com/dl-state-of-malware-2025/>
+"""
+
+[[correction]]
+id = "C-20261113-06"
+status = "published"
+kind = "references"
+severity = "Material"
+logged = "2026-11-13"
+fixed = "2026-11-13"
+work = "The Owl Semaphore"
+work_path = "/field-notes/the-owl-semaphore/"
+original_date = "2026-06-20"
+summary = "3 references in this note were corrected on 13 November 2026 to match the records they cite. The entry quotes each as it was and as it reads now."
+heading = "C-20261113-06 · The Owl Semaphore · references corrected 13 November 2026"
+entry = """
+[The Owl Semaphore](/field-notes/the-owl-semaphore/). 3 of this note's references did not match the records they cite. They were corrected on 13 November 2026. Each is given below as it was, then as it reads now.
+
+**Reference repo** said:
+
+> IT Help San Diego. (2026). *Owl Semaphore* (v3.0.0) [Source code and specification]. GitHub. <https://github.com/IT-Help-San-Diego/owl-semaphore>
+
+It now says:
+
+> Balboa, C. J. (2026). *Owl Semaphore Badge System* (v3.0.0) [Source code and specification]. GitHub. <https://github.com/IT-Help-San-Diego/owl-semaphore>
+
+**Reference wcag141** said:
+
+> W3C. (2023). *Understanding Success Criterion 1.4.1: Use of Color* (WCAG 2.2). <https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html>
+
+It now says:
+
+> W3C. (2025). *Understanding Success Criterion 1.4.1: Use of Color* (WCAG 2.2). <https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html>
+
+**The BibTeX block in the note** said:
+
+```
+@misc{balboa_owl_semaphore_2026,
+  author       = {Balboa, Carey},
+  title        = {The Owl Semaphore: A Four-State Visual Epistemic Notation},
+  year         = {2026},
+  version      = {3.0.0},
+  doi          = {10.5281/zenodo.20468727},
+  howpublished = {Zenodo},
+  note         = {Concept DOI 10.5281/zenodo.19473697 (all versions)},
+  url          = {https://doi.org/10.5281/zenodo.20468727},
+  license      = {CC BY 4.0}
+}
+```
+
+It now says:
+
+```
+@misc{balboa_owl_semaphore_2026,
+  author       = {Balboa, Carey James},
+  title        = {Owl Semaphore Badge System},
+  year         = {2026},
+  version      = {3.0.0},
+  doi          = {10.5281/zenodo.20468727},
+  howpublished = {Zenodo},
+  note         = {Concept DOI 10.5281/zenodo.19473697 (all versions)},
+  url          = {https://doi.org/10.5281/zenodo.20468727},
+  license      = {CC BY 4.0}
+}
+```
+"""
+
+[[correction]]
+id = "C-20261113-07"
+status = "published"
+kind = "references"
+severity = "Material"
+logged = "2026-11-13"
+fixed = "2026-11-13"
+work = "Why Your Wireless Network Sucks"
+work_path = "/field-notes/why-your-wireless-network-sucks/"
+original_date = "2025-05-24"
+summary = "6 references in this note were corrected on 13 November 2026 to match the records they cite. The entry quotes each as it was and as it reads now."
+heading = "C-20261113-07 · Why Your Wireless Network Sucks · references corrected 13 November 2026"
+entry = """
+[Why Your Wireless Network Sucks](/field-notes/why-your-wireless-network-sucks/). 6 of this note's references did not match the records they cite. They were corrected on 13 November 2026. Each is given below as it was, then as it reads now.
+
+**8** said:
+
+> National Institute for Occupational Safety and Health. *Mine communications research* — overview of leaky-feeder and through-the-earth communications systems used in underground mining and rescue. U.S. Centers for Disease Control and Prevention. <https://archive.cdc.gov/www_cdc_gov/niosh/mining/topics/EmergencyCommunicationsandTracking.html>
+
+It now says:
+
+> National Institute for Occupational Safety and Health. *Mining topic: Emergency communications and tracking* — overview of NIOSH research on underground mine communications and tracking systems, including ultra-high-frequency, medium-frequency and through-the-earth radio propagation. U.S. Centers for Disease Control and Prevention. <https://archive.cdc.gov/www_cdc_gov/niosh/mining/topics/EmergencyCommunicationsandTracking.html>. Leaky-feeder systems are described in the companion NIOSH page *Basic tutorial on wireless communication and electronic tracking: Technology overview* (section 2.2.2.1): <https://archive.cdc.gov/www_cdc_gov/niosh/mining/content/emergencymanagementandresponse/commtracking/commtrackingtutorial1.html>
+
+**6** said:
+
+> IEEE. (2024). *IEEE Standard for Information Technology — Telecommunications and Information Exchange Between Systems — Local and Metropolitan Area Networks — Specific Requirements — Part 11: Wireless LAN MAC and PHY Specifications — Amendment: Enhancements for Extremely High Throughput (EHT)* (IEEE Std 802.11be-2024). The IEEE 802.11 working group page tracks current amendment status: <https://www.ieee802.org/11/Reports/tgbe_update.htm>
+
+It now says:
+
+> IEEE. (2024). *IEEE Standard for Information Technology — Telecommunications and Information Exchange Between Systems — Local and Metropolitan Area Networks — Specific Requirements — Part 11: Wireless LAN Medium Access Control (MAC) and Physical Layer (PHY) Specifications — Amendment 2: Enhancements for Extremely High Throughput (EHT)* (IEEE Std 802.11be-2024). Approved September 26, 2024; published July 22, 2025. <https://standards.ieee.org/ieee/802.11be/7516/>. The IEEE 802.11 working group page tracks current amendment status: <https://www.ieee802.org/11/Reports/tgbe_update.htm>
+
+**7** said:
+
+> IEEE. (2018). *IEEE Standard for Ethernet — Amendment 2: Physical Layer and Management Parameters for Power over Ethernet over 4 Pairs* (IEEE Std 802.3bt-2018). <https://standards.ieee.org/ieee/802.3bt/6749/>
+
+It now says:
+
+> IEEE. (2018). *IEEE Standard for Ethernet — Amendment 2: Physical Layer and Management Parameters for Power over Ethernet over 4 Pairs* (IEEE Std 802.3bt-2018). Approved September 27, 2018; published January 31, 2019. <https://standards.ieee.org/ieee/802.3bt/6749/>
+
+**3** said:
+
+> Shannon, C. E. (1948). A mathematical theory of communication. *Bell System Technical Journal*, 27(3), 379–423; 27(4), 623–656. <https://doi.org/10.1002/j.1538-7305.1948.tb01338.x>
+
+It now says:
+
+> Shannon, C. E. (1948). A mathematical theory of communication. *Bell System Technical Journal*, 27(3), 379–423; 27(4), 623–656. <https://doi.org/10.1002/j.1538-7305.1948.tb01338.x> (pp. 379–423); <https://doi.org/10.1002/j.1538-7305.1948.tb00917.x> (pp. 623–656)
+
+**9** said:
+
+> Telecommunications Industry Association. *TIA-102 series* — Project 25 (P25) digital land-mobile radio standards for public-safety communications. <https://tiaonline.org/committee/tr-8-mobile-and-personal-private-radio-standards/>
+
+It now says:
+
+> Telecommunications Industry Association. *TIA-102 series* — Project 25 (P25) digital land-mobile radio standards for public-safety communications. <https://tiaonline.org/standard-committee/tr-8-mobile-and-personal-private-radio-standards/>
+
+**14 (.bib entry tia_tsb_184a only; footnote text unchanged)** said:
+
+> url         = {https://tiaonline.org/products/tia-tsb-184-a/},
+
+It now says:
+
+> url         = {https://store.accuristech.com/standards/tia-tsb-184-a?product_id=2594177},
+"""

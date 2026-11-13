@@ -75,7 +75,8 @@
 {%- set corr_register = load_data(path="data/corrections.toml") -%}
 {%- set_global corr_here = [] -%}
 {%- for c in corr_register.correction | default(value=[]) -%}
-{%- if c.status == "published" and c.work_path == page.path -%}
+{%- set c_path = c.work_path | default(value="") -%}
+{%- if c.status == "published" and c_path == page.path -%}
 {%- set_global corr_here = corr_here | concat(with=c) -%}
 {%- endif -%}
 {%- endfor -%}

@@ -4,9 +4,12 @@
     because the reader who arrives from a search engine does not scroll. -#}
 {%- set register = load_data(path="data/corrections.toml") -%}
 {%- for c in register.correction | default(value=[]) -%}
-{%- if c.status == "published" and c.work_path == page.path and c.notice %}
+{#- A withdrawal has no work_path and no notice: its work is no longer published. -#}
+{%- set c_path = c.work_path | default(value="") -%}
+{%- set c_notice = c.notice | default(value="") -%}
+{%- if c.status == "published" and c_path == page.path and c_notice %}
 <div class="correction-notice" role="note" id="correction-{{ c.id | lower }}" aria-label="Correction {{ c.id }}">
-{{ c.notice | markdown | safe }}
+{{ c_notice | markdown | safe }}
 </div>
 {%- endif -%}
 {%- endfor -%}

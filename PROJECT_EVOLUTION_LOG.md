@@ -13,6 +13,25 @@ Purpose: Track meaningful AI/developer changes with enough context to roll back 
 
 ## Entries
 
+### 2026-11-13: Corrections page, the Real Bot reference 12 correction, short cache for citation receipts
+- Actor: AI (Claude Code, working from the owner's GO to build the site work in the corrections specification: corrections appear both at the top of the work that was wrong and in a dated index, across the whole public record).
+- Scope: one new page and a corrections register; one field note corrected; one housekeeping fix; a deploy cache rule.
+- Files:
+  - `data/corrections.toml`: NEW. The single source for corrections. One record per correction (`C-YYYYMMDD-NN`, severity, dates, the work, what was published, what was wrong, what it says now, where it propagated). Only `status = "published"` records render.
+  - `templates/partials/_correction_notice.html`: NEW. Renders a record's dated notice at the top of the corrected work, above the article body. Included by `templates/page.html`.
+  - `templates/shortcodes/corrections_index.html`: NEW. Renders the index on `/corrections/`, newest first, with a stable anchor per identifier and a link back to the notice.
+  - `content/corrections.md`: NEW. `/corrections/`: the practice in five short paragraphs, then the index.
+  - `templates/partials/_jsonld.html`: the Article JSON-LD of a corrected field note carries a schema.org `correction` (`CorrectionComment`) per published record.
+  - `templates/partials/_footer-org.html`: one link, Trust column, `/corrections/`.
+  - `static/css/late-overrides.css`: `.correction-notice` (gold rule, tokens only) and `.correction-entry`.
+  - `content/field-notes/the-real-bot-hasnt-been-built-yet.md`: correction C-20261107-01. Reference 12 no longer gives `10.5281/zenodo.19468134` (the DNS Tool software deposit, a different work); it keeps the PDF and the ORCID, names the successor paper (`10.2139/ssrn.6722059`) and links the entry. The BibTeX line shows its regeneration date. `updated` is the date of the fix.
+  - `static/field-notes/the-real-bot-hasnt-been-built-yet.bib`: the `doi` field removed from `balboa2026realbot`, the successor named in its `note`, and an `@comment` header recording the regeneration and the DOI it removed.
+  - `content/about.md`: housekeeping, no index entry. The AboutPage JSON-LD `url` carried a literal `{{ page.url }}`; it is now `https://www.it-help.tech/about/`.
+  - `.github/workflows/deploy.yml`: `.bib` and `.pdf` files leave the one-year `immutable` upload and get their own short-TTL upload (the same `max-age=3600, stale-while-revalidate=86400` as HTML), because a correction revises them in place under the same URL.
+- Why: the owner's rulings that corrections are published on the page that was wrong and in a dated index, and that the original claim is quoted rather than deleted. Reference 12 was the site's most consequential error: a wrong identifier on a self-citation, inside a file offered for one-click import, that passes every link check. An immutable cache would have kept the uncorrected `.bib` in readers' browsers after the fix.
+- Consequences: one more page (sitemap; footer link on every page). No CSP change: no inline script or style was added, and JSON-LD blocks are excluded from the script hashes. Every fix date in this change is the deploy date: seven occurrences of `13 November 2026` or `2026-11-13` across `data/corrections.toml`, the note and its `.bib`. If the deploy slips, replace all seven (`grep -rn -E '13 November 2026|2026-11-13' data content static/field-notes`).
+- Rollback: revert this PR. Reverting also restores the immutable cache rule for `.bib` and `.pdf`.
+
 ### 2026-06-27 — Zola de-theming migration (Option A): remove abridge theme, vendor + simplify, keep byte-identical output
 - Actor: AI (working from the owner's directive to make it-help.tech as clean/lightweight/low-maintenance as the single-page siblings organiccomputer.me & intellectualresistance.com — "all one language, clean, no errors, trace-the-source" — WITHOUT losing the hero owl animation, and always revertable).
 - Scope: build-system refactor across 4 shipped phases (5 PRs). The site stays Zola (correct tool for a 21-page + 10-post-blog site; raw HTML would duplicate head/CSP/nav/footer across 31 files), but the external `abridge` theme dependency is removed and its used pieces are vendored into the repo. NON-NEGOTIABLE invariant: rendered HTML byte-identical to the pre-migration baseline (snapshot at /tmp/baseline-public), proven by `diff -rq` after every change.

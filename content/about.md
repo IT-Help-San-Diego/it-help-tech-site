@@ -44,7 +44,7 @@ toc = false
      "url": "https://www.it-help.tech"
   },
   "description": "Learn about Carey Balboa, the founder of IT Help San Diego, with 27 years of experience providing expert, ethical IT support.",
-   "url": "https://www.it-help.tech{{ page.url }}"
+   "url": "https://www.it-help.tech/about/"
 }
 </script>  
 

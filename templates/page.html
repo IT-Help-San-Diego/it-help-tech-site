@@ -110,6 +110,8 @@
     {%- endif %}
 
 
+    {%- include "partials/_correction_notice.html" %}
+
   {{ page.content | regex_replace(pattern="\\s+(\\S+)$", rep="&nbsp;$1") | safe }}
 
     {%- if config.extra.meta_post.position %}

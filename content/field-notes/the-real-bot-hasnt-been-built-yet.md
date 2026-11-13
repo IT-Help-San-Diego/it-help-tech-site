@@ -1,7 +1,7 @@
 ---
 title: "The Real Bot Hasn't Been Built Yet: AI Mislabeling, Model Collapse, and the Scholar Bot We Deserve"
 date: 2026-04-26
-updated: 2026-04-26
+updated: 2026-11-13
 author: Carey Balboa
 categories: [AI, Research, Cybersecurity]
 tags: [AI, large language models, model collapse, citations, C2PA, content provenance, Aristotle, episteme, techne, phronesis, Ryle, category error, Postman, scholar bot]
@@ -170,9 +170,9 @@ The knowledge bases for the second column already exist: PubMed, Westlaw, arXiv,
 
 [^11]: *Sandmann v. CNN*, No. 2:19-cv-00031 (E.D. Ky.); confidential settlement publicly announced 7 January 2020. Docket via CourtListener: <https://www.courtlistener.com/docket/14782018/sandmann-v-cable-news-network-inc/>
 
-[^12]: Balboa, C. J. (2026). *The Real Bot Hasn't Been Built Yet — A Manifesto on AI Mislabeling, Model Collapse, and the Scholar Bot We Deserve*. IT Help San Diego Inc. PDF: [`/field-notes/the-real-bot-hasnt-been-built-yet.pdf`](/field-notes/the-real-bot-hasnt-been-built-yet.pdf). DOI: <https://doi.org/10.5281/zenodo.19468134>. ORCID: <https://orcid.org/0009-0000-5237-9065>.
+[^12]: Balboa, C. J. (2026). *The Real Bot Hasn't Been Built Yet — A Manifesto on AI Mislabeling, Model Collapse, and the Scholar Bot We Deserve*. IT Help San Diego Inc. PDF: [`/field-notes/the-real-bot-hasnt-been-built-yet.pdf`](/field-notes/the-real-bot-hasnt-been-built-yet.pdf). ORCID: <https://orcid.org/0009-0000-5237-9065>. The manifesto was never deposited and has no DOI. Superseded by Balboa, C. (2026). *The Belief Machine: How Human Identity Defense, AI Sycophancy, and Unaudited Targeting Systems Became One Problem*. SSRN preprint. DOI: <https://doi.org/10.2139/ssrn.6722059>. Corrected 13 November 2026: this reference formerly gave a DOI that identifies a different work ([C-20261107-01](/corrections/#c-20261107-01)).
 
-A BibTeX file for these references is available at [`/field-notes/the-real-bot-hasnt-been-built-yet.bib`](/field-notes/the-real-bot-hasnt-been-built-yet.bib) for one-click import into Zotero or any reference manager.
+A BibTeX file for these references, regenerated 13 November 2026 without the wrong DOI in reference 12, is available at [`/field-notes/the-real-bot-hasnt-been-built-yet.bib`](/field-notes/the-real-bot-hasnt-been-built-yet.bib) for one-click import into Zotero or any reference manager.
 
 ---
 

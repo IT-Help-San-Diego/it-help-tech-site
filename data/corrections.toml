@@ -1,0 +1,47 @@
+# Corrections register: the single source for every correction on this site.
+#
+# Each record renders twice: as a dated notice at the top of the work
+# (templates/partials/_correction_notice.html, included by page.html) and as
+# an entry on /corrections/ (templates/shortcodes/corrections_index.html).
+# The Article JSON-LD of the work also carries it as a schema.org
+# CorrectionComment (templates/partials/_jsonld.html).
+#
+# Rules (see content/corrections.md for the public statement):
+# - id is C-YYYYMMDD-NN, the date the correction was logged; never reused.
+# - severity is "Material" or "Substantive". Housekeeping fixes get no record.
+# - status = "published" only once the fix itself has landed in the same
+#   change. Anything else ("pending") renders nowhere.
+# - Never delete the original claim: quote it in `published`.
+# - A record describes a text and a fact, never a person. No clients, no
+#   third-party individuals, no state of mind, no internal process material.
+# - Dates are YYYY-MM-DD strings. `fixed` is the date the corrected text is
+#   published on this site.
+
+[[correction]]
+id = "C-20261107-01"
+status = "published"
+severity = "Material"
+logged = "2026-11-07"
+fixed = "2026-11-13"
+work = "The Real Bot Hasn't Been Built Yet"
+work_path = "/field-notes/the-real-bot-hasnt-been-built-yet/"
+original_date = "2026-04-26"
+published = """
+Reference 12, the note's citation of its own long-form manifesto, gave the DOI `10.5281/zenodo.19468134`.
+"""
+wrong = """
+That DOI identifies a different work, *DNS Tool: Domain Security Audit Platform*, a software deposit on Zenodo. The manifesto was never deposited, so there is no DOI to substitute.
+"""
+now = """
+Reference 12 gives the manifesto's PDF and the author's ORCID, with no DOI, and names its successor, *The Belief Machine* ([10.2139/ssrn.6722059](https://doi.org/10.2139/ssrn.6722059)). A notice at the top of the note says so.
+"""
+propagated = """
+The BibTeX file offered on the page for one-click import carried the same DOI. It was regenerated on 13 November 2026 without it. A reference library built from an earlier copy keeps the wrong identifier until the file is imported again.
+"""
+notice = """
+**Superseded, 7 November 2026.** The argument in this note is carried further, and more carefully, in *The Belief Machine: How Human Identity Defense, AI Sycophancy, and Unaudited Targeting Systems Became One Problem* ([10.2139/ssrn.6722059](https://doi.org/10.2139/ssrn.6722059)). Read that instead. This note stays online because it is what the later paper was built from, and removing it would hide the working.
+
+**It also carried a citation error, and this is the article where that matters most.** Its reference 12 cited the long-form manifesto with a DOI that resolves to a different work, the DNS Tool software deposit. The manifesto was never deposited, so there is no correct DOI to substitute, and the reference now gives the PDF and the ORCID without one. The same wrong identifier was in the BibTeX file offered on this page for one-click import, so any reference library built from it before 13 November 2026 carries it. Re-import the file to correct it.
+
+This note argues that an unverifiable citation is the floor that fails first. It was right, and it did not hold itself to that floor. See [Corrections](/corrections/#c-20261107-01).
+"""

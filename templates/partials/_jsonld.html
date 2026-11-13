@@ -72,6 +72,33 @@
   "mainEntityOfPage": {{ art_url | json_encode | safe }},
   "isAccessibleForFree": true,
   "inLanguage": "en-US"
+{%- set corr_register = load_data(path="data/corrections.toml") -%}
+{%- set_global corr_here = [] -%}
+{%- for c in corr_register.correction -%}
+{%- if c.status == "published" and c.work_path == page.path -%}
+{%- set_global corr_here = corr_here | concat(with=c) -%}
+{%- endif -%}
+{%- endfor -%}
+{%- if corr_here | length > 0 %},
+  "correction": [
+{%- for c in corr_here %}
+{%- set cid = c.id | lower %}
+{%- set c_url = config.base_url ~ "/corrections/#" ~ cid %}
+{%- set c_name = c.id ~ " (" ~ c.severity ~ ")" %}
+{%- set c_wrong = c.wrong | trim | markdown(inline=true) | striptags %}
+{%- set c_now = c.now | trim | markdown(inline=true) | striptags %}
+{%- set c_text = c_wrong ~ " " ~ c_now %}
+    {
+      "@type": "CorrectionComment",
+      "@id": {{ c_url | json_encode | safe }},
+      "url": {{ c_url | json_encode | safe }},
+      "name": {{ c_name | json_encode | safe }},
+      "text": {{ c_text | json_encode | safe }},
+      "datePublished": {{ c.fixed | json_encode | safe }}
+    }{% if not loop.last %},{% endif %}
+{%- endfor %}
+  ]
+{%- endif %}
 }
 </script>
 

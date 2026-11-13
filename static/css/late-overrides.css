@@ -1521,6 +1521,19 @@ html:not(.switch) h6 a.gold-link:active {
     a[href^="tel:"]::after {
         content: "";
     }
+    /* A correction's links are site-relative; on paper they need the address. */
+    .correction-notice a[href^="/"]::after,
+    .correction-entry a[href^="/"]::after {
+        content: " (https://www.it-help.tech" attr(href) ")";
+        font-size: 9pt;
+        font-weight: normal;
+        color: var(--text-secondary);
+        word-break: break-all;
+    }
+    .correction-entry dt {
+        page-break-after: avoid;
+        break-after: avoid;
+    }
 
     /* Tables — full borders for readability on paper. currentColor inherits
        the body ink color so border + text are perfectly matched. */
@@ -1631,4 +1644,31 @@ img.img-centered-240 {
     height: auto;
     margin: 0 auto;
     display: block;
+}
+
+/* Corrections. Records live in data/corrections.toml and render twice:
+   .correction-notice is the dated block at the top of a corrected work
+   (templates/partials/_correction_notice.html, above the article body);
+   .correction-entry is its entry on /corrections/
+   (templates/shortcodes/corrections_index.html). The gold rule marks the
+   notice as the site's own statement, distinct from a quotation's grey rule. */
+.correction-notice {
+    margin: 0 0 var(--space-6);
+    padding: var(--space-3) 0 var(--space-3) var(--space-5);
+    border-left: 0.25rem solid var(--brand-gold);
+    scroll-margin-top: calc(var(--space-8) + var(--space-5));
+}
+.correction-notice > :last-child,
+.correction-entry dd:last-child {
+    margin-bottom: 0;
+}
+.correction-entry {
+    margin: 0 0 var(--space-8);
+    scroll-margin-top: calc(var(--space-8) + var(--space-5));
+}
+.correction-entry dt {
+    font-weight: 700;
+}
+.correction-entry dd {
+    margin: 0 0 var(--space-3);
 }

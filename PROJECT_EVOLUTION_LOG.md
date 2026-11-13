@@ -13,6 +13,23 @@ Purpose: Track meaningful AI/developer changes with enough context to roll back 
 
 ## Entries
 
+### 2026-11-13: Corrections page and register; short cache for citation receipts
+- Actor: AI (Claude Code, working from the owner's GO to build the site work in the corrections specification: a correction appears both at the top of the work that was wrong and in a dated index, across the whole public record).
+- Scope: one new page and a corrections register; one housekeeping fix; a deploy cache rule. The register's first records arrive with the changes that make them true (CORRECTIONS_PLACEHOLDER).
+- Files:
+  - `data/corrections.toml`: NEW. The single source for corrections. A correction made in place carries `C-YYYYMMDD-NN`, severity, dates, the work, what was published, what was wrong, what it says now, where it propagated, and a `notice`. A withdrawal carries its `heading` and the exact text of its `entry`. Only `status = "published"` records render.
+  - `templates/partials/_correction_notice.html`: NEW. Renders a record's dated notice at the top of the corrected work, above the article body, as `div role="note"` (an `aside` is dropped by reader modes). Included by `templates/page.html`.
+  - `templates/shortcodes/corrections_index.html`: NEW. Renders the index on `/corrections/`, newest first, with a stable anchor per identifier and a link back to the notice.
+  - `content/corrections.md`: NEW. `/corrections/`: the practice in a few short paragraphs, then the index.
+  - `templates/partials/_jsonld.html`: the Article JSON-LD of a corrected field note carries a schema.org `correction` (`CorrectionComment`) per published record.
+  - `templates/partials/_footer-org.html`: one link, Trust column, `/corrections/`.
+  - `static/css/late-overrides.css`: `.correction-notice` (gold rule, tokens only) and `.correction-entry`, with a scroll margin so an anchor target clears the sticky top bar, and print rules that give a correction's site-relative links their address on paper.
+  - `content/about.md`: housekeeping, no index entry. The AboutPage JSON-LD `url` carried a literal `{{ page.url }}`; it is now `https://www.it-help.tech/about/`.
+  - `.github/workflows/deploy.yml`: `.bib` and `.pdf` files leave the one-year `immutable` upload and get their own short-TTL upload (the same `max-age=3600, stale-while-revalidate=86400` as HTML), before the HTML that links to them, because a correction revises them in place under the same URL.
+- Why: the owner's rulings that corrections are published on the page that was wrong and in a dated index, and that the original claim is quoted rather than deleted. An immutable cache would keep an uncorrected `.bib` in readers' browsers after a fix; a corrected file that keeps its URL is also linked with a version query (`?v=YYYYMMDD`) so no cached copy can answer for it.
+- Consequences: one more page (sitemap; footer link on every page). No CSP change: no inline script or style was added, and JSON-LD blocks are excluded from the script hashes.
+- Rollback: revert this PR. Reverting also restores the immutable cache rule for `.bib` and `.pdf`.
+
 ### 2026-06-27 — Zola de-theming migration (Option A): remove abridge theme, vendor + simplify, keep byte-identical output
 - Actor: AI (working from the owner's directive to make it-help.tech as clean/lightweight/low-maintenance as the single-page siblings organiccomputer.me & intellectualresistance.com — "all one language, clean, no errors, trace-the-source" — WITHOUT losing the hero owl animation, and always revertable).
 - Scope: build-system refactor across 4 shipped phases (5 PRs). The site stays Zola (correct tool for a 21-page + 10-post-blog site; raw HTML would duplicate head/CSP/nav/footer across 31 files), but the external `abridge` theme dependency is removed and its used pieces are vendored into the repo. NON-NEGOTIABLE invariant: rendered HTML byte-identical to the pre-migration baseline (snapshot at /tmp/baseline-public), proven by `diff -rq` after every change.

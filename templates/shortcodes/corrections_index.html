@@ -1,0 +1,34 @@
+{#- The /corrections/ index: every published record in data/corrections.toml,
+    newest first, each with a stable anchor (its identifier in lower case) and
+    a link back to the notice on the work it corrects. -#}
+{%- set register = load_data(path="data/corrections.toml") -%}
+{%- set published = register.correction | default(value=[]) | filter(attribute="status", value="published") | sort(attribute="id") | reverse -%}
+{%- if published | length == 0 %}
+<p>Entries appear here as they are logged.</p>
+{%- endif -%}
+{%- for c in published %}
+<section class="correction-entry" id="{{ c.id | lower }}" aria-labelledby="{{ c.id | lower }}-h">
+{%- if c.entry %}
+<h2 id="{{ c.id | lower }}-h">{{ c.heading }}</h2>
+{{ c.entry | markdown | safe }}
+{%- else %}
+<h2 id="{{ c.id | lower }}-h">{{ c.id }} · {{ c.severity }} · {{ c.work }}</h2>
+<dl>
+<dt>Logged</dt>
+<dd>{{ c.logged | date(format="%-d %B %Y") }}</dd>
+<dt>Corrected</dt>
+<dd>{{ c.fixed | date(format="%-d %B %Y") }}</dd>
+<dt>The work</dt>
+<dd><a href="{{ c.work_path }}{% if c.notice %}#correction-{{ c.id | lower }}{% endif %}">{{ c.work }}</a>, first published {{ c.original_date | date(format="%-d %B %Y") }}</dd>
+<dt>What was published</dt>
+<dd>{{ c.published | trim | markdown(inline=true) | safe }}</dd>
+<dt>What was wrong</dt>
+<dd>{{ c.wrong | trim | markdown(inline=true) | safe }}</dd>
+<dt>What it says now</dt>
+<dd>{{ c.now | trim | markdown(inline=true) | safe }}</dd>
+<dt>Where it propagated</dt>
+<dd>{{ c.propagated | trim | markdown(inline=true) | safe }}</dd>
+</dl>
+{%- endif %}
+</section>
+{%- endfor %}

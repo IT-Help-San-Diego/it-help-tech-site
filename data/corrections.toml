@@ -1,0 +1,23 @@
+# Corrections register: the single source for every correction on this site.
+#
+# Each record renders twice: as a dated notice at the top of the work
+# (templates/partials/_correction_notice.html, included by page.html) and as
+# an entry on /corrections/ (templates/shortcodes/corrections_index.html).
+# The Article JSON-LD of the work also carries it as a schema.org
+# CorrectionComment (templates/partials/_jsonld.html).
+#
+# Rules (see content/corrections.md for the public statement):
+# - id is C-YYYYMMDD-NN, the date the correction was logged; never reused.
+# - severity is "Material" or "Substantive". Housekeeping fixes get no record.
+# - A correction made in place carries the fields below and a `notice`. A
+#   withdrawal carries `heading` and `entry` instead (the exact text of its
+#   entry) and no `notice`, because the work is no longer published.
+# - status = "published" only once the fix itself has landed in the same
+#   change. Anything else ("pending") renders nowhere.
+# - Never delete the original claim: quote it in `published`.
+# - A record describes a text and a fact, never a person. No clients, no
+#   third-party individuals, no state of mind, no internal process material.
+# - A corrected file that keeps its URL (a .bib, a .pdf) is linked with a
+#   version query (?v=YYYYMMDD), so no browser's cached copy can answer for it.
+# - Dates are YYYY-MM-DD strings. `fixed` is the date the corrected text is
+#   published on this site.

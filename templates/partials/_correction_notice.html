@@ -1,0 +1,15 @@
+{#- Dated correction notices at the top of a work.
+    Source: data/corrections.toml (one record per correction; only
+    status = "published" renders). Included by page.html above the body,
+    because the reader who arrives from a search engine does not scroll. -#}
+{%- set register = load_data(path="data/corrections.toml") -%}
+{%- for c in register.correction | default(value=[]) -%}
+{#- A withdrawal has no work_path and no notice: its work is no longer published. -#}
+{%- set c_path = c.work_path | default(value="") -%}
+{%- set c_notice = c.notice | default(value="") -%}
+{%- if c.status == "published" and c_path == page.path and c_notice %}
+<div class="correction-notice" role="note" id="correction-{{ c.id | lower }}" aria-label="Correction {{ c.id }}">
+{{ c_notice | markdown | safe }}
+</div>
+{%- endif -%}
+{%- endfor -%}

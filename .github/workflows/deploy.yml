@@ -134,6 +134,7 @@ jobs:
         run: |
           aws s3 sync public/ s3://$BUCKET/ \
             --exclude "*.html" --exclude "llms*.txt" \
+            --exclude "*.bib" --exclude "*.pdf" \
             --cache-control "public,max-age=31536000,immutable" \
             --metadata-directive REPLACE \
             --exact-timestamps \
@@ -144,6 +145,22 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
+      - name: Upload citation receipts (short TTL)
+        # .bib and .pdf receipts keep their URL when a correction revises them
+        # (see /corrections/), so they must not be cached as immutable: a
+        # browser holding an immutable copy never fetches the corrected file.
+        run: |
+          aws s3 sync public/ s3://$BUCKET/ \
+            --exclude "*" --include "*.bib" --include "*.pdf" \
+            --cache-control "public,max-age=3600,stale-while-revalidate=86400" \
+            --metadata-directive REPLACE \
+            --exact-timestamps \
+            --delete
+        env:
+          AWS_REGION: us-east-1
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      
       - name: Upload HTML (short TTL)
         run: |
           aws s3 sync public/ s3://$BUCKET/ \
@@ -156,7 +173,7 @@ jobs:
           AWS_REGION: us-east-1
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      
+
       - name: Generate llms-full.txt from content/
         # Source of truth: infra/llms/llms-full.config.json + content/*.md.
         # Fail-closed: if the generator throws, the deploy stops here, before any

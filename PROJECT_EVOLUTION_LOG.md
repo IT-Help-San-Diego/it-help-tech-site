@@ -13,6 +13,22 @@ Purpose: Track meaningful AI/developer changes with enough context to roll back 
 
 ## Entries
 
+### 2026-11-13: Field notes made machine-readable: references in llms-full.txt and in each note's JSON-LD
+- Actor: AI (Claude Code, under the same owner GO as the corrections page: make the field notes' references legible to the machines the site invites to read it).
+- Scope: the llms-full generator and its config; one derived data file and its extractor; the field-note Article JSON-LD; three content files; docs and CI.
+- Files:
+  - `infra/citations/extract-citations.mjs`: NEW. Reads each field note's footnote definitions and writes `data/field-note-citations.json` (one entry per cited URL; the first URL of a footnote carries the footnote's text as its name; ORCID profiles and links into `/corrections/` excluded). `--check` exits 1 if the data file is stale.
+  - `data/field-note-citations.json`: NEW, derived. 97 citations across eight notes, 22 of them DOIs.
+  - `templates/partials/_jsonld.html`: the field-note Article node carries a schema.org `citation` array from that file, and `author.url` points at `/about/`.
+  - `content/field-notes/dns-security-best-practices.md`, `mac-cybersecurity-threats.md`, `why-your-wireless-network-sucks.md`: the hand-written TechArticle block removed and `extra.schema_type: "TechArticle"` set, so each page carries one article node (with citations and the `#organization` publisher) instead of two that disagreed. The dns note's FAQPage and HowTo blocks are unchanged.
+  - `infra/llms/build-llms-full.mjs`: field notes get a Published/Updated/Author line and their published correction notices; the `corrections_index` shortcode renders from `data/corrections.toml` (strict subset parser; unknown syntax stops the build); Markdown autolinks are kept as links instead of being stripped as unknown tags; `picture_simple` keeps its alt text; image placeholders lose their indentation (it made CommonMark read them as code blocks); root-relative links become absolute.
+  - `infra/llms/llms-full.config.json`: the eight field notes, newest first, and Corrections, in the Optional section. The bug-bounty note is left out until its rebuild ships.
+  - `.github/workflows/llms-validate.yml`: runs the citations `--check`; also triggers on `infra/citations/**` and `data/**`.
+  - `AGENTS.md`, `infra/llms/README.md`: describe where field-note JSON-LD and llms-full content now come from.
+- Why: the notes cite primary sources (DOIs, RFCs, standards), but `llms-full.txt` carried none of the notes, its generator would have stripped every autolinked reference, and the Article JSON-LD carried no `citation`. Page descriptions are deliberately not emitted into llms-full.txt while their wording is under review.
+- Consequences: `llms-full.txt` grows from about 52 KB to about 238 KB; the Main section changes only by absolute links and the three unindented image lines. No CSP change (JSON-LD is excluded from the script hashes). A content PR that changes a note's references must re-run the extractor, or `llms-validate` fails.
+- Rollback: revert this PR.
+
 ### 2026-11-13: Corrections page and register; short cache for citation receipts
 - Actor: AI (Claude Code, working from the owner's GO to build the site work in the corrections specification: a correction appears both at the top of the work that was wrong and in a dated index, across the whole public record).
 - Scope: one new page and a corrections register; one housekeeping fix; a deploy cache rule. The register's first records arrive with the changes that make them true (CORRECTIONS_PLACEHOLDER).

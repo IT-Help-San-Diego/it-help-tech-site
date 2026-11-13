@@ -54,6 +54,7 @@
 {%- set art_date    = page.date | date(format="%Y-%m-%d") -%}
 {%- set art_updated = page.updated | default(value=page.date) | date(format="%Y-%m-%d") -%}
 {%- set fn_index_url = config.base_url ~ "/field-notes/" -%}
+{%- set art_author_url = config.base_url ~ "/about/" -%}
 
 <script type="application/ld+json">
 {
@@ -66,12 +67,22 @@
   "dateModified": {{ art_updated | json_encode | safe }},
   "author": {
     "@type": "Person",
-    "name": {{ art_author | json_encode | safe }}
+    "name": {{ art_author | json_encode | safe }},
+    "url": {{ art_author_url | json_encode | safe }}
   },
   "publisher": { "@id": {{ org_id | json_encode | safe }} },
   "mainEntityOfPage": {{ art_url | json_encode | safe }},
   "isAccessibleForFree": true,
   "inLanguage": "en-US"
+{%- set cite_data = load_data(path="data/field-note-citations.json") -%}
+{%- set cites = cite_data.notes[page.path] | default(value=[]) -%}
+{%- if cites | length > 0 %},
+  "citation": [
+{%- for c in cites %}
+    { "@type": "CreativeWork", {% if c.name %}"name": {{ c.name | json_encode | safe }}, {% endif %}"url": {{ c.url | json_encode | safe }} }{% if not loop.last %},{% endif %}
+{%- endfor %}
+  ]
+{%- endif %}
 {%- set corr_register = load_data(path="data/corrections.toml") -%}
 {%- set_global corr_here = [] -%}
 {%- for c in corr_register.correction | default(value=[]) -%}

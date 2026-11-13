@@ -9,6 +9,7 @@ description: "What Apple's built-in stack actually defends against on macOS, the
 aliases:
   - /blog/mac-cybersecurity-threats/
 extra:
+  schema_type: "TechArticle"
   seo_title: "Mac Cybersecurity in 2026: What's Already On, What to Add Free, Real Gaps"
   image: images/mac-cybersecurity.jpeg
   image_responsive_base: images/mac-cybersecurity
@@ -228,26 +229,3 @@ A BibTeX file for these references is available at [`/field-notes/mac-cybersecur
 
 *Last updated April 30, 2026 — verified against Apple Platform Security Guide, Citizen Lab FORCEDENTRY disclosure, MITRE CVE entries, Objective-See / LuLu primary sources, Malwarebytes State of Malware, and the Verizon DBIR.*
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "isAccessibleForFree": true,
-  "headline": "Mac Cybersecurity: What Apple Already Protects, What to Add Yourself for Free, and Where the Real Gaps Are",
-  "description": "What Apple's built-in stack actually defends against on macOS, the single highest-leverage free thing you can add yourself, and the real gaps that remain — written so any Mac user can act on it without buying anything they do not need.",
-  "proficiencyLevel": "Intermediate",
-  "author": {
-    "@type": "Person",
-    "name": "Carey Balboa",
-    "url": "https://www.it-help.tech/about/"
-  },
-  "publisher": {
-    "@id": "https://www.it-help.tech/#business"
-  },
-  "image": "https://www.it-help.tech/images/mac-cybersecurity.jpeg",
-  "datePublished": "2025-05-23",
-  "dateModified": "2026-04-30",
-  "mainEntityOfPage": "https://www.it-help.tech/field-notes/mac-cybersecurity-threats/",
-  "keywords": ["macOS Security", "iOS Security", "XProtect", "Gatekeeper", "Lockdown Mode", "Stolen Device Protection", "LuLu", "Malwarebytes", "Pegasus", "FORCEDENTRY", "IT Help San Diego"]
-}
-</script>

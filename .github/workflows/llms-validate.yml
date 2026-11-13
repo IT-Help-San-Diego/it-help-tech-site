@@ -6,6 +6,8 @@ on:
     paths:
       - "content/**"
       - "infra/llms/**"
+      - "infra/citations/**"
+      - "data/**"
       - "config.toml"
       - ".github/workflows/llms-validate.yml"
 
@@ -27,6 +29,11 @@ jobs:
 
       - name: Run llms-full generator
         run: node infra/llms/build-llms-full.mjs
+
+      - name: Check field-note citations data is current
+        # data/field-note-citations.json is derived from each note's reference
+        # list; a content change that edits references must regenerate it.
+        run: node infra/citations/extract-citations.mjs --check
 
       - name: Show byte count and section structure
         run: |

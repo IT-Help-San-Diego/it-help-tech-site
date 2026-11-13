@@ -1521,6 +1521,19 @@ html:not(.switch) h6 a.gold-link:active {
     a[href^="tel:"]::after {
         content: "";
     }
+    /* A correction's links are site-relative; on paper they need the address. */
+    .correction-notice a[href^="/"]::after,
+    .correction-entry a[href^="/"]::after {
+        content: " (https://www.it-help.tech" attr(href) ")";
+        font-size: 9pt;
+        font-weight: normal;
+        color: var(--text-secondary);
+        word-break: break-all;
+    }
+    .correction-entry dt {
+        page-break-after: avoid;
+        break-after: avoid;
+    }
 
     /* Tables — full borders for readability on paper. currentColor inherits
        the body ink color so border + text are perfectly matched. */
@@ -1643,6 +1656,7 @@ img.img-centered-240 {
     margin: 0 0 var(--space-6);
     padding: var(--space-3) 0 var(--space-3) var(--space-5);
     border-left: 0.25rem solid var(--brand-gold);
+    scroll-margin-top: calc(var(--space-8) + var(--space-5));
 }
 .correction-notice > :last-child,
 .correction-entry dd:last-child {
@@ -1650,6 +1664,7 @@ img.img-centered-240 {
 }
 .correction-entry {
     margin: 0 0 var(--space-8);
+    scroll-margin-top: calc(var(--space-8) + var(--space-5));
 }
 .correction-entry dt {
     font-weight: 700;

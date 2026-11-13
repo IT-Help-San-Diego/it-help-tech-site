@@ -14,6 +14,8 @@
 # - Never delete the original claim: quote it in `published`.
 # - A record describes a text and a fact, never a person. No clients, no
 #   third-party individuals, no state of mind, no internal process material.
+# - A corrected file that keeps its URL (a .bib, a .pdf) is linked with a
+#   version query (?v=YYYYMMDD), so no browser's cached copy can answer for it.
 # - Dates are YYYY-MM-DD strings. `fixed` is the date the corrected text is
 #   published on this site.
 
@@ -36,12 +38,12 @@ now = """
 Reference 12 gives the manifesto's PDF and the author's ORCID, with no DOI, and names its successor, *The Belief Machine* ([10.2139/ssrn.6722059](https://doi.org/10.2139/ssrn.6722059)). A notice at the top of the note says so.
 """
 propagated = """
-The BibTeX file offered on the page for one-click import carried the same DOI. It was regenerated on 13 November 2026 without it. A reference library built from an earlier copy keeps the wrong identifier until the file is imported again.
+The BibTeX file offered on the page for one-click import carried the same DOI. It was regenerated on 13 November 2026 without it. An entry imported from an earlier copy keeps the wrong identifier until it is deleted or edited; importing the current file adds a corrected entry.
 """
 notice = """
 **Superseded, 7 November 2026.** The argument in this note is carried further, and more carefully, in *The Belief Machine: How Human Identity Defense, AI Sycophancy, and Unaudited Targeting Systems Became One Problem* ([10.2139/ssrn.6722059](https://doi.org/10.2139/ssrn.6722059)). Read that instead. This note stays online because it is what the later paper was built from, and removing it would hide the working.
 
-**It also carried a citation error, and this is the article where that matters most.** Its reference 12 cited the long-form manifesto with a DOI that resolves to a different work, the DNS Tool software deposit. The manifesto was never deposited, so there is no correct DOI to substitute, and the reference now gives the PDF and the ORCID without one. The same wrong identifier was in the BibTeX file offered on this page for one-click import, so any reference library built from it before 13 November 2026 carries it. Re-import the file to correct it.
+**It also carried a citation error, and this is the article where that matters most.** Its reference 12 cited the long-form manifesto with a DOI that resolves to a different work, the DNS Tool software deposit. The manifesto was never deposited, so there is no correct DOI to substitute, and the reference now gives the PDF and the ORCID without one. The same wrong identifier was in the BibTeX file offered on this page for one-click import, so any reference library built from it before 13 November 2026 carries it. Re-import [the file](/field-notes/the-real-bot-hasnt-been-built-yet.bib?v=20261113) to correct it.
 
 This note argues that an unverifiable citation is the floor that fails first. It was right, and it did not hold itself to that floor. See [Corrections](/corrections/#c-20261107-01).
 """
@@ -56,7 +58,7 @@ work = "The Real Bot Hasn't Been Built Yet"
 work_path = "/field-notes/the-real-bot-hasnt-been-built-yet/"
 original_date = "2026-04-26"
 published = """
-The note presented a sentence from Neil Postman's *Amusing Ourselves to Death* (1985) as a verbatim quotation. Reference 8 cited the book and a Library of Congress catalog record, and the note's closing paragraph said the wording had been checked against "the *Amusing Ourselves to Death* Wikipedia article for the verbatim Postman 1985 disinformation quote".
+Of Neil Postman's *Amusing Ourselves to Death* (1985), the note said "His central diagnostic, quoted verbatim, named a failure mode that would later become the training substrate for every consumer LLM", and then gave this sentence, in quotation marks, as his: "Television is altering the meaning of 'being informed' by creating a species of information that might properly be called disinformation — misplaced, irrelevant, fragmented or superficial information that creates the illusion of knowing something but which in fact leads one away from knowing." Reference 8 said "the verbatim language in this note matches the standard quotation from the 20th-anniversary Penguin edition" and gave a Library of Congress catalog record. The closing paragraph said the wording had been checked against "the *Amusing Ourselves to Death* Wikipedia article for the verbatim Postman 1985 disinformation quote".
 """
 wrong = """
 The wording was never checked against the book. A catalog record shows that a book exists and cannot verify a sentence inside it, so the citation read as primary while the check was secondary.
@@ -65,8 +67,8 @@ now = """
 The passage is a paraphrase of Postman's argument, without quotation marks, cited to chapter 7 ("Now… This") and the 20th-anniversary edition (ISBN 978-0-14-303653-1). The sentence about the Wikipedia check is gone, and nothing replaces it.
 """
 propagated = """
-The BibTeX file quoted part of the same sentence in its note on this reference. That fragment was removed when the file was regenerated on 13 November 2026.
+The BibTeX file quoted part of the same sentence in its note on this reference. That fragment was removed when the file was regenerated on 13 November 2026. The long-form PDF linked from the note still gives part of the sentence in quotation marks; the PDF has not been revised.
 """
 notice = """
-**Corrected, 13 November 2026.** The Postman passage in this note was presented as a verbatim quotation, and the note said its wording had been checked against a Wikipedia article. Neither a catalog record nor an encyclopedia article can verify a sentence inside a book, so the passage is now a paraphrase, cited to the book's chapter and edition. See [Corrections](/corrections/#c-20261107-03).
+**Corrected, 13 November 2026.** The Postman passage in this note was presented as a verbatim quotation, and the note said its wording had been checked against a Wikipedia article. Neither a catalog record nor an encyclopedia article can verify a sentence inside a book, so the passage is now a paraphrase, cited to the book's chapter and edition. The entry quotes what the note said before. See [Corrections](/corrections/#c-20261107-03).
 """

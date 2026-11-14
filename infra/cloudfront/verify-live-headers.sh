@@ -28,6 +28,7 @@ check_headers() {
 }
 
 check_headers "https://www.it-help.tech/"
+check_headers "https://www.it-help.tech/services/"
 check_headers "https://www.it-help.tech/corrections/"
 check_headers "https://www.it-help.tech/llms-full.txt"
 

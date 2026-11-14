@@ -259,6 +259,9 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
+      - name: Verify live edge headers and redirects
+        run: ./infra/cloudfront/verify-live-headers.sh
+
   audit:
     # Post-deploy quality gate. Runs after the CloudFront invalidation
     # completes (so Lighthouse hits the freshly published bytes) and

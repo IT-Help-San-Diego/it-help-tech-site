@@ -29,7 +29,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Set up Node
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: '20'
 
@@ -38,13 +38,46 @@ jobs:
         # reference list changed without regenerating the derived data file.
         run: node infra/citations/extract-citations.mjs --check
 
+      - name: Check the withdrawal carries one identifier everywhere
+        # Every carrier of the withdrawal must name the same entry, and no other
+        # entry may share its identifier. If the entry is not on the published
+        # corrections page yet, this deploy would publish it for the first
+        # time: its date must then be today, and the script that publishes the
+        # redirects must be in the tree. Runs before anything is built.
+        run: |
+          PUBLISHED="$RUNNER_TEMP/published-corrections.html"
+          PART="$RUNNER_TEMP/published-corrections.part"
+          rm -f "$PUBLISHED" "$PART"
+          # A download counts only if it finished: a page cut short must not be read as the page.
+          if aws s3 cp "s3://$BUCKET/corrections/index.html" "$PART" --only-show-errors; then
+            mv "$PART" "$PUBLISHED"
+          elif rm -f "$PART" && curl -fsS --retry 3 --connect-timeout 10 --max-time 30 "https://$BUCKET/corrections/" -o "$PART"; then
+            mv "$PART" "$PUBLISHED"
+          else
+            rm -f "$PART"
+            echo "::warning::Could not read the published corrections page from the bucket or the site; the first-publication date rule will be skipped."
+          fi
+          bash scripts/stamp-withdrawal.sh --check --require-publisher --live-page "$PUBLISHED"
+        env:
+          # Repair switch, normally unset. See the header of scripts/stamp-withdrawal.sh.
+          STAMP_ALREADY_PUBLISHED: ${{ vars.STAMP_ALREADY_PUBLISHED }}
+          AWS_REGION: us-east-1
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
       - name: Install Zola
-        uses: taiki-e/install-action@6a1bd70eaac3c8bdf093356838d7ee09fda951cf # v2
+        uses: taiki-e/install-action@cfdb7ed4ccc7c7dce37759eae89dc5674b469b39 # v2
         with:
-          tool: zola
+          tool: zola@0.22.1
 
       - name: Build site with Zola
         run: zola build
+
+      - name: Check the built corrections page against the withdrawal
+        # Reads the finished build: one entry under the stamped anchor, naming
+        # the withdrawn note; the withdrawn addresses gone; no placeholder in
+        # any built page. Runs before anything is changed in AWS.
+        run: bash scripts/stamp-withdrawal.sh --check-built public
 
       - name: Purge unused CSS
         run: |
@@ -135,6 +168,11 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
+      - name: Build and test CloudFront viewer-request redirects
+        run: |
+          node infra/cloudfront/build-viewer-request.mjs
+          node infra/cloudfront/test-viewer-request.mjs
+
       - name: Upload immutable assets
         run: |
           aws s3 sync public/ s3://$BUCKET/ \
@@ -207,6 +245,40 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
+      - name: Publish CloudFront viewer-request redirects
+        # ORDERING IS LOAD-BEARING: this runs AFTER "Upload HTML" (and all other
+        # origin content) and BEFORE the invalidation, so a redirect can never go
+        # live pointing at a target page that is not yet in the origin. All three
+        # lanes agreed the target must exist before the redirect is published.
+        if: ${{ github.event_name == 'push' }}
+        run: |
+          if grep -qE 'yyyymmdd|YYYY-MM-DD|\[DEPLOY DATE\]' infra/cloudfront/redirects.json; then
+            echo "::notice title=CloudFront function not published::redirects.json still carries a placeholder date; the viewer-request function was NOT published this run. Stamp the withdrawal date to enable publish."
+          else
+            ./infra/cloudfront/deploy-viewer-request.sh
+          fi
+        env:
+          AWS_REGION: us-east-1
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Preserve pre-publish CloudFront function snapshot
+        # deploy-viewer-request.sh writes infra/cloudfront/baseline/<fn>.pre-publish.<ts>.js
+        # into the runner workspace, which is destroyed when the job ends. Upload it
+        # so the "previous-good" rollback target actually survives a CI publish. The
+        # committed genesis baseline covers the pre-withdrawal state; this artifact
+        # covers whatever a LATER publish replaced. Retrieve during an incident with:
+        #   gh run download <run-id> -n cloudfront-function-prepublish-snapshot
+        # When the publish step is skipped (placeholder date present) no snapshot is
+        # written, and if-no-files-found:ignore makes this a no-op.
+        if: ${{ github.event_name == 'push' }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: cloudfront-function-prepublish-snapshot
+          path: infra/cloudfront/baseline/*.pre-publish.*.js
+          if-no-files-found: ignore
+          retention-days: 90
+
       - name: Invalidate CloudFront cache and wait
         run: |
           INVALIDATION_ID=$(aws cloudfront create-invalidation --distribution-id $DIST_ID --paths '/*' --query 'Invalidation.Id' --output text)
@@ -241,6 +313,17 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
+      - name: Verify live edge headers and redirects
+        run: ./infra/cloudfront/verify-live-headers.sh
+
+      - name: Check the withdrawn addresses on the live site
+        # After the invalidation, ask the live site: each of the five withdrawn
+        # addresses must answer 301 to the withdrawal's entry, and the entry
+        # must be on the live corrections page. Runs even when an earlier step
+        # failed, because that is when a half-finished deploy needs to be seen.
+        if: ${{ !cancelled() }}
+        run: bash scripts/stamp-withdrawal.sh --check-live
+
   audit:
     # Post-deploy quality gate. Runs after the CloudFront invalidation
     # completes (so Lighthouse hits the freshly published bytes) and
@@ -254,7 +337,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Set up Node
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: '20'
 

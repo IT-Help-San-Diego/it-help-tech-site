@@ -12,7 +12,7 @@
 1. Build the site so `public/` is current (same as deploy): `zola build`  
 2. Update the **site** policy: `./update_policy.sh`  
 3. Update the **signature-pages** policy (optional): `POLICY_ID_SIGNATURES=... ./update_policy_signatures.sh`  
-4. Invalidate CloudFront: `aws cloudfront create-invalidation --distribution-id E2TEEM88QINCGT --paths "/*"`
+4. Invalidate CloudFront: `aws cloudfront create-invalidation --distribution-id EQ3CZ9QIS55YX --paths "/*"`
 
 ## Split policies (recommended)
 To keep a strict CSP on the main site **and** keep the hosted signature pages working:

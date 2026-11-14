@@ -35,8 +35,19 @@
 # Order on the day, in one sitting: merge origin/main into the branch; stamp;
 # commit and push; wait for the checks on that stamped commit; merge; watch the
 # deploy to its last step. A green check on an unstamped commit says nothing
-# about the stamp. If the deploy does not finish that day, merge nothing else
-# until the branch has been unstamped and stamped again.
+# about the stamp. After stamping and before pushing, run
+#   scripts/stamp-withdrawal.sh --check --require-publisher
+#
+# If the deploy does not finish that day, merge nothing else, and look at the
+# published corrections page:
+#   - the entry is NOT on it: it was never published. Unstamp, and stamp again
+#     on the day it does ship.
+#   - the entry IS on it: it was published on its date. Do not unstamp. Fix
+#     whatever stopped the deploy and run the deploy again as stamped.
+# STAMP_ALREADY_PUBLISHED=1 (the repository variable of the same name, in the
+# deploy) tells --check that the entry was published before although the page
+# no longer shows it, for example after an older deploy was re-run. Set it for
+# the repair, then clear it.
 #
 # The carriers are: the register entry (identifier, heading, logged date), the
 # link in /use-policy/, the five redirect rows, and the evolution log. One
@@ -211,7 +222,8 @@ def verdict(texts, allow_own_repeat=False):
     if repeated and not (allow_own_repeat and repeated == [mine] and ids.count(mine) == 2):
         advice = ("If the withdrawal has not been published yet, run scripts/stamp-withdrawal.sh --unstamp and stamp "
                   "again: it takes the next free number. If it has been published, the other entry is the newer one "
-                  "and needs its own number." if mine in repeated else
+                  "and needs its own number. If more than one other entry shares it, renumber those first."
+                  if mine in repeated else
                   "That is not the withdrawal; give one of those entries its own number.")
         raise Problem(f"{REGISTER} has more than one entry with the same identifier: {', '.join(repeated)}. {advice}")
     for k in ID_KEYS:
@@ -295,7 +307,9 @@ def apply_unstamp(texts, ident):
     out[REGISTER] = reg.replace(rec, new, 1)
     out[POLICY] = re.sub(r"\[withdrawn\s+on\s+[^\[\]]+\]\(\s*/corrections/#" + re.escape(ident.lower()) + r"\s*\)",
                          lambda m: f"[withdrawn on {PH_DATE}](/corrections/#{PH_ANCHOR})", texts[POLICY])
-    out[REDIRECTS] = texts[REDIRECTS].replace("/corrections/#" + ident.lower(), "/corrections/#" + PH_ANCHOR)
+    out[REDIRECTS] = "".join(
+        line.replace("/corrections/#" + ident.lower(), "/corrections/#" + PH_ANCHOR) if f'"{SLUG}' in line else line
+        for line in texts[REDIRECTS].splitlines(keepends=True))
     log = re.sub(r"(?m)^### " + re.escape(d.isoformat()) + r"(: The Real Bot field note withdrawn)",
                  lambda m: "### " + PH_DATE + m.group(1), texts[LOG])
     out[LOG] = log.replace(f"entry {ident}, the withdrawal", f"entry {PH_ID}, the withdrawal")
@@ -384,6 +398,9 @@ def check_live(ident):
     found = section_ids(body, anchor)
     if found != [anchor]:
         raise Problem(f"the live corrections page should have exactly one entry under #{anchor}; found {found}")
+    heading = section_heading(body, anchor)
+    if not is_withdrawal_heading(heading, ident):
+        raise Problem(f"the entry under #{anchor} on the live page is headed {heading!r}; it should name {ident} and the withdrawn note")
 
 
 def check_built(directory, texts):
@@ -511,7 +528,7 @@ def main(argv):
             built = argv[1] if os.path.isabs(argv[1]) else os.path.join(os.environ.get("STAMP_CALLER_DIR", "."), argv[1])
             ident, heading = check_built(built, texts)
             print(f"built site ok: one entry under #{ident.lower()}, headed {heading!r}; "
-                  f"the withdrawn addresses are gone; no placeholder in any built file")
+                  f"the withdrawn addresses are gone; no placeholder in the built HTML, text, XML or JSON files")
             return
         if argv[0] == "--unstamp":
             if len(argv) != 1:
@@ -520,6 +537,11 @@ def main(argv):
             if kind == "unstamped":
                 print("already unstamped; nothing to do")
                 return
+            extra = unknown_placeholders(texts)
+            if extra:
+                raise Problem("a carrier holds a placeholder this script does not fill in, so undoing the stamp would write "
+                              "into text that is not the withdrawal's. Nothing was changed. " + " | ".join(extra))
+            shared = all_ids(texts[REGISTER]).count(ident) > 1
             new = apply_unstamp(apply_stamp(texts, ident), ident)   # finish a partial stamp in memory, then undo it
             k2, i2, m2 = verdict(new)
             if k2 != "unstamped":
@@ -533,7 +555,10 @@ def main(argv):
             mine_after = my_record(new[REGISTER])
             if ident in mine_after or human(d0) in (field(mine_after, "heading") or ""):
                 survivors.append(f"the withdrawal entry in {REGISTER}")
-            if survivors:
+            if survivors and shared:
+                print(f"note: {ident} is also the identifier of another entry, so these mentions of it were left alone: "
+                      f"{', '.join(survivors)}")
+            elif survivors:
                 raise Problem(f"{ident} is also written by hand in: {', '.join(survivors)}. --unstamp would leave it there. "
                               f"Nothing was changed. Remove those mentions first.")
             write_all(texts, new)

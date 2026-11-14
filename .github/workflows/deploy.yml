@@ -59,6 +59,8 @@ jobs:
           fi
           bash scripts/stamp-withdrawal.sh --check --require-publisher --live-page "$PUBLISHED"
         env:
+          # Repair switch, normally unset. See the header of scripts/stamp-withdrawal.sh.
+          STAMP_ALREADY_PUBLISHED: ${{ vars.STAMP_ALREADY_PUBLISHED }}
           AWS_REGION: us-east-1
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

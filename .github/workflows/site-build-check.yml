@@ -37,7 +37,7 @@ jobs:
             rm -f "$PART"
             echo "::warning::Could not read the live corrections page; the first-publication date rule will be skipped."
           fi
-          bash scripts/stamp-withdrawal.sh --check --live-page "$PUBLISHED"
+          bash scripts/stamp-withdrawal.sh --check --require-publisher --live-page "$PUBLISHED"
 
       - name: Stamp this workspace if the withdrawal is still unstamped
         # The site does not build while the withdrawal's date is a placeholder,

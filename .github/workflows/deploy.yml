@@ -39,9 +39,15 @@ jobs:
         run: node infra/citations/extract-citations.mjs --check
 
       - name: Check the withdrawal carries one identifier everywhere
-        # The register entry, its heading, the /use-policy/ anchor and the five
-        # redirect rows must all name the same entry, or all still be unstamped.
-        run: bash scripts/stamp-withdrawal.sh --check
+        # Every carrier of the withdrawal must name the same entry, no other
+        # entry may share its identifier, and the first deploy that publishes
+        # it must happen on the date it carries. Runs before anything is
+        # built or uploaded.
+        env:
+          BEFORE: ${{ github.event.before }}
+        run: |
+          git fetch --no-tags --depth=1 origin "$BEFORE" 2>/dev/null || true
+          bash scripts/stamp-withdrawal.sh --check --introduced-since "$BEFORE"
 
       - name: Install Zola
         uses: taiki-e/install-action@cfdb7ed4ccc7c7dce37759eae89dc5674b469b39 # v2
@@ -50,6 +56,12 @@ jobs:
 
       - name: Build site with Zola
         run: zola build
+
+      - name: Check the built corrections page against the withdrawal
+        # Reads the finished build: one entry under the stamped anchor, naming
+        # the withdrawn note; the withdrawn addresses gone; no placeholder in
+        # any built page. Runs before anything is changed in AWS.
+        run: bash scripts/stamp-withdrawal.sh --check-built public
 
       - name: Purge unused CSS
         run: |

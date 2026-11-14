@@ -1,0 +1,42 @@
+name: Build the site on pull requests
+
+# No other pull-request check builds the site, so a change that breaks the
+# build, repeats a corrections identifier or leaves a placeholder in a page
+# was first seen on main. This builds every pull request and reads the result.
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Install Zola
+        uses: taiki-e/install-action@cfdb7ed4ccc7c7dce37759eae89dc5674b469b39 # v2
+        with:
+          tool: zola@0.22.1
+
+      - name: Check the withdrawal carries one identifier everywhere
+        run: bash scripts/stamp-withdrawal.sh --check
+
+      - name: Stamp this workspace if the withdrawal is still unstamped
+        # The site does not build while the withdrawal's date is a placeholder,
+        # by design. Stamp today's date here only, so the pull request is
+        # checked the way it would ship today. Nothing is committed.
+        run: |
+          if bash scripts/stamp-withdrawal.sh --check | grep -q '^unstamped'; then
+            bash scripts/stamp-withdrawal.sh "$(TZ=America/Los_Angeles date +%F)"
+          fi
+
+      - name: Build site with Zola
+        run: zola build
+
+      - name: Check the built corrections page against the withdrawal
+        run: bash scripts/stamp-withdrawal.sh --check-built public

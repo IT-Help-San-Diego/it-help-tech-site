@@ -13,6 +13,15 @@ Purpose: Track meaningful AI/developer changes with enough context to roll back 
 
 ## Entries
 
+### 2026-11-13: Reference and corrections links wrap on a phone
+- Actor: AI (Claude Code; a defect found while checking a draft note at phone width).
+- Scope: one CSS rule.
+- Files:
+  - `static/css/late-overrides.css`: `.footnote-definition a` and `.correction-entry a` get `overflow-wrap: anywhere`.
+- Change: long web addresses in a note's reference list and in corrections entries now break across lines.
+- Why: at 375 pixels wide, every field note had between 1 and 5 reference links running past the right edge of the screen, and `/corrections/` had 31. The page hides sideways overflow, so the end of each address was cut off. Measured before and after on all seven notes and on `/corrections/`: none overflow with the rule, and the home, About and field-notes index pages are unchanged.
+- Rollback: revert this PR.
+
 ### 2026-11-13: Reference numbers in the corrections entries matched to the pages
 - Actor: AI (Claude Code, correcting its own error in the day's corrections entries).
 - Scope: footnote labels in four field notes; the reference numbers in five corrections entries; one build check.

@@ -13,6 +13,17 @@ Purpose: Track meaningful AI/developer changes with enough context to roll back 
 
 ## Entries
 
+### 2026-11-14: Every redirect row is checked against the build and the live site
+- Actor: AI (Claude Code). Tooling only: no page, no entry and no redirect changes.
+- Scope: the checks that run in the pull-request job and in the deploy; one line of the live header check.
+- Files:
+  - `scripts/stamp-withdrawal.sh`: the check of a finished build now reads every row of `infra/cloudfront/redirects.json`, whether or not it belongs to a withdrawal. The address a row redirects must not be built, and the site must serve something at the row's target, with the anchor present exactly once (the page is parsed, not searched as text). An address is resolved the way the edge function and the bucket resolve it, so a target the live site would answer with "not found" is refused. The check after the deploy asks the live site about the rows that belong to no withdrawal as well. Two small faults in the undo command are fixed: an identifier cited inside the entry's own text is now refused with its line number, and a stale generated function file is reported even when there is nothing to undo.
+  - `infra/cloudfront/verify-live-headers.sh`: its requests have a connection timeout, a total timeout and three retries that cover a slow, dropped or refused connection and a 5xx answer; only the last answer's headers are read. It runs after the site is already live, so one bad connection should not fail the job.
+  - `.github/workflows/deploy.yml`, `.github/workflows/llms-validate.yml`: comments that still spoke of one withdrawal and five addresses brought up to date.
+- Why: until now only the rows of the two withdrawals were checked, by name. A redirect added for any other reason could have pointed at a page or an anchor that does not exist, or covered a page that is still published, and no check would have said so.
+- Not in this change: the edge function is still built from every row, and the deploy still skips publishing it while any row is undated. An undated row cannot reach a deploy today, because the undated register entry that comes with it stops the build first.
+- Rollback: revert this change. Both withdrawals stay checked by name as before.
+
 ### 2026-11-14: Link-preview descriptions and image alt text escaped once, not twice
 - Actor: AI (Claude Code). Housekeeping: no corrections entry.
 - Scope: templates only. Seven attributes on four pages change; every other built file is byte-identical.

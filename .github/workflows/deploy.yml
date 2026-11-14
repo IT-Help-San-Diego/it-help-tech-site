@@ -75,9 +75,11 @@ jobs:
         run: zola build
 
       - name: Check the built corrections page against the withdrawal
-        # Reads the finished build: one entry under the stamped anchor, naming
-        # the withdrawn note; the withdrawn addresses gone; no placeholder in
-        # any built page. Runs before anything is changed in AWS.
+        # Reads the finished build: for each withdrawal, one entry under its
+        # stamped anchor with its heading, and its addresses gone; for every row
+        # of the redirect table, the redirected address not built and the target
+        # page and anchor present; no placeholder in any built page. Runs before
+        # anything is changed in AWS.
         run: bash scripts/stamp-withdrawal.sh --check-built public
 
       - name: Purge unused CSS
@@ -318,10 +320,11 @@ jobs:
         run: ./infra/cloudfront/verify-live-headers.sh
 
       - name: Check the withdrawn addresses on the live site
-        # After the invalidation, ask the live site: each of the five withdrawn
-        # addresses must answer 301 to the withdrawal's entry, and the entry
-        # must be on the live corrections page. Runs even when an earlier step
-        # failed, because that is when a half-finished deploy needs to be seen.
+        # After the invalidation, ask the live site: every withdrawn address
+        # must answer 301 to its withdrawal's entry, each entry must be on the
+        # live corrections page, and every other row of the redirect table must
+        # answer as the table says. Runs even when an earlier step failed,
+        # because that is when a half-finished deploy needs to be seen.
         if: ${{ !cancelled() }}
         run: bash scripts/stamp-withdrawal.sh --check-live
 

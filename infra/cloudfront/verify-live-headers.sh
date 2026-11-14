@@ -10,7 +10,14 @@ check_headers() {
   local expected_location="${3:-}"
 
   local headers
-  headers=$(curl -sS -I "$url" | tr -d '\r')
+  # Timeouts and retries: this runs after the site is already live, so one slow,
+  # dropped or refused connection, or one 5xx answer, must not fail the job.
+  # --retry-all-errors is what covers a dropped or refused connection; without
+  # it curl retries only timeouts and a few status codes. A 404 is not retried.
+  headers=$(curl -sS -I --connect-timeout 10 --max-time 30 --retry 3 --retry-delay 2 --retry-all-errors --retry-max-time 60 "$url" | tr -d '\r')
+  # After a retry curl has printed the headers of every attempt. Keep the last
+  # answer only, so an earlier attempt's headers cannot satisfy the checks below.
+  headers=$(printf '%s\n' "$headers" | awk '/^HTTP\//{b=""} {b=b $0 "\n"} END{printf "%s", b}')
   printf '%s\n' "--- $url"
   printf '%s\n' "$headers" | awk 'BEGIN{IGNORECASE=1} /^HTTP\// || /^location:/ || /^cache-control:/ || /^strict-transport-security:/ || /^content-security-policy:/ || /^x-frame-options:/ || /^x-content-type-options:/ {print}'
 

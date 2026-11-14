@@ -38,8 +38,8 @@ jobs:
         run: node infra/citations/extract-citations.mjs --check
 
       - name: Check the withdrawal carries one identifier everywhere
-        # The register entry, its heading, the /use-policy/ anchor and the five
-        # redirect rows must all name the same entry, or all still be unstamped.
+        # For each withdrawal: its register entry, its heading and its redirect
+        # rows must all name the same entry, or all still be unstamped.
         run: bash scripts/stamp-withdrawal.sh --check
 
       - name: Show byte count and section structure

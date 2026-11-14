@@ -36,11 +36,15 @@
 #       Change nothing. Read a finished build: for each withdrawal the
 #       corrections page must hold exactly one entry under the stamped anchor,
 #       that entry must carry its heading, and the withdrawn addresses must be
-#       gone from the build. No placeholder may appear in any built page.
+#       gone from the build. Then every row of the redirect table, whether or
+#       not it belongs to a withdrawal: the address it redirects must not be
+#       built, and its target page and anchor must exist, the anchor once.
+#       No placeholder may appear in any built page.
 #   scripts/stamp-withdrawal.sh --check-live
 #       Change nothing. Ask the live site: each withdrawn address must answer
 #       301 to its stamped anchor, and the live corrections page must hold
-#       exactly one entry under it.
+#       exactly one entry under it. Every other row of the redirect table must
+#       answer 301 to its target as well.
 #
 # Order on the day, in one sitting: merge origin/main into the branch; stamp;
 # commit and push; wait for the checks on that stamped commit; merge; watch the
@@ -73,7 +77,8 @@ export STAMP_CALLER_DIR="$PWD"
 cd "$(dirname "$0")/.."
 exec python3 - "$@" <<'PY'
 import datetime, html as htmllib, http.client, json, os, pathlib, re, sys, tempfile, time
-import urllib.error, urllib.request
+import urllib.error, urllib.parse, urllib.request
+from html.parser import HTMLParser
 
 REGISTER = "data/corrections.toml"
 POLICY = "content/use-policy.md"
@@ -375,7 +380,8 @@ def generated_is_current(texts):
     except OSError:
         return False
     rows = redirect_rows(texts)
-    pairs = [json.dumps(str(r.get("from"))) + ": " + json.dumps(str(r.get("to"))) for r in rows]
+    pairs = [json.dumps(str(r.get("from")), ensure_ascii=False) + ": " + json.dumps(str(r.get("to")), ensure_ascii=False)
+             for r in rows]
     mapped = len(re.findall(r"""(?m)^\s*"/[^"\n]*":\s*"/[^"\n]*",?\s*$""", generated))
     return all(p in generated for p in pairs) and mapped == len(pairs)
 
@@ -468,8 +474,11 @@ def apply_unstamp(texts, ident, w):
     out = {}
     reg = texts[REGISTER]
     rec = my_record(reg, w)
-    new = (rec.replace(ident, PH_ID)
-              .replace(f'withdrawn {human(d)}"', f'withdrawn {PH_DATE}"')
+    # Only the two fields the stamp fills in. An identifier cited in the entry text was written by
+    # hand; it is left where it is, and --unstamp then refuses and says so.
+    new = re.sub(r'(?m)^([ \t]*id[ \t]*=[ \t]*")' + re.escape(ident) + r'(")', lambda m: m.group(1) + PH_ID + m.group(2), rec)
+    new = re.sub(r'(?m)^([ \t]*heading[ \t]*=[ \t]*")' + re.escape(ident) + r'( · )', lambda m: m.group(1) + PH_ID + m.group(2), new)
+    new = (new.replace(f'withdrawn {human(d)}"', f'withdrawn {PH_DATE}"')
               .replace(f'logged = "{d.isoformat()}"', f'logged = "{PH_ISO}"'))
     out[REGISTER] = reg.replace(rec, new, 1)
     out[POLICY] = texts[POLICY]
@@ -514,6 +523,96 @@ def section_heading(page_html, anchor):
     return htmllib.unescape(re.sub(r"<[^>]+>", "", m.group(1))).strip() if m else ""
 
 
+class _Ids(HTMLParser):
+    """Collects every id attribute in a page. A real parser, so quoting and attribute order do not matter."""
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.ids = []
+
+    def handle_starttag(self, tag, attrs):
+        self.ids += [v for k, v in attrs if k == "id" and v is not None]
+
+
+def element_ids(page_html):
+    p = _Ids()
+    p.feed(page_html)
+    p.close()
+    return p.ids
+
+
+# Addresses the deploy publishes from outside the Zola output: deploy.yml uploads build/llms-full.txt on
+# its own, after the build has been checked. No build holds them, but the site serves them.
+PUBLISHED_OUTSIDE_BUILD = ("/llms-full.txt",)
+
+
+def edge_key(address):
+    """The object the site serves for a site-relative address, as a path inside the build, or None if no
+    object can match. This follows infra/cloudfront/viewer-request-template.js step 3 exactly: a trailing
+    slash gets index.html; an address with no dot anywhere gets /index.html; anything else is asked for as
+    it is. The bucket matches a key byte for byte, so an empty or dotted segment matches nothing."""
+    uri = address.split("#", 1)[0].split("?", 1)[0]
+    if uri.endswith("/"):
+        uri += "index.html"
+    elif "." not in uri and len(uri) > 1:
+        uri += "/index.html"
+    parts = uri[1:].split("/")
+    if any(part in ("", ".", "..") for part in parts):
+        return None
+    return "/".join(parts)
+
+
+def rows_against_build(root, texts):
+    """Every row of the redirect table, read against a finished build. Returns (rows checked, problems)."""
+    problems = []
+    rows = redirect_rows(texts)
+    # Exact names, collected once: a case-insensitive disk must not answer differently from the bucket.
+    built = {p.relative_to(root).as_posix() for p in root.rglob("*") if p.is_file()}
+
+    def served(address):
+        key = edge_key(address)
+        return key if key is not None and key in built else None
+
+    for r in rows:
+        src, dst = str(r.get("from", "")), str(r.get("to", ""))
+        row = f"{src} -> {dst}"
+        path, _, fragment = dst.partition("#")
+        if not src.startswith("/") or not dst.startswith("/") or "#" in src or "?" in src or "?" in dst:
+            problems.append(f"{row}: both ends must be paths on this site, with no query string, and only the "
+                            f"target may carry an anchor")
+            continue
+        if not (src + path).isascii() or any(c.isspace() for c in src + dst):
+            problems.append(f"{row}: write the addresses as a browser sends them, percent-encoded, with no spaces")
+            continue
+        if PH_ANCHOR in row or PH_ID in row or PH_DATE_RE.search(row):
+            problems.append(f"{row}: the row is still undated")
+            continue
+        if src in PUBLISHED_OUTSIDE_BUILD:
+            problems.append(f"{row}: the address it redirects is published by the deploy itself; the redirect would cover it")
+        elif served(src) is not None:
+            problems.append(f"{row}: the address it redirects is still built ({served(src)}); the redirect would cover a live page")
+        if path in PUBLISHED_OUTSIDE_BUILD:
+            if fragment:
+                problems.append(f"{row}: the target is not a page, so it has no anchor to point at")
+            continue
+        target = served(path)
+        if target is None:
+            problems.append(f"{row}: the site serves nothing at the target address")
+            continue
+        if fragment:
+            if not target.endswith(".html"):
+                problems.append(f"{row}: the target is not a page, so it has no anchor to point at")
+                continue
+            try:
+                ids = element_ids((root / target).read_text(encoding="utf-8", errors="replace"))
+            except Exception as e:      # a parser fault on odd markup must read like any other refusal
+                problems.append(f"{row}: the target page {target} could not be read as HTML ({type(e).__name__})")
+                continue
+            n = ids.count(urllib.parse.unquote(fragment))
+            if n != 1:
+                problems.append(f"{row}: the target page has {n} elements with id {fragment!r}; it needs exactly one")
+    return len(rows), problems
+
+
 def is_withdrawal_heading(heading, ident, w):
     plain = heading.replace(chr(0x2019), "'")
     return w["title"] in plain and ident in plain
@@ -554,6 +653,8 @@ def _get(url, tries=3):
                 return r.status, r.headers, r.read().decode("utf-8", errors="replace")
         except urllib.error.HTTPError as e:
             return e.code, e.headers, ""
+        except (UnicodeError, ValueError) as e:
+            raise Problem(f"{url} cannot be requested as written ({type(e).__name__}); write it percent-encoded")
         except (urllib.error.URLError, OSError, http.client.HTTPException) as e:
             last = e
             time.sleep(2 * (attempt + 1))
@@ -625,6 +726,9 @@ def check_built(directory, texts):
         if still:
             raise Problem(f"the withdrawn note {w['work']!r} is still in the build: " + ", ".join(sorted(set(still))))
         done.append((ident, heading))
+    count, row_problems = rows_against_build(root, texts)
+    if row_problems:
+        raise Problem("the redirect table does not fit the build: " + " | ".join(row_problems))
     leftovers = []
     for p in sorted(root.rglob("*")):
         if p.is_file() and p.suffix.lower() in (".html", ".txt", ".xml", ".json"):
@@ -756,6 +860,34 @@ def main(argv):
                     continue
                 print(f"live site ok: the {len(w['froms'])} withdrawn addresses of {w['work']!r} answer 301 to "
                       f"{LIVE_BASE}/corrections/#{ident.lower()}, and the live corrections page has one entry under that anchor")
+            covered = {src for w in WITHDRAWALS for src in w["froms"]}
+            others = [r for r in redirect_rows(texts) if str(r.get("from", "")) not in covered]
+            wrong, pending = [], others
+            waits = [0] + [int(x) for x in os.environ.get("STAMP_LIVE_WAITS", "10 20 30 30").split()]
+            for pause in (waits if others else []):     # a new row can take a short while to reach every edge
+                time.sleep(pause)
+                wrong, again = [], []
+                for r in pending:
+                    src, want = str(r.get("from", "")), LIVE_BASE + str(r.get("to", ""))
+                    try:
+                        status, headers, _ = _get(LIVE_BASE + src)
+                    except Problem as e:
+                        wrong.append(f"[{src}] {e}")
+                        again.append(r)
+                        continue
+                    location = headers.get("Location") if headers else None
+                    if status != 301 or location != want:
+                        wrong.append(f"[{src}] answered {status}" + (f" to {location}" if location else
+                                     " with no Location" if status == 301 else "") + f"; the table says 301 to {want}")
+                        again.append(r)
+                pending = again
+                if not pending:
+                    break
+            if others and not wrong:
+                print(f"live site ok: the {len(others)} redirect row{'s' if len(others) != 1 else ''} that belong"
+                      f"{'' if len(others) != 1 else 's'} to no withdrawal answer{'' if len(others) != 1 else 's'} "
+                      f"as the table says")
+            failed += wrong
             if failed:
                 raise Problem(" || ".join(failed))
             return
@@ -765,6 +897,8 @@ def main(argv):
             built = argv[1] if os.path.isabs(argv[1]) else os.path.join(os.environ.get("STAMP_CALLER_DIR", "."), argv[1])
             for ident, heading in check_built(built, texts):
                 print(f"built site ok: one entry under #{ident.lower()}, headed {heading!r}; its withdrawn addresses are gone")
+            print(f"built site ok: each of the {len(redirect_rows(texts))} redirect rows points at an address the site "
+                  f"serves, with its anchor present once, and none covers a page that is still built")
             print("built site ok: no placeholder in the built HTML, text, XML or JSON files")
             return
         if argv[0] == "--unstamp":
@@ -787,6 +921,8 @@ def main(argv):
             kind, ident, missing = verdict(texts, w, allow_own_repeat=True)
             if kind == "unstamped":
                 verdicts(texts)      # nothing to undo, but a faulty tree is still reported
+                if not generated_is_current(texts):
+                    raise Problem(f"{GENERATED} does not match the rows in {REDIRECTS}. Run: node {BUILDER}, and commit the result.")
                 print("already unstamped; nothing to do")
                 return
             others_waiting = [o["work"] for o in WITHDRAWALS if o is not w
@@ -813,7 +949,8 @@ def main(argv):
                         survivors.append(f"{name} line {n}")
             mine_after = my_record(new[REGISTER], w)
             if ident in mine_after or human(d0) in (field(mine_after, "heading") or ""):
-                survivors.append(f"the withdrawal entry in {REGISTER}")
+                at = [str(n) for n, line in enumerate(new[REGISTER].splitlines(), 1) if ident in line]
+                survivors.append(f"the withdrawal entry in {REGISTER}" + (f" (line {', '.join(at[:4])})" if at else ""))
             if survivors and shared:
                 print(f"note: {ident} is also the identifier of another entry, so these mentions of it were left alone: "
                       f"{', '.join(survivors)}")

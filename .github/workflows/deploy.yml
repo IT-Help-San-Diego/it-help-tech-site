@@ -229,6 +229,23 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
+      - name: Preserve pre-publish CloudFront function snapshot
+        # deploy-viewer-request.sh writes infra/cloudfront/baseline/<fn>.pre-publish.<ts>.js
+        # into the runner workspace, which is destroyed when the job ends. Upload it
+        # so the "previous-good" rollback target actually survives a CI publish. The
+        # committed genesis baseline covers the pre-withdrawal state; this artifact
+        # covers whatever a LATER publish replaced. Retrieve during an incident with:
+        #   gh run download <run-id> -n cloudfront-function-prepublish-snapshot
+        # When the publish step is skipped (placeholder date present) no snapshot is
+        # written, and if-no-files-found:ignore makes this a no-op.
+        if: ${{ github.event_name == 'push' }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: cloudfront-function-prepublish-snapshot
+          path: infra/cloudfront/baseline/*.pre-publish.*.js
+          if-no-files-found: ignore
+          retention-days: 90
+
       - name: Invalidate CloudFront cache and wait
         run: |
           INVALIDATION_ID=$(aws cloudfront create-invalidation --distribution-id $DIST_ID --paths '/*' --query 'Invalidation.Id' --output text)

@@ -8,7 +8,7 @@ set -euo pipefail
 
 FUNCTION_NAME="${FUNCTION_NAME:-apex-redirect-to-www}"
 BASELINE_PATH="${BASELINE_PATH:-infra/cloudfront/baseline/apex-redirect-to-www.live-20261113.js}"
-BASELINE_SHA256="81fba1682643320787cf1bf06bdfd08f8824c05eb694a836575a1252f7311b27"
+BASELINE_SHA256="${BASELINE_SHA256:-81fba1682643320787cf1bf06bdfd08f8824c05eb694a836575a1252f7311b27}"
 COMMENT="${COMMENT:-ROLLBACK: apex redirect and legacy blog redirects baseline captured 2026-11-13}"
 MODE="${1:---dry-run}"
 

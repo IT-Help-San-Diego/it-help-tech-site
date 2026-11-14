@@ -17,9 +17,21 @@ The live function source was captured from CloudFront before the Real Bot withdr
 - CloudFront ETag at capture: `E3JWKAKR8XB7XF`
 - Runtime at capture: `cloudfront-js-2.0` (the rollback script republishes this same runtime)
 
-That file is the **genesis** rollback target — the pre-withdrawal state. In addition, `deploy-viewer-request.sh` writes a timestamped `*.pre-publish.*.js` snapshot into the same directory every time it publishes, so there is always a **previous-good** target for the most recent change, not only the genesis state.
+That file is the **genesis** rollback target — the pre-withdrawal state, committed to the repo and always present. For the state replaced by a *later* publish, `deploy-viewer-request.sh` captures a timestamped `*.pre-publish.*.js` snapshot during the deploy, and the workflow's "Preserve pre-publish CloudFront function snapshot" step uploads it as the CI artifact `cloudfront-function-prepublish-snapshot` (90-day retention). The snapshot is **not** committed to the repo — the runner workspace is destroyed when the job ends — so retrieve it from the publishing run when you need it:
 
-The rollback script's `--dry-run` reports whether the live function still matches the genesis baseline. If it reports drift, roll back to the matching pre-publish snapshot instead of the genesis baseline, or you will also revert the later (intended) changes.
+```bash
+gh run download <run-id> -n cloudfront-function-prepublish-snapshot
+```
+
+The rollback script's `--dry-run` reports whether the live function still matches the genesis baseline. If it reports drift, the live function is a later version: roll back to the downloaded pre-publish snapshot from the relevant run, passing both its path and its expected hash so the checksum guard stays meaningful:
+
+```bash
+BASELINE_PATH=<downloaded-snapshot>.js \
+BASELINE_SHA256=<sha256-from-that-run's-log> \
+  infra/cloudfront/rollback-viewer-request.sh --dry-run   # then --execute
+```
+
+Rolling back to the genesis baseline instead would also revert the later (intended) changes.
 
 ## Who runs rollback
 

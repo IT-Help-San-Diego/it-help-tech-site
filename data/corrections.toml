@@ -470,3 +470,28 @@ Published 2026, last revised 26 April 2026. Withdrawn by the author.
 
 The note argued that an unverifiable citation is the floor that fails first. It was right, and it did not hold itself to that floor. That is the reason this entry exists rather than a quiet deletion.
 """
+
+[[correction]]
+# The withdrawal of "Bug-Bounty Programs Are a Corporate-Controlled Casino".
+# The note was removed from the site on 14 November 2026. The identifier and
+# the date are stamped on the day this record goes live, not before: run
+# scripts/stamp-withdrawal.sh with that day's date. The build stops while the
+# placeholders remain.
+id = "C-YYYYMMDD-01"
+status = "published"
+kind = "withdrawal"
+severity = "Material"
+logged = "YYYY-MM-DD"
+work = "Bug-Bounty Programs Are a Corporate-Controlled Casino"
+heading = "C-YYYYMMDD-01 · A field note on bug bounties and hosted-storefront security · withdrawn [DEPLOY DATE]"
+entry = """
+Published 19 June 2026. Removed from this site on 14 November 2026. Withdrawn by the author.
+
+The note stated that Square Online storefronts do not force an HTTPS redirect and do not send HSTS. Measured across 38 storefronts on 13 November 2026, both protections were present on all 38: HTTP redirected to HTTPS, and HSTS was sent with a 90 day max-age.
+
+**This entry does not establish what was true when the note was written.** The note was written in June 2026 and relied on weekly scan reports received since mid-2025. What those storefronts sent at the time cannot be recovered. What can be said is that the claim does not hold now, and that stating a measurement of another party's configuration as a standing property of that party was the wrong form for the finding.
+
+The note's other two findings did hold on all 38: no Content Security Policy and no framing protection. Bugcrowd, a bounty platform the note cited, rates the absence of each at P5 in its published Vulnerability Rating Taxonomy (version 1.19.1), the informational tier that earns no reward, and they do not carry the argument the note made.
+
+The author is a customer of the platform discussed. The note has been withdrawn rather than revised, because what remained after correction did not support publishing.
+"""

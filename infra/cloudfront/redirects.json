@@ -1,10 +1,16 @@
 {
-  "_comment": "Permanent redirects served by the CloudFront viewer-request function. Each `from` is matched exactly; `to` is site-relative and may carry a fragment. The target must be live before the redirect is published. The first publish, on 14 November 2026, was made with an empty list (a no-change swap of the hand-written function for the generated one). The five rows below are the Real Bot withdrawal's; scripts/stamp-withdrawal.sh dates them on the day the withdrawal ships. The storefront rebuild's rows come with that change. The deploy workflow refuses to publish while any row still carries a placeholder date.",
+  "_comment": "Permanent redirects served by the CloudFront viewer-request function. Each `from` is matched exactly; `to` is site-relative and may carry a fragment. The target must be live before the redirect is published. Every row here belongs to a withdrawal and points at its corrections entry: five for the Real Bot note, six for the bug-bounty note (its address and its old /blog/ alias, three forms each). scripts/stamp-withdrawal.sh dates a withdrawal's rows on the day its record ships and checks them on every build. The deploy workflow refuses to publish while any row still carries an undated target.",
   "redirects": [
     { "from": "/field-notes/the-real-bot-hasnt-been-built-yet/", "to": "/corrections/#c-20261114-01", "status": 301 },
     { "from": "/field-notes/the-real-bot-hasnt-been-built-yet", "to": "/corrections/#c-20261114-01", "status": 301 },
     { "from": "/field-notes/the-real-bot-hasnt-been-built-yet/index.html", "to": "/corrections/#c-20261114-01", "status": 301 },
     { "from": "/field-notes/the-real-bot-hasnt-been-built-yet.pdf", "to": "/corrections/#c-20261114-01", "status": 301 },
-    { "from": "/field-notes/the-real-bot-hasnt-been-built-yet.bib", "to": "/corrections/#c-20261114-01", "status": 301 }
+    { "from": "/field-notes/the-real-bot-hasnt-been-built-yet.bib", "to": "/corrections/#c-20261114-01", "status": 301 },
+    { "from": "/field-notes/bug-bounty-programs-are-a-corporate-controlled-casino/", "to": "/corrections/#c-yyyymmdd-01", "status": 301 },
+    { "from": "/field-notes/bug-bounty-programs-are-a-corporate-controlled-casino", "to": "/corrections/#c-yyyymmdd-01", "status": 301 },
+    { "from": "/field-notes/bug-bounty-programs-are-a-corporate-controlled-casino/index.html", "to": "/corrections/#c-yyyymmdd-01", "status": 301 },
+    { "from": "/blog/bug-bounty-programs-are-a-corporate-controlled-casino/", "to": "/corrections/#c-yyyymmdd-01", "status": 301 },
+    { "from": "/blog/bug-bounty-programs-are-a-corporate-controlled-casino", "to": "/corrections/#c-yyyymmdd-01", "status": 301 },
+    { "from": "/blog/bug-bounty-programs-are-a-corporate-controlled-casino/index.html", "to": "/corrections/#c-yyyymmdd-01", "status": 301 }
   ]
 }

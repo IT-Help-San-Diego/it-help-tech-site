@@ -25,12 +25,9 @@ const REPO_ROOT = process.cwd();
 const NOTES_DIR = path.join(REPO_ROOT, "content/field-notes");
 const OUT = path.join(REPO_ROOT, "data/field-note-citations.json");
 const SITE_CONFIG = path.join(REPO_ROOT, "config.toml");
-// Notes left out: one stays as it is until its rebuild ships, one is being
-// withdrawn. A name here that matches no file is harmless.
-const EXCLUDE = new Set([
-  "bug-bounty-programs-are-a-corporate-controlled-casino.md",
-  "the-real-bot-hasnt-been-built-yet.md",
-]);
+// Notes left out of the citation data. None at present: the two that were
+// listed here have both been withdrawn. A name that matches no file is harmless.
+const EXCLUDE = new Set([]);
 const DEF = /^\[\^([^\]]+)\]:\s*(.*)$/;
 
 function die(msg) {

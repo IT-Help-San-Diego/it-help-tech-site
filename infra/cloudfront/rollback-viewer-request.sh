@@ -32,6 +32,28 @@ if [[ "$MODE" == "--dry-run" ]]; then
   aws cloudfront describe-function --name "$FUNCTION_NAME" --stage LIVE \
     --query '{Name:FunctionSummary.Name,Status:FunctionSummary.Status,ETag:ETag,Comment:FunctionSummary.FunctionConfig.Comment}' \
     --output json
+
+  # Drift check: is the committed baseline still identical to what is live?
+  # If a later publish changed the function, rolling back to this baseline would
+  # also revert those later changes — the operator must know that before running
+  # --execute. We compare the live code bytes to the saved baseline bytes.
+  LIVE_TMP="$(mktemp "${TMPDIR:-/tmp}/ithelp-live-fn.XXXXXX.js")"
+  if aws cloudfront get-function --name "$FUNCTION_NAME" --stage LIVE "$LIVE_TMP" >/dev/null 2>&1; then
+    live_sha=$(shasum -a 256 "$LIVE_TMP" | awk '{print $1}')
+    if [[ "$live_sha" == "$BASELINE_SHA256" ]]; then
+      echo "drift check: live function MATCHES this baseline — rollback restores the current state (no-op)"
+    else
+      echo "drift check: live function DIFFERS from this baseline"
+      echo "  live     $live_sha"
+      echo "  baseline $BASELINE_SHA256"
+      echo "  rollback would revert the live function to the baseline, discarding any changes published since capture."
+      echo "  if the live function is a known-good later version, roll back to the matching pre-publish snapshot in $(dirname "$BASELINE_PATH")/ instead."
+    fi
+  else
+    echo "drift check: could not read live function (permissions or missing function)"
+  fi
+  rm -f "$LIVE_TMP"
+
   echo "dry-run only; pass --execute to update and publish the saved baseline"
   exit 0
 fi

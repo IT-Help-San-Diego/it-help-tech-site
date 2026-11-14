@@ -22,6 +22,28 @@ COMMENT="${COMMENT:-apex-to-www, legacy tag/category redirects, and permanent co
 node infra/cloudfront/build-viewer-request.mjs
 node infra/cloudfront/test-viewer-request.mjs
 
+# --- Pre-publish snapshot -------------------------------------------------
+# CloudFront keeps no previous live version; publishing overwrites LIVE. Before
+# we overwrite, capture exactly what is live now so there is always a record of
+# the state this publish replaces. The committed baseline under
+# infra/cloudfront/baseline/ is the genesis (pre-withdrawal) rollback target;
+# this snapshot is the previous-good target for whatever we are about to change.
+SNAPSHOT_DIR="${SNAPSHOT_DIR:-infra/cloudfront/baseline}"
+SNAPSHOT_STAMP="$(date -u +%Y%m%dT%H%M%SZ)"
+SNAPSHOT_PATH="$SNAPSHOT_DIR/${FUNCTION_NAME}.pre-publish.${SNAPSHOT_STAMP}.js"
+mkdir -p "$SNAPSHOT_DIR"
+if aws cloudfront get-function --name "$FUNCTION_NAME" --stage LIVE "$SNAPSHOT_PATH" >/tmp/ithelp-cloudfront-prepublish-get.json 2>/dev/null; then
+  SNAPSHOT_SHA="$(shasum -a 256 "$SNAPSHOT_PATH" | awk '{print $1}')"
+  SNAPSHOT_ETAG="$(python3 -c 'import json;print(json.load(open("/tmp/ithelp-cloudfront-prepublish-get.json"))["ETag"])')"
+  printf 'pre-publish snapshot: %s\n' "$SNAPSHOT_PATH"
+  printf 'pre-publish sha256:   %s\n' "$SNAPSHOT_SHA"
+  printf 'pre-publish ETag:     %s\n' "$SNAPSHOT_ETAG"
+  printf 'rollback target (previous-good): %s\n' "$SNAPSHOT_PATH"
+else
+  printf 'warning: no LIVE function to snapshot (first publish?) — genesis baseline remains the rollback target\n'
+fi
+# ------------------------------------------------------------------------
+
 ETAG=$(aws cloudfront describe-function \
   --name "$FUNCTION_NAME" \
   --stage DEVELOPMENT \

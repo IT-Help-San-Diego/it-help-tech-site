@@ -7,6 +7,7 @@ name: Build the site on pull requests
 on:
   pull_request:
     branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review, converted_to_draft]
 
 permissions:
   contents: read
@@ -38,14 +39,20 @@ jobs:
             echo "::warning::Could not read the live corrections page; the first-publication date rule will be skipped."
           fi
           bash scripts/stamp-withdrawal.sh --check --require-publisher --live-page "$PUBLISHED"
+        env:
+          # Repair switch, normally unset: the identifiers of entries the published page
+          # has lost. See the header of scripts/stamp-withdrawal.sh.
+          STAMP_ALREADY_PUBLISHED: ${{ vars.STAMP_ALREADY_PUBLISHED }}
 
       - name: Stamp this workspace if the withdrawal is still unstamped
         # The site does not build while the withdrawal's date is a placeholder,
         # by design. Stamp today's date here only, so the pull request is
         # checked the way it would ship today. Nothing is committed.
+        id: stamp
         run: |
           if bash scripts/stamp-withdrawal.sh --check | grep -q '^unstamped'; then
             bash scripts/stamp-withdrawal.sh "$(TZ=America/Los_Angeles date +%F)"
+            echo "was_unstamped=true" >> "${GITHUB_OUTPUT:-/dev/null}"
           fi
 
       - name: Build site with Zola
@@ -53,3 +60,13 @@ jobs:
 
       - name: Check the built corrections page against the withdrawal
         run: bash scripts/stamp-withdrawal.sh --check-built public
+
+      - name: Refuse a ready pull request that still has an undated withdrawal
+        # Merged undated, the site stops building on main and every later deploy
+        # waits for a stamp. That happened once. A draft may stay undated; a
+        # pull request marked ready may not. Last, so the build and the check
+        # of the built page above stay visible.
+        if: ${{ steps.stamp.outputs.was_unstamped == 'true' && github.event.pull_request.draft == false }}
+        run: |
+          echo "::error::A withdrawal in this pull request has no date yet. Stamp it on the day it ships (scripts/stamp-withdrawal.sh with that day's date), or turn the pull request back into a draft."
+          exit 1

@@ -13,6 +13,22 @@ Purpose: Track meaningful AI/developer changes with enough context to roll back 
 
 ## Entries
 
+### [DEPLOY DATE]: The Real Bot field note withdrawn; its address redirects to a corrections entry
+- Actor: AI (Claude Code, on the owner's ruling of 13 November 2026 that the note is withdrawn, not corrected in place).
+- Files added for the stamp: `scripts/stamp-withdrawal.sh`; the index shortcode stops the build on an unstamped record.
+- Scope: one field note, its companion PDF and its BibTeX file removed; one corrections entry; the pages that named them.
+- Files:
+  - `content/field-notes/the-real-bot-hasnt-been-built-yet.md`, `static/field-notes/the-real-bot-hasnt-been-built-yet.pdf`, `static/field-notes/the-real-bot-hasnt-been-built-yet.bib`: REMOVED. The note leaves the field-notes index, the previous/next links of its two neighbours and the sitemap with it.
+  - `data/corrections.toml`: entry C-YYYYMMDD-01, the withdrawal. It says what the note was, that the author withdrew it, where its argument now lives (`10.2139/ssrn.6722059`), and that reference 12 and the BibTeX file gave the note's own manifesto a DOI that belongs to a different work. It names the BibTeX key and the DOI, so a reader who imported that file can find the entry and delete it.
+  - `content/corrections.md`: one sentence on what a withdrawal does.
+  - `content/use-policy.md`: section 4 names the note and PDF as withdrawn and links the entry instead of a page that no longer resolves. The reservation of rights is unchanged.
+  - `content/field-notes/_index.md`: the hand-written ItemList loses the note (9 items to 8).
+  - `infra/cloudfront/redirects.json`: NEW. The five 301s this needs (the note's three URL forms, the PDF, the BibTeX file), all to the entry.
+- Why: the note is self-published, never deposited and declared commercial work product by `/use-policy/`, so it carries no obligation to stay online under a label. One obligation remains: readers who imported its BibTeX file hold a reference with a wrong identifier. A redirect to an entry that explains itself meets it; a 404 or a silent deletion would not.
+- Consequences: the three removed URLs answer 404 until the CloudFront viewer-request function serves the redirects in `infra/cloudfront/redirects.json`. Do not deploy this change without them. The entry's identifier and date are placeholders until the day it goes live, because an entry may not state an event before it happens: run `scripts/stamp-withdrawal.sh YYYY-MM-DD` on that day. The build stops while they remain.
+- Stamping: `scripts/stamp-withdrawal.sh YYYY-MM-DD` picks the next free number for that date and writes the one identifier to every carrier (register entry, heading, `/use-policy/` link, the five redirect rows, this log). The date must be the day it goes live; `--unstamp` puts the placeholders back if it did not ship that day. Checks, none of which change anything: `--check` (the carriers agree; no other entry shares the identifier; with `--live-page`, an entry not yet on the published corrections page must be dated today; with `--require-publisher`, a stamped tree must contain the script that publishes the redirects), `--check-built` (the finished build has one entry under the anchor, naming the withdrawn note; the withdrawn addresses are gone; no placeholder is left), and `--check-live` (the five withdrawn addresses answer 301 to the entry on the live site). The deploy runs the first before anything is built, the second straight after the build and before any change in AWS, and the third after the invalidation. A new pull-request job builds every pull request and runs the first two. The build itself stops on a repeated identifier. If the published page cannot be read, the date rule is skipped with a warning: a deploy is never blocked because the site could not be read.
+- Rollback: revert this PR and remove the five redirects.
+
 ### 2026-11-13: Reference and corrections links wrap on a phone
 - Actor: AI (Claude Code; a defect found while checking a draft note at phone width).
 - Scope: one CSS rule.
@@ -21,6 +37,7 @@ Purpose: Track meaningful AI/developer changes with enough context to roll back 
 - Change: long web addresses in a note's reference list and in corrections entries now break across lines.
 - Why: at 375 pixels wide, every field note had between 1 and 5 reference links running past the right edge of the screen, and `/corrections/` had 31. The page hides sideways overflow, so the end of each address was cut off. Measured before and after on all seven notes and on `/corrections/`: none overflow with the rule, and the home, About and field-notes index pages are unchanged.
 - Rollback: revert this PR.
+
 
 ### 2026-11-13: Reference numbers in the corrections entries matched to the pages
 - Actor: AI (Claude Code, correcting its own error in the day's corrections entries).
@@ -43,6 +60,7 @@ Purpose: Track meaningful AI/developer changes with enough context to roll back 
   - `data/corrections.toml`: entries C-20261113-01, -04 and -05 each gain the sentence as it was and as it reads now. `data/field-note-citations.json` regenerated.
 - Why: a sentence should claim no more than the source it cites. Each edit was made by one pass and checked against the source by a second.
 - Rollback: revert this PR.
+
 
 ### 2026-11-13: References corrected in seven field notes; the first corrections entries
 - Actor: AI (Claude Code, on the owner's decisions of 13 November 2026: a wrong reference in a note whose argument stands is fixed and logged, with no label on the note, and the log is one entry per note).

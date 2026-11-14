@@ -446,3 +446,27 @@ It now says:
 
 The reference numbers in this entry were corrected on 13 November 2026 to match the numbers the note displays. As first published, the entry gave reference 13 as 14.
 """
+
+[[correction]]
+# The withdrawal of "The Real Bot Hasn't Been Built Yet". The identifier and
+# the date are stamped on the day the withdrawal goes live, not before:
+# run scripts/stamp-withdrawal.sh YYYY-MM-DD. The build stops while the
+# placeholders remain.
+id = "C-YYYYMMDD-01"
+status = "published"
+kind = "withdrawal"
+severity = "Material"
+logged = "YYYY-MM-DD"
+work = "The Real Bot Hasn't Been Built Yet"
+heading = "C-YYYYMMDD-01 · The Real Bot Hasn't Been Built Yet · withdrawn [DEPLOY DATE]"
+entry = """
+Published 2026, last revised 26 April 2026. Withdrawn by the author.
+
+**Why.** The note was written before the systems it describes changed, and its argument is carried further, and more carefully, in *The Belief Machine: How Human Identity Defense, AI Sycophancy, and Unaudited Targeting Systems Became One Problem* ([10.2139/ssrn.6722059](https://doi.org/10.2139/ssrn.6722059)). Read that instead.
+
+**It also carried a citation error, and this is the article where that matters most.** Its reference 12 cited the author's own long-form manifesto with a DOI that resolves to a different work, a software deposit. The manifesto was never deposited, so there was no correct identifier to substitute.
+
+**If you imported this page's BibTeX file, you hold a bad reference.** Delete the entry with key **`balboa2026realbot`**, which carries `doi = {10.5281/zenodo.19468134}`. That DOI resolves, which is why no link checker flags it, but it points at a software deposit titled *DNS Tool: Domain Security Audit Platform*, not at this work.
+
+The note argued that an unverifiable citation is the floor that fails first. It was right, and it did not hold itself to that floor. That is the reason this entry exists rather than a quiet deletion.
+"""

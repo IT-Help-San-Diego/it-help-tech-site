@@ -6,7 +6,23 @@
 {%- if published | length == 0 %}
 <p>Entries appear here as they are logged.</p>
 {%- endif -%}
+{%- set every = register.correction | default(value=[]) -%}
+{%- for a in every %}
+{%- if a.id is not defined %}
+{{ throw(message="corrections register: an entry has no id. Every entry needs one.") }}
+{%- endif %}
+{%- endfor %}
+{%- for a in every %}
+{%- set_global same = 0 %}
+{%- for b in every %}{% if a.id | lower == b.id | lower %}{% set_global same = same + 1 %}{% endif %}{% endfor %}
+{%- if same > 1 %}
+{{ throw(message="corrections register: more than one entry has the identifier " ~ a.id ~ ". Every entry needs its own, published or not.") }}
+{%- endif %}
+{%- endfor %}
 {%- for c in published %}
+{%- if c.id is containing("YYYYMMDD") or c.heading is defined and c.heading is containing("DEPLOY DATE") %}
+{{ throw(message="corrections register: " ~ c.id ~ " is not stamped. Run scripts/stamp-withdrawal.sh YYYY-MM-DD on the day it goes live.") }}
+{%- endif %}
 <section class="correction-entry" id="{{ c.id | lower }}" aria-labelledby="{{ c.id | lower }}-h">
 {%- if c.entry %}
 <h2 id="{{ c.id | lower }}-h">{{ c.heading }}</h2>

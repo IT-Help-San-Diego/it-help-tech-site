@@ -77,7 +77,7 @@ export STAMP_CALLER_DIR="$PWD"
 cd "$(dirname "$0")/.."
 exec python3 - "$@" <<'PY'
 import datetime, html as htmllib, http.client, json, os, pathlib, re, sys, tempfile, time
-import urllib.error, urllib.request
+import urllib.error, urllib.parse, urllib.request
 from html.parser import HTMLParser
 
 REGISTER = "data/corrections.toml"
@@ -380,7 +380,8 @@ def generated_is_current(texts):
     except OSError:
         return False
     rows = redirect_rows(texts)
-    pairs = [json.dumps(str(r.get("from"))) + ": " + json.dumps(str(r.get("to"))) for r in rows]
+    pairs = [json.dumps(str(r.get("from")), ensure_ascii=False) + ": " + json.dumps(str(r.get("to")), ensure_ascii=False)
+             for r in rows]
     mapped = len(re.findall(r"""(?m)^\s*"/[^"\n]*":\s*"/[^"\n]*",?\s*$""", generated))
     return all(p in generated for p in pairs) and mapped == len(pairs)
 
@@ -539,41 +540,74 @@ def element_ids(page_html):
     return p.ids
 
 
-def built_file(root, address):
-    """The file in a build that a site-relative address is served from, or None if the build has none."""
-    rel = address.split("#", 1)[0].split("?", 1)[0].lstrip("/")
-    last = rel.rstrip("/").rsplit("/", 1)[-1]
-    if "." in last and not rel.endswith("/"):
-        candidates = [root / rel]
-    else:
-        candidates = [root / rel.rstrip("/") / "index.html"] + ([root / (rel.rstrip("/") + ".html")] if rel.strip("/") else [])
-    return next((c for c in candidates if c.is_file()), None)
+# Addresses the deploy publishes from outside the Zola output: deploy.yml uploads build/llms-full.txt on
+# its own, after the build has been checked. No build holds them, but the site serves them.
+PUBLISHED_OUTSIDE_BUILD = ("/llms-full.txt",)
+
+
+def edge_key(address):
+    """The object the site serves for a site-relative address, as a path inside the build, or None if no
+    object can match. This follows infra/cloudfront/viewer-request-template.js step 3 exactly: a trailing
+    slash gets index.html; an address with no dot anywhere gets /index.html; anything else is asked for as
+    it is. The bucket matches a key byte for byte, so an empty or dotted segment matches nothing."""
+    uri = address.split("#", 1)[0].split("?", 1)[0]
+    if uri.endswith("/"):
+        uri += "index.html"
+    elif "." not in uri and len(uri) > 1:
+        uri += "/index.html"
+    parts = uri[1:].split("/")
+    if any(part in ("", ".", "..") for part in parts):
+        return None
+    return "/".join(parts)
 
 
 def rows_against_build(root, texts):
     """Every row of the redirect table, read against a finished build. Returns (rows checked, problems)."""
     problems = []
     rows = redirect_rows(texts)
+    # Exact names, collected once: a case-insensitive disk must not answer differently from the bucket.
+    built = {p.relative_to(root).as_posix() for p in root.rglob("*") if p.is_file()}
+
+    def served(address):
+        key = edge_key(address)
+        return key if key is not None and key in built else None
+
     for r in rows:
         src, dst = str(r.get("from", "")), str(r.get("to", ""))
         row = f"{src} -> {dst}"
         path, _, fragment = dst.partition("#")
-        if (not src.startswith("/") or not dst.startswith("/") or "#" in src
-                or ".." in src.split("/") or ".." in path.split("/")):
-            problems.append(f"{row}: both ends must be paths on this site")
+        if not src.startswith("/") or not dst.startswith("/") or "#" in src or "?" in src or "?" in dst:
+            problems.append(f"{row}: both ends must be paths on this site, with no query string, and only the "
+                            f"target may carry an anchor")
+            continue
+        if not (src + path).isascii() or any(c.isspace() for c in src + dst):
+            problems.append(f"{row}: write the addresses as a browser sends them, percent-encoded, with no spaces")
             continue
         if PH_ANCHOR in row or PH_ID in row or PH_DATE_RE.search(row):
             problems.append(f"{row}: the row is still undated")
             continue
-        served = built_file(root, src)
-        if served is not None:
-            problems.append(f"{row}: the address it redirects is still built ({served}); the redirect would cover a live page")
-        target = built_file(root, path)
+        if src in PUBLISHED_OUTSIDE_BUILD:
+            problems.append(f"{row}: the address it redirects is published by the deploy itself; the redirect would cover it")
+        elif served(src) is not None:
+            problems.append(f"{row}: the address it redirects is still built ({served(src)}); the redirect would cover a live page")
+        if path in PUBLISHED_OUTSIDE_BUILD:
+            if fragment:
+                problems.append(f"{row}: the target is not a page, so it has no anchor to point at")
+            continue
+        target = served(path)
         if target is None:
-            problems.append(f"{row}: the target page is not in the build")
+            problems.append(f"{row}: the site serves nothing at the target address")
             continue
         if fragment:
-            n = element_ids(target.read_text(encoding="utf-8", errors="replace")).count(fragment)
+            if not target.endswith(".html"):
+                problems.append(f"{row}: the target is not a page, so it has no anchor to point at")
+                continue
+            try:
+                ids = element_ids((root / target).read_text(encoding="utf-8", errors="replace"))
+            except Exception as e:      # a parser fault on odd markup must read like any other refusal
+                problems.append(f"{row}: the target page {target} could not be read as HTML ({type(e).__name__})")
+                continue
+            n = ids.count(urllib.parse.unquote(fragment))
             if n != 1:
                 problems.append(f"{row}: the target page has {n} elements with id {fragment!r}; it needs exactly one")
     return len(rows), problems
@@ -619,6 +653,8 @@ def _get(url, tries=3):
                 return r.status, r.headers, r.read().decode("utf-8", errors="replace")
         except urllib.error.HTTPError as e:
             return e.code, e.headers, ""
+        except (UnicodeError, ValueError) as e:
+            raise Problem(f"{url} cannot be requested as written ({type(e).__name__}); write it percent-encoded")
         except (urllib.error.URLError, OSError, http.client.HTTPException) as e:
             last = e
             time.sleep(2 * (attempt + 1))
@@ -826,20 +862,31 @@ def main(argv):
                       f"{LIVE_BASE}/corrections/#{ident.lower()}, and the live corrections page has one entry under that anchor")
             covered = {src for w in WITHDRAWALS for src in w["froms"]}
             others = [r for r in redirect_rows(texts) if str(r.get("from", "")) not in covered]
-            wrong = []
-            for r in others:
-                src, want = str(r.get("from", "")), LIVE_BASE + str(r.get("to", ""))
-                try:
-                    status, headers, _ = _get(LIVE_BASE + src)
-                except Problem as e:
-                    wrong.append(f"[{src}] {e}")
-                    continue
-                location = headers.get("Location") if headers else None
-                if status != 301 or location != want:
-                    wrong.append(f"[{src}] answered {status}" + (f" to {location}" if location else "")
-                                 + f"; the table says 301 to {want}")
+            wrong, pending = [], others
+            waits = [0] + [int(x) for x in os.environ.get("STAMP_LIVE_WAITS", "10 20 30 30").split()]
+            for pause in (waits if others else []):     # a new row can take a short while to reach every edge
+                time.sleep(pause)
+                wrong, again = [], []
+                for r in pending:
+                    src, want = str(r.get("from", "")), LIVE_BASE + str(r.get("to", ""))
+                    try:
+                        status, headers, _ = _get(LIVE_BASE + src)
+                    except Problem as e:
+                        wrong.append(f"[{src}] {e}")
+                        again.append(r)
+                        continue
+                    location = headers.get("Location") if headers else None
+                    if status != 301 or location != want:
+                        wrong.append(f"[{src}] answered {status}" + (f" to {location}" if location else
+                                     " with no Location" if status == 301 else "") + f"; the table says 301 to {want}")
+                        again.append(r)
+                pending = again
+                if not pending:
+                    break
             if others and not wrong:
-                print(f"live site ok: the {len(others)} redirect rows that belong to no withdrawal answer as the table says")
+                print(f"live site ok: the {len(others)} redirect row{'s' if len(others) != 1 else ''} that belong"
+                      f"{'' if len(others) != 1 else 's'} to no withdrawal answer{'' if len(others) != 1 else 's'} "
+                      f"as the table says")
             failed += wrong
             if failed:
                 raise Problem(" || ".join(failed))
@@ -850,8 +897,8 @@ def main(argv):
             built = argv[1] if os.path.isabs(argv[1]) else os.path.join(os.environ.get("STAMP_CALLER_DIR", "."), argv[1])
             for ident, heading in check_built(built, texts):
                 print(f"built site ok: one entry under #{ident.lower()}, headed {heading!r}; its withdrawn addresses are gone")
-            print(f"built site ok: each of the {len(redirect_rows(texts))} redirect rows points at a page and an anchor that "
-                  f"exist, and none covers a page that is still built")
+            print(f"built site ok: each of the {len(redirect_rows(texts))} redirect rows points at an address the site "
+                  f"serves, with its anchor present once, and none covers a page that is still built")
             print("built site ok: no placeholder in the built HTML, text, XML or JSON files")
             return
         if argv[0] == "--unstamp":

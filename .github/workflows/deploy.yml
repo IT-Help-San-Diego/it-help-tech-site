@@ -135,6 +135,24 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
+      - name: Build and test CloudFront viewer-request redirects
+        run: |
+          node infra/cloudfront/build-viewer-request.mjs
+          node infra/cloudfront/test-viewer-request.mjs
+
+      - name: Publish CloudFront viewer-request redirects
+        if: ${{ github.event_name == 'push' }}
+        run: |
+          if grep -qE 'yyyymmdd|YYYY-MM-DD|\[DEPLOY DATE\]' infra/cloudfront/redirects.json; then
+            echo "CloudFront viewer-request redirects are not stamped yet; skipping publish."
+            exit 0
+          fi
+          ./infra/cloudfront/deploy-viewer-request.sh
+        env:
+          AWS_REGION: us-east-1
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
       - name: Upload immutable assets
         run: |
           aws s3 sync public/ s3://$BUCKET/ \

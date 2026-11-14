@@ -9,6 +9,8 @@ on:
       - "infra/citations/**"
       - "data/**"
       - "config.toml"
+      - "infra/cloudfront/redirects.json"
+      - "scripts/stamp-withdrawal.sh"
       - ".github/workflows/llms-validate.yml"
 
 # Least-privilege token: this workflow only reads the repo and uploads an
@@ -34,6 +36,11 @@ jobs:
         # data/field-note-citations.json is derived from each note's reference
         # list; a content change that edits references must regenerate it.
         run: node infra/citations/extract-citations.mjs --check
+
+      - name: Check the withdrawal carries one identifier everywhere
+        # The register entry, its heading, the /use-policy/ anchor and the five
+        # redirect rows must all name the same entry, or all still be unstamped.
+        run: bash scripts/stamp-withdrawal.sh --check
 
       - name: Show byte count and section structure
         run: |

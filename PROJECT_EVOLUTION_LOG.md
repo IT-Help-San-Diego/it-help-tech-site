@@ -14,7 +14,7 @@ Purpose: Track meaningful AI/developer changes with enough context to roll back 
 ## Entries
 
 ### [DEPLOY DATE]: The bug-bounty field note's withdrawal recorded; its addresses redirect to a corrections entry
-- Actor: AI (Claude Code), on the owner's decision of 14 November 2026 to withdraw the note. Not merged without the owner's word.
+- Actor: AI (Claude Code), on the owner's two decisions of 14 November 2026: to withdraw the note, and to publish this record of it.
 - Scope: one corrections entry; six redirect rows; the script that dates and checks withdrawals. No page other than `/corrections/` changes.
 - Files:
   - `data/corrections.toml`: entry C-YYYYMMDD-01, the withdrawal. It says what the note claimed, what was measured across 38 storefronts on 13 November 2026, which claims did not hold and which did, and that the author is a customer of the platform discussed.

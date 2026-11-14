@@ -101,7 +101,7 @@
       "Google. (n.d.). Lack of X-Frame-Options without a well-defined risk. Google Bug Hunters. Retrieved November 13, 2026, from https://bughunters.google.com/learn/invalid-reports/web-platform/csrf-clickjacking/lack-of-x-frame-options-without-a-well-defined-risk",
       "Bugcrowd. (2026, October 1). Bug Bounty: Square - Bugcrowd [Bug bounty engagement brief, marked paused]. Retrieved November 13, 2026, from https://bugcrowd.com/engagements/square",
       "Block Security Team. (2026, October 14). Block's Bug Bounty Program Is Moving to HackerOne. Block Engineering Blog. https://engineering.block.xyz/blog/blocks-bug-bounty-program-is-moving-to-hackerone",
-      "bugcrowd_data.json [Data file of Bugcrowd program scopes]. (2026, September 28). In bounty-targets-data, commit aaf3c4f. GitHub. https://github.com/arkadiyt/bounty-targets-data/blob/aaf3c4f4b1e3c6951bf9f04f29c3daf21798cbb2/data/bugcrowd_data.json",
+      "bugcrowd_data.json [Data file of Bugcrowd program scopes]. (2026, September 28). In bounty-targets-data, commit aaf3c4f. GitHub. Retrieved November 13, 2026, from https://github.com/arkadiyt/bounty-targets-data/blob/aaf3c4f4b1e3c6951bf9f04f29c3daf21798cbb2/data/bugcrowd_data.json",
       "Bugcrowd. (n.d.). [Statistics data for the Square program, served as JSON with no title]. Retrieved November 13, 2026, from https://bugcrowd.com/engagements/square/statistics"
     ],
     "/field-notes/the-owl-semaphore/": [

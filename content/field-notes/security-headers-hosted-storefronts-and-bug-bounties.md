@@ -17,6 +17,8 @@ extra:
   canonical_url: "https://www.it-help.tech/field-notes/security-headers-hosted-storefronts-and-bug-bounties/"
 ---
 
+Disclosure: IT Help San Diego is a Square customer. It uses Square's booking service for its own appointments, and until 2 November 2026 one of its own domains pointed to a Square Online site.
+
 ## Summary
 
 A security header is a line in a web server's response that switches on a protection in the browser. A bug bounty program offers rewards to researchers who report vulnerabilities.
@@ -155,8 +157,6 @@ The requests were scripted and run, the cited documents fetched and read, and th
 
 I am not publishing the list of stores. They are other people's businesses, and the result was the same on all 38.
 
-Disclosure: IT Help San Diego is a Square customer. It uses Square's booking service for its own appointments, and until 2 November 2026 one of its own domains pointed to a Square Online site.
-
 This note replaces an earlier one, published on 19 June 2026. What changed is recorded on the [corrections page](/corrections/).
 
 *Measured on 13 November 2026.*
@@ -219,6 +219,6 @@ This note replaces an earlier one, published on 19 June 2026. What changed is re
 
 [^27]: Block Security Team. (2026, October 14). *Block's Bug Bounty Program Is Moving to HackerOne*. Block Engineering Blog. <https://engineering.block.xyz/blog/blocks-bug-bounty-program-is-moving-to-hackerone>
 
-[^28]: *bugcrowd_data.json* [Data file of Bugcrowd program scopes]. (2026, September 28). In *bounty-targets-data*, commit `aaf3c4f`. GitHub. <https://github.com/arkadiyt/bounty-targets-data/blob/aaf3c4f4b1e3c6951bf9f04f29c3daf21798cbb2/data/bugcrowd_data.json>
+[^28]: *bugcrowd_data.json* [Data file of Bugcrowd program scopes]. (2026, September 28). In *bounty-targets-data*, commit `aaf3c4f`. GitHub. Retrieved November 13, 2026, from <https://github.com/arkadiyt/bounty-targets-data/blob/aaf3c4f4b1e3c6951bf9f04f29c3daf21798cbb2/data/bugcrowd_data.json>
 
 [^29]: Bugcrowd. (n.d.). [Statistics data for the Square program, served as JSON with no title]. Retrieved November 13, 2026, from <https://bugcrowd.com/engagements/square/statistics>

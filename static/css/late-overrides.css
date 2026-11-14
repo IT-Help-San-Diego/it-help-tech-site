@@ -1672,3 +1672,12 @@ img.img-centered-240 {
 .correction-entry dd {
     margin: 0 0 var(--space-3);
 }
+
+/* Reference lists and corrections entries. A long web address with no
+   hyphens does not wrap on its own, and the page hides sideways overflow,
+   so on a phone the end of the address was cut off. Let these links break
+   anywhere so the whole address stays on screen. */
+.footnote-definition a,
+.correction-entry a {
+    overflow-wrap: anywhere;
+}

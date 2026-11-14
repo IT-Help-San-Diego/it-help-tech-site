@@ -13,6 +13,19 @@ Purpose: Track meaningful AI/developer changes with enough context to roll back 
 
 ## Entries
 
+### 2026-11-14: The bug-bounty field note's withdrawal recorded; its addresses redirect to a corrections entry
+- Actor: AI (Claude Code), on the owner's two decisions of 14 November 2026: to withdraw the note, and to publish this record of it.
+- Scope: one corrections entry; six redirect rows; the script that dates and checks withdrawals. No page other than `/corrections/` changes.
+- Files:
+  - `data/corrections.toml`: entry C-20261114-02, the withdrawal. It says what the note claimed, what was measured across 38 storefronts on 13 November 2026, which claims did not hold and which did, and that the author is a customer of the platform discussed.
+  - `infra/cloudfront/redirects.json` and `infra/cloudfront/viewer-request.generated.js`: six rows. The note's address and its old `/blog/` alias, three forms each, answer with a permanent redirect to the entry.
+  - `scripts/stamp-withdrawal.sh`: now works from a table of withdrawals, one row each, so the checks in the build and after the deploy cover both. Only one withdrawal may wait for its date at a time. A withdrawal that is on the published page keeps its identifier: the check refuses a tree that carries another one, or none.
+  - `.github/workflows/site-build-check.yml`: a pull request that is marked ready while a withdrawal is still undated now fails its check, so "ready to merge" and "does not build on main" cannot both show green.
+  - `infra/citations/extract-citations.mjs`: the two names it left out are both gone from the site, so the list is empty.
+- Why: the note came down on 14 November 2026 as a plain removal (the entry dated 2026-11-14 that begins "Remove Square"). Its address and alias then answered "not found", and the register carried no record of a note whose HTTPS and HSTS claims did not hold when measured. A reader holding either address is owed the explanation, and the corrections page is where this site keeps it. This replaces that entry's "No replacement redirect is added": the two addresses now redirect to the record.
+- Not in this change: the note's eight institutional references (MDN, OWASP, hstspreload.org, FIRST) are no longer linked from the site. Where they go is a separate change.
+- Rollback: revert this change. The two addresses answer "not found" again and the entry leaves the page. Do not revert it once the entry has been published without also deciding what the addresses should answer.
+
 ### 2026-11-14 — Remove Square / bug-bounty field note from public site
 - Actor: AI (Hermes), carrying Carey's explicit "kill it" decision.
 - Scope: public content removal; no replacement note.

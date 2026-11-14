@@ -49,9 +49,9 @@ jobs:
           done <<< "${changed_files}"
 
       - name: Install Zola
-        uses: taiki-e/install-action@6a1bd70eaac3c8bdf093356838d7ee09fda951cf # v2
+        uses: taiki-e/install-action@cfdb7ed4ccc7c7dce37759eae89dc5674b469b39 # v2
         with:
-          tool: zola
+          tool: zola@0.22.1
 
       - name: Run zola build
         run: zola build

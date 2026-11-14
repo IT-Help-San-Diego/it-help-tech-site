@@ -1,4 +1,4 @@
-<picture>
+{# Autoescape is on for .html shortcodes: each value prints escaped once, so do not add `| escape` (that escapes it twice). Keep this comment on the tag's line; on a line of its own it adds a newline to the output. #}<picture>
   <source type="image/avif"
           srcset="{{ get_url(path=base ~ '-320.avif', cachebust=true) }} 320w,
                   {{ get_url(path=base ~ '-512.avif', cachebust=true) }} 512w,
@@ -18,5 +18,5 @@
        width="{{ width | default(value=960) }}"
        height="{{ height | default(value=960) }}"
        src="{{ get_url(path=base ~ '-640.webp', cachebust=true) }}"
-       alt="{{ alt | escape }}">
+       alt="{{ alt }}">
 </picture>

@@ -59,7 +59,7 @@
 {% endif %}
 
 {% set meta_description = ctx.description | default(value=config.description) %}
-<meta name="description" content="{{ meta_description | safe }}" />
+<meta name="description" content="{{ meta_description }}" />
 
 {%- set integrity = config.extra.integrity | default(value=true) -%}
 
@@ -212,8 +212,14 @@
 {# --- Open Graph & Twitter --- #}
 {%- set og_image_path = ctx.extra.og_image | default(value=config.extra.default_og_image) %}
 {%- set og_image_alt = ctx.extra.og_image_alt | default(value=ctx.extra.og_title | default(value=ctx.title)) %}
+{#- Descriptions: resolve the fallback in a `set`, which never escapes, and
+    print the result once. Printing `a | default(value=b)` directly escapes b
+    twice when a is unset (Tera escapes the default on its own, then the whole
+    expression), which turned an apostrophe into &amp;#x27; in the social card. #}
+{%- set og_description = ctx.extra.og_description | default(value=ctx.description) %}
+{%- set twitter_description = ctx.extra.twitter_description | default(value=ctx.description) %}
 <meta property="og:title"       content="{{ ctx.extra.og_title       | default(value=ctx.title) | safe }}">
-<meta property="og:description" content="{{ ctx.extra.og_description | default(value=ctx.description) }}">
+<meta property="og:description" content="{{ og_description }}">
 <meta property="og:image"       content="{{ get_url(path=og_image_path, trailing_slash=false, cachebust=true) | safe }}">
 <meta property="og:image:type"   content="{% if og_image_path is ending_with('.jpg') or og_image_path is ending_with('.jpeg') %}image/jpeg{% else %}image/png{% endif %}">
 <meta property="og:image:width"  content="{{ ctx.extra.og_image_width  | default(value=1200) }}">
@@ -225,7 +231,7 @@
 
 <meta name="twitter:card"        content="{{ ctx.extra.twitter_card        | default(value='summary_large_image') }}">
 <meta name="twitter:title"       content="{{ ctx.extra.twitter_title       | default(value=ctx.title) | safe }}">
-<meta name="twitter:description" content="{{ ctx.extra.twitter_description | default(value=ctx.description) }}">
+<meta name="twitter:description" content="{{ twitter_description }}">
 <meta name="twitter:image"       content="{{ get_url(path=ctx.extra.twitter_image | default(value=config.extra.default_twitter_image), trailing_slash=false, cachebust=true) | safe }}">
 <meta name="twitter:image:alt"   content="{{ og_image_alt | safe }}">
 

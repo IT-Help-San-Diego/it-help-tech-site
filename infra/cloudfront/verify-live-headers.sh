@@ -10,7 +10,9 @@ check_headers() {
   local expected_location="${3:-}"
 
   local headers
-  headers=$(curl -sS -I "$url" | tr -d '\r')
+  # Timeouts and retries: this runs after the site is already live, so one slow
+  # or dropped connection must not fail the job.
+  headers=$(curl -sS -I --connect-timeout 10 --max-time 30 --retry 3 --retry-delay 2 "$url" | tr -d '\r')
   printf '%s\n' "--- $url"
   printf '%s\n' "$headers" | awk 'BEGIN{IGNORECASE=1} /^HTTP\// || /^location:/ || /^cache-control:/ || /^strict-transport-security:/ || /^content-security-policy:/ || /^x-frame-options:/ || /^x-content-type-options:/ {print}'
 

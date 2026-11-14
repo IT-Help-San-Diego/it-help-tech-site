@@ -36,11 +36,15 @@
 #       Change nothing. Read a finished build: for each withdrawal the
 #       corrections page must hold exactly one entry under the stamped anchor,
 #       that entry must carry its heading, and the withdrawn addresses must be
-#       gone from the build. No placeholder may appear in any built page.
+#       gone from the build. Then every row of the redirect table, whether or
+#       not it belongs to a withdrawal: the address it redirects must not be
+#       built, and its target page and anchor must exist, the anchor once.
+#       No placeholder may appear in any built page.
 #   scripts/stamp-withdrawal.sh --check-live
 #       Change nothing. Ask the live site: each withdrawn address must answer
 #       301 to its stamped anchor, and the live corrections page must hold
-#       exactly one entry under it.
+#       exactly one entry under it. Every other row of the redirect table must
+#       answer 301 to its target as well.
 #
 # Order on the day, in one sitting: merge origin/main into the branch; stamp;
 # commit and push; wait for the checks on that stamped commit; merge; watch the
@@ -74,6 +78,7 @@ cd "$(dirname "$0")/.."
 exec python3 - "$@" <<'PY'
 import datetime, html as htmllib, http.client, json, os, pathlib, re, sys, tempfile, time
 import urllib.error, urllib.request
+from html.parser import HTMLParser
 
 REGISTER = "data/corrections.toml"
 POLICY = "content/use-policy.md"
@@ -468,8 +473,11 @@ def apply_unstamp(texts, ident, w):
     out = {}
     reg = texts[REGISTER]
     rec = my_record(reg, w)
-    new = (rec.replace(ident, PH_ID)
-              .replace(f'withdrawn {human(d)}"', f'withdrawn {PH_DATE}"')
+    # Only the two fields the stamp fills in. An identifier cited in the entry text was written by
+    # hand; it is left where it is, and --unstamp then refuses and says so.
+    new = re.sub(r'(?m)^([ \t]*id[ \t]*=[ \t]*")' + re.escape(ident) + r'(")', lambda m: m.group(1) + PH_ID + m.group(2), rec)
+    new = re.sub(r'(?m)^([ \t]*heading[ \t]*=[ \t]*")' + re.escape(ident) + r'( · )', lambda m: m.group(1) + PH_ID + m.group(2), new)
+    new = (new.replace(f'withdrawn {human(d)}"', f'withdrawn {PH_DATE}"')
               .replace(f'logged = "{d.isoformat()}"', f'logged = "{PH_ISO}"'))
     out[REGISTER] = reg.replace(rec, new, 1)
     out[POLICY] = texts[POLICY]
@@ -512,6 +520,63 @@ def section_heading(page_html, anchor):
     m = re.search(r"""<section\b[^>]*\bid=["']?""" + re.escape(anchor) + r"""["']?[\s>].*?<h2\b[^>]*>(.*?)</h2>""",
                   page_html, flags=re.S)
     return htmllib.unescape(re.sub(r"<[^>]+>", "", m.group(1))).strip() if m else ""
+
+
+class _Ids(HTMLParser):
+    """Collects every id attribute in a page. A real parser, so quoting and attribute order do not matter."""
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.ids = []
+
+    def handle_starttag(self, tag, attrs):
+        self.ids += [v for k, v in attrs if k == "id" and v is not None]
+
+
+def element_ids(page_html):
+    p = _Ids()
+    p.feed(page_html)
+    p.close()
+    return p.ids
+
+
+def built_file(root, address):
+    """The file in a build that a site-relative address is served from, or None if the build has none."""
+    rel = address.split("#", 1)[0].split("?", 1)[0].lstrip("/")
+    last = rel.rstrip("/").rsplit("/", 1)[-1]
+    if "." in last and not rel.endswith("/"):
+        candidates = [root / rel]
+    else:
+        candidates = [root / rel.rstrip("/") / "index.html"] + ([root / (rel.rstrip("/") + ".html")] if rel.strip("/") else [])
+    return next((c for c in candidates if c.is_file()), None)
+
+
+def rows_against_build(root, texts):
+    """Every row of the redirect table, read against a finished build. Returns (rows checked, problems)."""
+    problems = []
+    rows = redirect_rows(texts)
+    for r in rows:
+        src, dst = str(r.get("from", "")), str(r.get("to", ""))
+        row = f"{src} -> {dst}"
+        path, _, fragment = dst.partition("#")
+        if (not src.startswith("/") or not dst.startswith("/") or "#" in src
+                or ".." in src.split("/") or ".." in path.split("/")):
+            problems.append(f"{row}: both ends must be paths on this site")
+            continue
+        if PH_ANCHOR in row or PH_ID in row or PH_DATE_RE.search(row):
+            problems.append(f"{row}: the row is still undated")
+            continue
+        served = built_file(root, src)
+        if served is not None:
+            problems.append(f"{row}: the address it redirects is still built ({served}); the redirect would cover a live page")
+        target = built_file(root, path)
+        if target is None:
+            problems.append(f"{row}: the target page is not in the build")
+            continue
+        if fragment:
+            n = element_ids(target.read_text(encoding="utf-8", errors="replace")).count(fragment)
+            if n != 1:
+                problems.append(f"{row}: the target page has {n} elements with id {fragment!r}; it needs exactly one")
+    return len(rows), problems
 
 
 def is_withdrawal_heading(heading, ident, w):
@@ -625,6 +690,9 @@ def check_built(directory, texts):
         if still:
             raise Problem(f"the withdrawn note {w['work']!r} is still in the build: " + ", ".join(sorted(set(still))))
         done.append((ident, heading))
+    count, row_problems = rows_against_build(root, texts)
+    if row_problems:
+        raise Problem("the redirect table does not fit the build: " + " | ".join(row_problems))
     leftovers = []
     for p in sorted(root.rglob("*")):
         if p.is_file() and p.suffix.lower() in (".html", ".txt", ".xml", ".json"):
@@ -756,6 +824,23 @@ def main(argv):
                     continue
                 print(f"live site ok: the {len(w['froms'])} withdrawn addresses of {w['work']!r} answer 301 to "
                       f"{LIVE_BASE}/corrections/#{ident.lower()}, and the live corrections page has one entry under that anchor")
+            covered = {src for w in WITHDRAWALS for src in w["froms"]}
+            others = [r for r in redirect_rows(texts) if str(r.get("from", "")) not in covered]
+            wrong = []
+            for r in others:
+                src, want = str(r.get("from", "")), LIVE_BASE + str(r.get("to", ""))
+                try:
+                    status, headers, _ = _get(LIVE_BASE + src)
+                except Problem as e:
+                    wrong.append(f"[{src}] {e}")
+                    continue
+                location = headers.get("Location") if headers else None
+                if status != 301 or location != want:
+                    wrong.append(f"[{src}] answered {status}" + (f" to {location}" if location else "")
+                                 + f"; the table says 301 to {want}")
+            if others and not wrong:
+                print(f"live site ok: the {len(others)} redirect rows that belong to no withdrawal answer as the table says")
+            failed += wrong
             if failed:
                 raise Problem(" || ".join(failed))
             return
@@ -765,6 +850,8 @@ def main(argv):
             built = argv[1] if os.path.isabs(argv[1]) else os.path.join(os.environ.get("STAMP_CALLER_DIR", "."), argv[1])
             for ident, heading in check_built(built, texts):
                 print(f"built site ok: one entry under #{ident.lower()}, headed {heading!r}; its withdrawn addresses are gone")
+            print(f"built site ok: each of the {len(redirect_rows(texts))} redirect rows points at a page and an anchor that "
+                  f"exist, and none covers a page that is still built")
             print("built site ok: no placeholder in the built HTML, text, XML or JSON files")
             return
         if argv[0] == "--unstamp":
@@ -787,6 +874,8 @@ def main(argv):
             kind, ident, missing = verdict(texts, w, allow_own_repeat=True)
             if kind == "unstamped":
                 verdicts(texts)      # nothing to undo, but a faulty tree is still reported
+                if not generated_is_current(texts):
+                    raise Problem(f"{GENERATED} does not match the rows in {REDIRECTS}. Run: node {BUILDER}, and commit the result.")
                 print("already unstamped; nothing to do")
                 return
             others_waiting = [o["work"] for o in WITHDRAWALS if o is not w
@@ -813,7 +902,8 @@ def main(argv):
                         survivors.append(f"{name} line {n}")
             mine_after = my_record(new[REGISTER], w)
             if ident in mine_after or human(d0) in (field(mine_after, "heading") or ""):
-                survivors.append(f"the withdrawal entry in {REGISTER}")
+                at = [str(n) for n, line in enumerate(new[REGISTER].splitlines(), 1) if ident in line]
+                survivors.append(f"the withdrawal entry in {REGISTER}" + (f" (line {', '.join(at[:4])})" if at else ""))
             if survivors and shared:
                 print(f"note: {ident} is also the identifier of another entry, so these mentions of it were left alone: "
                       f"{', '.join(survivors)}")

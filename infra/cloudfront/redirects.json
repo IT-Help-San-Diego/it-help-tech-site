@@ -1,0 +1,4 @@
+{
+  "_comment": "Permanent redirects served by the CloudFront viewer-request function. Each `from` is matched exactly; `to` is site-relative and may carry a fragment. The target must be live before the redirect is published. DELIBERATELY EMPTY for the first publish (quiet-day, no-change swap of the hand-written function for the repo-generated one): the Real Bot withdrawal rows land with PR #700 stamped on withdrawal day, and the storefront rebuild rows with PR #705. The deploy workflow refuses to publish while any row still carries a placeholder date.",
+  "redirects": []
+}

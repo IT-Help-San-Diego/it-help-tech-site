@@ -135,6 +135,11 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
+      - name: Build and test CloudFront viewer-request redirects
+        run: |
+          node infra/cloudfront/build-viewer-request.mjs
+          node infra/cloudfront/test-viewer-request.mjs
+
       - name: Upload immutable assets
         run: |
           aws s3 sync public/ s3://$BUCKET/ \
@@ -207,6 +212,40 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
+      - name: Publish CloudFront viewer-request redirects
+        # ORDERING IS LOAD-BEARING: this runs AFTER "Upload HTML" (and all other
+        # origin content) and BEFORE the invalidation, so a redirect can never go
+        # live pointing at a target page that is not yet in the origin. All three
+        # lanes agreed the target must exist before the redirect is published.
+        if: ${{ github.event_name == 'push' }}
+        run: |
+          if grep -qE 'yyyymmdd|YYYY-MM-DD|\[DEPLOY DATE\]' infra/cloudfront/redirects.json; then
+            echo "::notice title=CloudFront function not published::redirects.json still carries a placeholder date; the viewer-request function was NOT published this run. Stamp the withdrawal date to enable publish."
+          else
+            ./infra/cloudfront/deploy-viewer-request.sh
+          fi
+        env:
+          AWS_REGION: us-east-1
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Preserve pre-publish CloudFront function snapshot
+        # deploy-viewer-request.sh writes infra/cloudfront/baseline/<fn>.pre-publish.<ts>.js
+        # into the runner workspace, which is destroyed when the job ends. Upload it
+        # so the "previous-good" rollback target actually survives a CI publish. The
+        # committed genesis baseline covers the pre-withdrawal state; this artifact
+        # covers whatever a LATER publish replaced. Retrieve during an incident with:
+        #   gh run download <run-id> -n cloudfront-function-prepublish-snapshot
+        # When the publish step is skipped (placeholder date present) no snapshot is
+        # written, and if-no-files-found:ignore makes this a no-op.
+        if: ${{ github.event_name == 'push' }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: cloudfront-function-prepublish-snapshot
+          path: infra/cloudfront/baseline/*.pre-publish.*.js
+          if-no-files-found: ignore
+          retention-days: 90
+
       - name: Invalidate CloudFront cache and wait
         run: |
           INVALIDATION_ID=$(aws cloudfront create-invalidation --distribution-id $DIST_ID --paths '/*' --query 'Invalidation.Id' --output text)
@@ -240,6 +279,9 @@ jobs:
           AWS_REGION: us-east-1
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Verify live edge headers and redirects
+        run: ./infra/cloudfront/verify-live-headers.sh
 
   audit:
     # Post-deploy quality gate. Runs after the CloudFront invalidation

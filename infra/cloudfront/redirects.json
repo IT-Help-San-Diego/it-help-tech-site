@@ -6,11 +6,11 @@
     { "from": "/field-notes/the-real-bot-hasnt-been-built-yet/index.html", "to": "/corrections/#c-20261114-01", "status": 301 },
     { "from": "/field-notes/the-real-bot-hasnt-been-built-yet.pdf", "to": "/corrections/#c-20261114-01", "status": 301 },
     { "from": "/field-notes/the-real-bot-hasnt-been-built-yet.bib", "to": "/corrections/#c-20261114-01", "status": 301 },
-    { "from": "/field-notes/bug-bounty-programs-are-a-corporate-controlled-casino/", "to": "/corrections/#c-yyyymmdd-01", "status": 301 },
-    { "from": "/field-notes/bug-bounty-programs-are-a-corporate-controlled-casino", "to": "/corrections/#c-yyyymmdd-01", "status": 301 },
-    { "from": "/field-notes/bug-bounty-programs-are-a-corporate-controlled-casino/index.html", "to": "/corrections/#c-yyyymmdd-01", "status": 301 },
-    { "from": "/blog/bug-bounty-programs-are-a-corporate-controlled-casino/", "to": "/corrections/#c-yyyymmdd-01", "status": 301 },
-    { "from": "/blog/bug-bounty-programs-are-a-corporate-controlled-casino", "to": "/corrections/#c-yyyymmdd-01", "status": 301 },
-    { "from": "/blog/bug-bounty-programs-are-a-corporate-controlled-casino/index.html", "to": "/corrections/#c-yyyymmdd-01", "status": 301 }
+    { "from": "/field-notes/bug-bounty-programs-are-a-corporate-controlled-casino/", "to": "/corrections/#c-20261114-02", "status": 301 },
+    { "from": "/field-notes/bug-bounty-programs-are-a-corporate-controlled-casino", "to": "/corrections/#c-20261114-02", "status": 301 },
+    { "from": "/field-notes/bug-bounty-programs-are-a-corporate-controlled-casino/index.html", "to": "/corrections/#c-20261114-02", "status": 301 },
+    { "from": "/blog/bug-bounty-programs-are-a-corporate-controlled-casino/", "to": "/corrections/#c-20261114-02", "status": 301 },
+    { "from": "/blog/bug-bounty-programs-are-a-corporate-controlled-casino", "to": "/corrections/#c-20261114-02", "status": 301 },
+    { "from": "/blog/bug-bounty-programs-are-a-corporate-controlled-casino/index.html", "to": "/corrections/#c-20261114-02", "status": 301 }
   ]
 }

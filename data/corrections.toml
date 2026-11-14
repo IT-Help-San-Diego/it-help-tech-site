@@ -477,13 +477,13 @@ The note argued that an unverifiable citation is the floor that fails first. It 
 # the date are stamped on the day this record goes live, not before: run
 # scripts/stamp-withdrawal.sh with that day's date. The build stops while the
 # placeholders remain.
-id = "C-YYYYMMDD-01"
+id = "C-20261114-02"
 status = "published"
 kind = "withdrawal"
 severity = "Material"
-logged = "YYYY-MM-DD"
+logged = "2026-11-14"
 work = "Bug-Bounty Programs Are a Corporate-Controlled Casino"
-heading = "C-YYYYMMDD-01 · A field note on bug bounties and hosted-storefront security · withdrawn [DEPLOY DATE]"
+heading = "C-20261114-02 · A field note on bug bounties and hosted-storefront security · withdrawn 14 November 2026"
 entry = """
 *Bug-Bounty Programs Are a Corporate-Controlled Casino*, a field note. Published 19 June 2026. Removed from this site on 14 November 2026. Withdrawn by the author.
 

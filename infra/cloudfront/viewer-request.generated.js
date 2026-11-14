@@ -9,12 +9,12 @@ function handler(event) {
   "/field-notes/the-real-bot-hasnt-been-built-yet/index.html": "/corrections/#c-20261114-01",
   "/field-notes/the-real-bot-hasnt-been-built-yet.pdf": "/corrections/#c-20261114-01",
   "/field-notes/the-real-bot-hasnt-been-built-yet.bib": "/corrections/#c-20261114-01",
-  "/field-notes/bug-bounty-programs-are-a-corporate-controlled-casino/": "/corrections/#c-yyyymmdd-01",
-  "/field-notes/bug-bounty-programs-are-a-corporate-controlled-casino": "/corrections/#c-yyyymmdd-01",
-  "/field-notes/bug-bounty-programs-are-a-corporate-controlled-casino/index.html": "/corrections/#c-yyyymmdd-01",
-  "/blog/bug-bounty-programs-are-a-corporate-controlled-casino/": "/corrections/#c-yyyymmdd-01",
-  "/blog/bug-bounty-programs-are-a-corporate-controlled-casino": "/corrections/#c-yyyymmdd-01",
-  "/blog/bug-bounty-programs-are-a-corporate-controlled-casino/index.html": "/corrections/#c-yyyymmdd-01"
+  "/field-notes/bug-bounty-programs-are-a-corporate-controlled-casino/": "/corrections/#c-20261114-02",
+  "/field-notes/bug-bounty-programs-are-a-corporate-controlled-casino": "/corrections/#c-20261114-02",
+  "/field-notes/bug-bounty-programs-are-a-corporate-controlled-casino/index.html": "/corrections/#c-20261114-02",
+  "/blog/bug-bounty-programs-are-a-corporate-controlled-casino/": "/corrections/#c-20261114-02",
+  "/blog/bug-bounty-programs-are-a-corporate-controlled-casino": "/corrections/#c-20261114-02",
+  "/blog/bug-bounty-programs-are-a-corporate-controlled-casino/index.html": "/corrections/#c-20261114-02"
 };
   if (redirects[uri]) {
     return movedPermanently('https://www.it-help.tech' + redirects[uri]);

@@ -13,11 +13,11 @@ Purpose: Track meaningful AI/developer changes with enough context to roll back 
 
 ## Entries
 
-### [DEPLOY DATE]: The bug-bounty field note's withdrawal recorded; its addresses redirect to a corrections entry
+### 2026-11-14: The bug-bounty field note's withdrawal recorded; its addresses redirect to a corrections entry
 - Actor: AI (Claude Code), on the owner's two decisions of 14 November 2026: to withdraw the note, and to publish this record of it.
 - Scope: one corrections entry; six redirect rows; the script that dates and checks withdrawals. No page other than `/corrections/` changes.
 - Files:
-  - `data/corrections.toml`: entry C-YYYYMMDD-01, the withdrawal. It says what the note claimed, what was measured across 38 storefronts on 13 November 2026, which claims did not hold and which did, and that the author is a customer of the platform discussed.
+  - `data/corrections.toml`: entry C-20261114-02, the withdrawal. It says what the note claimed, what was measured across 38 storefronts on 13 November 2026, which claims did not hold and which did, and that the author is a customer of the platform discussed.
   - `infra/cloudfront/redirects.json` and `infra/cloudfront/viewer-request.generated.js`: six rows. The note's address and its old `/blog/` alias, three forms each, answer with a permanent redirect to the entry.
   - `scripts/stamp-withdrawal.sh`: now works from a table of withdrawals, one row each, so the checks in the build and after the deploy cover both. Only one withdrawal may wait for its date at a time. A withdrawal that is on the published page keeps its identifier: the check refuses a tree that carries another one, or none.
   - `.github/workflows/site-build-check.yml`: a pull request that is marked ready while a withdrawal is still undated now fails its check, so "ready to merge" and "does not build on main" cannot both show green.

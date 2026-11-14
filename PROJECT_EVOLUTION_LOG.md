@@ -22,6 +22,15 @@ Purpose: Track meaningful AI/developer changes with enough context to roll back 
 - Change: adds the draft only. The earlier note it will replace is untouched and stays as it is until the owner approves the replacement.
 - Why: the earlier note argued a structural point in a polemical register, and two of its four header claims did not match what was measured on 13 November 2026. The replacement states a three-part hypothesis, reports a result for each part, and dates every measurement.
 - Required on the day it ships, not in this change: remove the earlier note; redirect its address and its `/blog/` alias to the new one; add the corrections entry in the same change; swap the entry in the field-notes index; add the note to `infra/llms/llms-full.config.json`; add a `.bib` receipt; set `draft: false` and the publication dates.
+
+### 2026-11-13: Reference and corrections links wrap on a phone
+- Actor: AI (Claude Code; a defect found while checking a draft note at phone width).
+- Scope: one CSS rule.
+- Files:
+  - `static/css/late-overrides.css`: `.footnote-definition a` and `.correction-entry a` get `overflow-wrap: anywhere`.
+- Change: long web addresses in a note's reference list and in corrections entries now break across lines.
+- Why: at 375 pixels wide, every field note had between 1 and 5 reference links running past the right edge of the screen, and `/corrections/` had 31. The page hides sideways overflow, so the end of each address was cut off. Measured before and after on all seven notes and on `/corrections/`: none overflow with the rule, and the home, About and field-notes index pages are unchanged.
+
 - Rollback: revert this PR.
 
 ### 2026-11-13: Reference numbers in the corrections entries matched to the pages

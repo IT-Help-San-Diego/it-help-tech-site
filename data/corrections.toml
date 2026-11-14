@@ -452,13 +452,13 @@ The reference numbers in this entry were corrected on 13 November 2026 to match 
 # the date are stamped on the day the withdrawal goes live, not before:
 # run scripts/stamp-withdrawal.sh YYYY-MM-DD. The build stops while the
 # placeholders remain.
-id = "C-YYYYMMDD-01"
+id = "C-20261114-01"
 status = "published"
 kind = "withdrawal"
 severity = "Material"
-logged = "YYYY-MM-DD"
+logged = "2026-11-14"
 work = "The Real Bot Hasn't Been Built Yet"
-heading = "C-YYYYMMDD-01 · The Real Bot Hasn't Been Built Yet · withdrawn [DEPLOY DATE]"
+heading = "C-20261114-01 · The Real Bot Hasn't Been Built Yet · withdrawn 14 November 2026"
 entry = """
 Published 2026, last revised 26 April 2026. Withdrawn by the author.
 

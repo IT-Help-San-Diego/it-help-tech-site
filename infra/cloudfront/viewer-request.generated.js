@@ -4,11 +4,11 @@ function handler(event) {
   var uri = req.uri;
 
   var redirects = {
-  "/field-notes/the-real-bot-hasnt-been-built-yet/": "/corrections/#c-yyyymmdd-01",
-  "/field-notes/the-real-bot-hasnt-been-built-yet": "/corrections/#c-yyyymmdd-01",
-  "/field-notes/the-real-bot-hasnt-been-built-yet/index.html": "/corrections/#c-yyyymmdd-01",
-  "/field-notes/the-real-bot-hasnt-been-built-yet.pdf": "/corrections/#c-yyyymmdd-01",
-  "/field-notes/the-real-bot-hasnt-been-built-yet.bib": "/corrections/#c-yyyymmdd-01"
+  "/field-notes/the-real-bot-hasnt-been-built-yet/": "/corrections/#c-20261114-01",
+  "/field-notes/the-real-bot-hasnt-been-built-yet": "/corrections/#c-20261114-01",
+  "/field-notes/the-real-bot-hasnt-been-built-yet/index.html": "/corrections/#c-20261114-01",
+  "/field-notes/the-real-bot-hasnt-been-built-yet.pdf": "/corrections/#c-20261114-01",
+  "/field-notes/the-real-bot-hasnt-been-built-yet.bib": "/corrections/#c-20261114-01"
 };
   if (redirects[uri]) {
     return movedPermanently('https://www.it-help.tech' + redirects[uri]);

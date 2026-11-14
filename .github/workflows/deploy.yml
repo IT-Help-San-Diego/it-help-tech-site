@@ -39,15 +39,21 @@ jobs:
         run: node infra/citations/extract-citations.mjs --check
 
       - name: Check the withdrawal carries one identifier everywhere
-        # Every carrier of the withdrawal must name the same entry, no other
-        # entry may share its identifier, and the first deploy that publishes
-        # it must happen on the date it carries. Runs before anything is
-        # built or uploaded.
-        env:
-          BEFORE: ${{ github.event.before }}
+        # Every carrier of the withdrawal must name the same entry, and no other
+        # entry may share its identifier. If the entry is not on the published
+        # corrections page yet, this deploy would publish it for the first
+        # time: its date must then be today, and the script that publishes the
+        # redirects must be in the tree. Runs before anything is built.
         run: |
-          git fetch --no-tags --depth=1 origin "$BEFORE" 2>/dev/null || true
-          bash scripts/stamp-withdrawal.sh --check --introduced-since "$BEFORE"
+          PUBLISHED="$RUNNER_TEMP/published-corrections.html"
+          aws s3 cp "s3://$BUCKET/corrections/index.html" "$PUBLISHED" --only-show-errors \
+            || curl -fsS --retry 3 --connect-timeout 10 --max-time 30 "https://$BUCKET/corrections/" -o "$PUBLISHED" \
+            || echo "::warning::Could not read the published corrections page from the bucket or the site; the first-publication date rule will be skipped."
+          bash scripts/stamp-withdrawal.sh --check --require-publisher --live-page "$PUBLISHED"
+        env:
+          AWS_REGION: us-east-1
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: Install Zola
         uses: taiki-e/install-action@cfdb7ed4ccc7c7dce37759eae89dc5674b469b39 # v2
@@ -257,6 +263,14 @@ jobs:
           AWS_REGION: us-east-1
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Check the withdrawn addresses on the live site
+        # After the invalidation, ask the live site: each of the five withdrawn
+        # addresses must answer 301 to the withdrawal's entry, and the entry
+        # must be on the live corrections page. Runs even when an earlier step
+        # failed, because that is when a half-finished deploy needs to be seen.
+        if: ${{ !cancelled() }}
+        run: bash scripts/stamp-withdrawal.sh --check-live
 
   audit:
     # Post-deploy quality gate. Runs after the CloudFront invalidation

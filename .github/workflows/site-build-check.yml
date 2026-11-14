@@ -24,7 +24,13 @@ jobs:
           tool: zola@0.22.1
 
       - name: Check the withdrawal carries one identifier everywhere
-        run: bash scripts/stamp-withdrawal.sh --check
+        # Also the date rule: if the entry is not on the live corrections page
+        # yet, a stamp dated any day but today fails here, before merge.
+        run: |
+          PUBLISHED="$RUNNER_TEMP/published-corrections.html"
+          curl -fsS --retry 3 --connect-timeout 10 --max-time 30 "https://www.it-help.tech/corrections/" -o "$PUBLISHED" \
+            || echo "::warning::Could not read the live corrections page; the first-publication date rule will be skipped."
+          bash scripts/stamp-withdrawal.sh --check --live-page "$PUBLISHED"
 
       - name: Stamp this workspace if the withdrawal is still unstamped
         # The site does not build while the withdrawal's date is a placeholder,

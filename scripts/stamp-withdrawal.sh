@@ -12,16 +12,25 @@
 #   scripts/stamp-withdrawal.sh --unstamp
 #       Put every carrier back to its placeholder. Use this when a stamped
 #       change did not ship on its date, then stamp again on the day it does.
-#   scripts/stamp-withdrawal.sh --check [--introduced-since <commit>]
+#   scripts/stamp-withdrawal.sh --check [--live-page <file>] [--require-publisher]
 #       Change nothing. Fail unless every carrier is unstamped, or every
 #       carrier names the same entry and no other entry shares its identifier.
-#       With --introduced-since, also fail if this would be the first time the
-#       entry is published and its date is not today.
+#       --live-page takes a copy of the corrections page as it is published
+#       now. If the entry is not on it yet, this deploy would publish it for
+#       the first time, and its date must be today. If the copy is missing
+#       or is not a corrections page, the rule is skipped with a warning: a
+#       deploy is never blocked because the site could not be read.
+#       --require-publisher fails a stamped tree that lacks the script that
+#       publishes the redirects.
 #   scripts/stamp-withdrawal.sh --check-built <dir>
 #       Change nothing. Read a finished build: the corrections page must hold
 #       exactly one entry under the stamped anchor, that entry must name the
 #       withdrawn note, the withdrawn addresses must be gone from the build,
 #       and no placeholder may appear in any built page.
+#   scripts/stamp-withdrawal.sh --check-live
+#       Change nothing. Ask the live site: each of the five withdrawn
+#       addresses must answer 301 to the stamped anchor, and the live
+#       corrections page must hold exactly one entry under it.
 #
 # Order on the day: merge origin/main into the branch, stamp, build, check.
 #
@@ -31,9 +40,11 @@
 # of them. Nobody numbers anything by hand.
 set -euo pipefail
 unset CDPATH
+export STAMP_CALLER_DIR="$PWD"
 cd "$(dirname "$0")/.."
 exec python3 - "$@" <<'PY'
-import datetime, html as htmllib, json, os, pathlib, re, subprocess, sys, tempfile
+import datetime, html as htmllib, json, os, pathlib, re, sys, tempfile, time
+import urllib.error, urllib.request
 
 WORK = "The Real Bot Hasn't Been Built Yet"
 SLUG = "/field-notes/the-real-bot-hasnt-been-built-yet"
@@ -48,8 +59,10 @@ PH_DATE_RE = re.compile(r"\[DEPLOY\s+DATE\]")
 ID_RE = re.compile(r"C-\d{8}-\d{2}")
 ANCHOR_RE = re.compile(r"c-\d{8}-\d{2}")
 ZONE = "America/Los_Angeles"
+PUBLISHER = "infra/cloudfront/deploy-viewer-request.sh"
+LIVE_BASE = os.environ.get("STAMP_LIVE_BASE", "https://www.it-help.tech").rstrip("/")
 USAGE = ("usage: scripts/stamp-withdrawal.sh YYYY-MM-DD | --unstamp | "
-         "--check [--introduced-since <commit>] | --check-built <dir>")
+         "--check [--live-page <file>] [--require-publisher] | --check-built <dir> | --check-live")
 
 
 class Problem(Exception):
@@ -79,6 +92,8 @@ def id_date(ident):
 def read_carriers():
     texts = {}
     for name in CARRIERS:
+        if os.path.islink(name):
+            raise Problem(f"{name} is a symbolic link; the carriers must be ordinary files")
         try:
             with open(name, encoding="utf-8", newline="") as f:
                 texts[name] = f.read()
@@ -88,6 +103,17 @@ def read_carriers():
 
 
 def all_ids(register_text):
+    """Every entry's identifier. Parsed as TOML where Python can, so no valid spelling is missed."""
+    try:
+        import tomllib
+    except ImportError:
+        tomllib = None
+    if tomllib is not None:
+        try:
+            doc = tomllib.loads(register_text)
+        except tomllib.TOMLDecodeError as e:
+            raise Problem(f"{REGISTER} is not valid TOML: {e}")
+        return [str(r.get("id", "")) for r in doc.get("correction", []) if isinstance(r, dict)]
     return re.findall(r"""(?m)^[ \t]*id[ \t]*=[ \t]*["']([^"'\r\n]+)["']""", register_text)
 
 
@@ -171,10 +197,12 @@ def verdict(texts):
     s = inspect(texts)
     if s["_status"] != "published":
         raise Problem(f'the withdrawal entry must have status = "published", not {s["_status"]!r}')
-    ids = all_ids(texts[REGISTER])
+    ids = [i.upper() for i in all_ids(texts[REGISTER])]
     repeated = sorted({i for i in ids if ids.count(i) > 1})
     if repeated:
-        raise Problem(f"{REGISTER} has more than one entry with the same identifier: {', '.join(repeated)}")
+        raise Problem(f"{REGISTER} has more than one entry with the same identifier: {', '.join(repeated)}. "
+                      f"Give the other entry its own number, or restore the four carriers from the last unstamped "
+                      f"commit and stamp again; this script will not choose between two entries.")
     for k in ID_KEYS:
         if s[k] is not None and not ID_RE.fullmatch(s[k]):
             raise Problem(f"{k} is {s[k]!r}, which is not an identifier in the form C-YYYYMMDD-NN")
@@ -195,7 +223,8 @@ def verdict(texts):
     # The identifier must belong to the withdrawal alone.
     if ids.count(ident) != (1 if s["register id"] else 0):
         holders = ", ".join(k for k in ID_KEYS + ANCHOR_KEYS if s[k] and s[k].upper() == ident)
-        raise Problem(f"{ident} is already the identifier of another entry in {REGISTER}. It was found in: {holders}")
+        raise Problem(f"{ident} is already the identifier of another entry in {REGISTER}. It was found in: {holders}. "
+                      f"Put that carrier back to its placeholder and stamp again; the script picks a free number.")
     wanted = {"heading date": human(d), "use-policy date": human(d), "logged": d.isoformat(), "log heading": d.isoformat()}
     for k, want in wanted.items():
         if s[k] is not None and s[k] != want:
@@ -260,6 +289,51 @@ def write_all(old, new):
         print("wrote", name)
 
 
+def section_ids(page_html, anchor):
+    """Entries on a corrections page under this anchor, in any letter case."""
+    return re.findall(r"""<section\b[^>]*\bid=["']?(""" + re.escape(anchor) + r""")["']?[\s>]""", page_html, flags=re.I)
+
+
+class _NoRedirect(urllib.request.HTTPRedirectHandler):
+    def redirect_request(self, *a, **k):
+        return None
+
+
+def _get(url, tries=3):
+    opener = urllib.request.build_opener(_NoRedirect)
+    last = None
+    for attempt in range(tries):
+        try:
+            req = urllib.request.Request(url, headers={"Cache-Control": "no-cache"})
+            with opener.open(req, timeout=20) as r:
+                return r.status, r.headers, r.read().decode("utf-8", errors="replace")
+        except urllib.error.HTTPError as e:
+            return e.code, e.headers, ""
+        except (urllib.error.URLError, OSError) as e:
+            last = e
+            time.sleep(2 * (attempt + 1))
+    raise Problem(f"could not reach {url}: {last}")
+
+
+def check_live(ident):
+    anchor = ident.lower()
+    want = f"{LIVE_BASE}/corrections/#{anchor}"
+    bad = []
+    for src in sorted(FROMS):
+        status, headers, _ = _get(LIVE_BASE + src)
+        location = headers.get("Location") if headers else None
+        if status != 301 or location != want:
+            bad.append(f"{src} answered {status}" + (f" to {location}" if location else ""))
+    if bad:
+        raise Problem(f"the withdrawn addresses do not all redirect to {want}: " + "; ".join(bad))
+    status, _, body = _get(LIVE_BASE + "/corrections/")
+    if status != 200:
+        raise Problem(f"{LIVE_BASE}/corrections/ answered {status}")
+    found = section_ids(body, anchor)
+    if found != [anchor]:
+        raise Problem(f"the live corrections page should have exactly one entry under #{anchor}; found {found}")
+
+
 def check_built(directory, texts):
     kind, ident, missing = verdict(texts)
     if kind != "stamped":
@@ -308,32 +382,65 @@ def main(argv):
     try:
         texts = read_carriers()
         if argv[0] == "--check":
-            if not (len(argv) == 1 or (len(argv) == 3 and argv[1] == "--introduced-since")):
-                die(USAGE)
+            opts, live_page, need_publisher = argv[1:], None, False
+            while opts:
+                if opts[0] == "--live-page" and len(opts) >= 2:
+                    live_page, opts = opts[1], opts[2:]
+                elif opts[0] == "--require-publisher":
+                    need_publisher, opts = True, opts[1:]
+                else:
+                    die(USAGE)
             kind, ident, missing = verdict(texts)
             if kind == "partial":
                 raise Problem(f"only part of the withdrawal is stamped as {ident}; still placeholders: {', '.join(missing)}")
             if kind == "unstamped":
                 print("unstamped: every carrier still holds its placeholder")
                 return
-            if len(argv) == 3:
-                before, seen = argv[2], False
-                if before and not re.fullmatch(r"0+", before):
-                    r = subprocess.run(["git", "show", f"{before}:{REGISTER}"], capture_output=True, text=True)
-                    if r.returncode != 0:
-                        raise Problem(f"cannot read {REGISTER} at {before} to see whether {ident} was already published: "
-                                      f"{r.stderr.strip().splitlines()[-1] if r.stderr.strip() else 'git show failed'}")
-                    seen = ident in all_ids(r.stdout)
-                if not seen and id_date(ident) != today():
-                    raise Problem(f"this would be the first time {ident} is published, and today in {ZONE} is "
-                                  f"{today().isoformat()}, not {id_date(ident).isoformat()}. "
+            if need_publisher and not os.path.isfile(PUBLISHER):
+                raise Problem(f"the withdrawal is stamped as {ident} but {PUBLISHER} is not in this tree. "
+                              f"Deploying now would delete the note and publish no redirect. "
+                              f"Merge the change that publishes the redirects first.")
+            if live_page is not None:
+                path = live_page if os.path.isabs(live_page) else os.path.join(os.environ.get("STAMP_CALLER_DIR", "."), live_page)
+                try:
+                    with open(path, encoding="utf-8", errors="replace") as f:
+                        live = f.read()
+                except OSError:
+                    live = ""
+                published = len(section_ids(live, ident.lower())) == 1
+                if published:
+                    print(f"{ident} is already on the published corrections page")
+                elif "correction-entry" not in live:
+                    # Not a corrections page at all: unreadable, empty, or an error page. A deploy
+                    # must never be blocked because the site could not be read, so say so and go on.
+                    print(f"warning: the published corrections page could not be read, so the rule that {ident} "
+                          f"is first published on its own date was not applied")
+                elif id_date(ident) != today():
+                    raise Problem(f"{ident} is not on the published corrections page, so this would publish it for the first "
+                                  f"time, and today in {ZONE} is {today().isoformat()}, not {id_date(ident).isoformat()}. "
                                   f"Run scripts/stamp-withdrawal.sh --unstamp, then stamp again with today's date.")
+                else:
+                    print(f"{ident} is not published yet and is dated today")
             print(f"stamped: every carrier says {ident}, and no other entry shares it")
+            return
+        if argv[0] == "--check-live":
+            if len(argv) != 1:
+                die(USAGE)
+            kind, ident, missing = verdict(texts)
+            if kind == "unstamped":
+                print("unstamped: nothing is published yet, so there is nothing to check on the live site")
+                return
+            if kind != "stamped":
+                raise Problem(f"only part of the withdrawal is stamped as {ident}; still placeholders: {', '.join(missing)}")
+            check_live(ident)
+            print(f"live site ok: the five withdrawn addresses answer 301 to {LIVE_BASE}/corrections/#{ident.lower()}, "
+                  f"and the live corrections page has one entry under that anchor")
             return
         if argv[0] == "--check-built":
             if len(argv) != 2:
                 die(USAGE)
-            ident, heading = check_built(argv[1], texts)
+            built = argv[1] if os.path.isabs(argv[1]) else os.path.join(os.environ.get("STAMP_CALLER_DIR", "."), argv[1])
+            ident, heading = check_built(built, texts)
             print(f"built site ok: one entry under #{ident.lower()}, headed {heading!r}; "
                   f"the withdrawn addresses are gone; no placeholder in any built file")
             return
@@ -363,9 +470,11 @@ def main(argv):
         if kind != "unstamped" and id_date(ident) != d:
             raise Problem(f"already stamped as {ident}, which is dated {id_date(ident).isoformat()}, not {argv[0]}. "
                           f"Nothing was changed. To change the date, run --unstamp first.")
-        if d != today() and os.environ.get("STAMP_ALLOW_OTHER_DATE") != "1":
-            raise Problem(f"the date must be today's date in {ZONE} ({today().isoformat()}), "
-                          f"because it is the day the withdrawal goes live. Nothing was changed.")
+        if d != today():
+            if os.environ.get("STAMP_ALLOW_OTHER_DATE") != "1":
+                raise Problem(f"the date must be today's date in {ZONE} ({today().isoformat()}), "
+                              f"because it is the day the withdrawal goes live. Nothing was changed.")
+            print(f"note: STAMP_ALLOW_OTHER_DATE is set; stamping {argv[0]} although today is {today().isoformat()}")
         if kind == "stamped":
             print(f"already stamped as {ident}; nothing to do")
             return
@@ -379,6 +488,13 @@ def main(argv):
         k2, i2, m2 = verdict(new)          # check the result before anything is written
         if k2 != "stamped" or i2 != ident:
             raise Problem(f"stamping would leave the carriers {k2} (still placeholders: {', '.join(m2)}); nothing was changed")
+        if kind == "unstamped":
+            back = apply_unstamp(new, ident)
+            # A placeholder wrapped across a line break is still the same placeholder.
+            extra = [n for n in CARRIERS if PH_DATE_RE.sub(PH_DATE, back[n]) != PH_DATE_RE.sub(PH_DATE, texts[n])]
+            if extra:
+                raise Problem(f"{', '.join(extra)} holds a placeholder this script does not know about, so the stamp could not "
+                              f"be undone exactly. Nothing was changed. Remove the extra placeholder, or teach the script about it.")
         write_all(texts, new)
         print(f"{ident}, withdrawn {human(d)}: the register entry, the /use-policy/ link, "
               f"the five redirect rows and the evolution log all agree")

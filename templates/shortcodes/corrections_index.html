@@ -6,10 +6,15 @@
 {%- if published | length == 0 %}
 <p>Entries appear here as they are logged.</p>
 {%- endif -%}
-{%- for c in published %}
-{%- if published | filter(attribute="id", value=c.id) | length > 1 %}
-{{ throw(message="corrections register: more than one published entry has the identifier " ~ c.id ~ ". Every entry needs its own.") }}
+{%- set every = register.correction | default(value=[]) -%}
+{%- for a in every %}
+{%- set_global same = 0 %}
+{%- for b in every %}{% if a.id | lower == b.id | lower %}{% set_global same = same + 1 %}{% endif %}{% endfor %}
+{%- if same > 1 %}
+{{ throw(message="corrections register: more than one entry has the identifier " ~ a.id ~ ". Every entry needs its own, published or not.") }}
 {%- endif %}
+{%- endfor %}
+{%- for c in published %}
 {%- if c.id is containing("YYYYMMDD") or c.heading is defined and c.heading is containing("DEPLOY DATE") %}
 {{ throw(message="corrections register: " ~ c.id ~ " is not stamped. Run scripts/stamp-withdrawal.sh YYYY-MM-DD on the day it goes live.") }}
 {%- endif %}

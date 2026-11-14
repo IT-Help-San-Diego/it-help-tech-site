@@ -20,7 +20,7 @@ twitter_description = "Practitioner field notes on macOS, Wi‑Fi, DNS, email de
   "@type": "ItemList",
   "name": "Latest Field Notes",
   "itemListOrder": "https://schema.org/ItemListOrderDescending",
-  "numberOfItems": 9,
+  "numberOfItems": 8,
   "itemListElement": [
     {
       "@type": "ListItem",
@@ -40,31 +40,26 @@ twitter_description = "Practitioner field notes on macOS, Wi‑Fi, DNS, email de
     {
       "@type": "ListItem",
       "position": 4,
-      "url": "https://www.it-help.tech/field-notes/the-real-bot-hasnt-been-built-yet/"
-    },
-    {
-      "@type": "ListItem",
-      "position": 5,
       "url": "https://www.it-help.tech/field-notes/hack-your-engrams-to-remember-passwords/"
     },
     {
       "@type": "ListItem",
-      "position": 6,
+      "position": 5,
       "url": "https://www.it-help.tech/field-notes/apple-sends-you-to-ijail/"
     },
     {
       "@type": "ListItem",
-      "position": 7,
+      "position": 6,
       "url": "https://www.it-help.tech/field-notes/dns-security-best-practices/"
     },
     {
       "@type": "ListItem",
-      "position": 8,
+      "position": 7,
       "url": "https://www.it-help.tech/field-notes/why-your-wireless-network-sucks/"
     },
     {
       "@type": "ListItem",
-      "position": 9,
+      "position": 8,
       "url": "https://www.it-help.tech/field-notes/mac-cybersecurity-threats/"
     }
   ]

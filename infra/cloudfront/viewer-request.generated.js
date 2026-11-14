@@ -3,7 +3,13 @@ function handler(event) {
   var host = req.headers.host.value;
   var uri = req.uri;
 
-  var redirects = {};
+  var redirects = {
+  "/field-notes/the-real-bot-hasnt-been-built-yet/": "/corrections/#c-yyyymmdd-01",
+  "/field-notes/the-real-bot-hasnt-been-built-yet": "/corrections/#c-yyyymmdd-01",
+  "/field-notes/the-real-bot-hasnt-been-built-yet/index.html": "/corrections/#c-yyyymmdd-01",
+  "/field-notes/the-real-bot-hasnt-been-built-yet.pdf": "/corrections/#c-yyyymmdd-01",
+  "/field-notes/the-real-bot-hasnt-been-built-yet.bib": "/corrections/#c-yyyymmdd-01"
+};
   if (redirects[uri]) {
     return movedPermanently('https://www.it-help.tech' + redirects[uri]);
   }

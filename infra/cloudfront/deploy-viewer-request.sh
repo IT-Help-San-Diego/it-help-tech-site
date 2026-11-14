@@ -17,7 +17,7 @@ set -euo pipefail
 
 FUNCTION_NAME="${FUNCTION_NAME:-apex-redirect-to-www}"
 CODE_PATH="${CODE_PATH:-infra/cloudfront/viewer-request.generated.js}"
-COMMENT="${COMMENT:-apex-to-www, legacy tag/category redirects, and permanent content withdrawals}"
+export COMMENT="${COMMENT:-apex-to-www, legacy tag/category redirects, and permanent content withdrawals}"
 
 node infra/cloudfront/build-viewer-request.mjs
 node infra/cloudfront/test-viewer-request.mjs
@@ -61,9 +61,13 @@ fi
 aws cloudfront update-function \
   --name "$FUNCTION_NAME" \
   --if-match "$ETAG" \
-  --function-config "Comment=$COMMENT,Runtime=cloudfront-js-2.0" \
+  --function-config "{\"Comment\":$(python3 -c 'import json,os;print(json.dumps(os.environ["COMMENT"]))'),\"Runtime\":\"cloudfront-js-2.0\"}" \
   --function-code "fileb://$CODE_PATH" \
   >/tmp/ithelp-cloudfront-function-update.json
+
+# The Comment is passed as JSON (not shorthand Key=Val,Key=Val): the default
+# comment contains commas, and the shorthand parser splits on every comma,
+# turning Comment into a list and failing ParamValidation. JSON is comma-safe.
 
 PUBLISH_ETAG=$(python3 - <<'PY'
 import json
@@ -76,8 +80,13 @@ aws cloudfront publish-function \
   --if-match "$PUBLISH_ETAG" \
   >/tmp/ithelp-cloudfront-function-publish.json
 
+# PublishFunction's response contains only FunctionSummary — there is NO
+# top-level ETag field (unlike UpdateFunction). Reading j['ETag'] here would
+# KeyError-crash the script AFTER the publish already succeeded, aborting the
+# deploy before any page uploads. Report from FunctionSummary instead.
 python3 - <<'PY'
 import json
 j=json.load(open('/tmp/ithelp-cloudfront-function-publish.json'))
-print('published', j['FunctionSummary']['Name'], j['FunctionSummary']['Status'], j['ETag'])
+s=j['FunctionSummary']
+print('published', s['Name'], s['Status'])
 PY

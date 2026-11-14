@@ -140,19 +140,6 @@ jobs:
           node infra/cloudfront/build-viewer-request.mjs
           node infra/cloudfront/test-viewer-request.mjs
 
-      - name: Publish CloudFront viewer-request redirects
-        if: ${{ github.event_name == 'push' }}
-        run: |
-          if grep -qE 'yyyymmdd|YYYY-MM-DD|\[DEPLOY DATE\]' infra/cloudfront/redirects.json; then
-            echo "CloudFront viewer-request redirects are not stamped yet; skipping publish."
-            exit 0
-          fi
-          ./infra/cloudfront/deploy-viewer-request.sh
-        env:
-          AWS_REGION: us-east-1
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
       - name: Upload immutable assets
         run: |
           aws s3 sync public/ s3://$BUCKET/ \
@@ -221,6 +208,23 @@ jobs:
 
         env:
           AWS_S3_BUCKET: ${{ env.BUCKET }}
+          AWS_REGION: us-east-1
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Publish CloudFront viewer-request redirects
+        # ORDERING IS LOAD-BEARING: this runs AFTER "Upload HTML" (and all other
+        # origin content) and BEFORE the invalidation, so a redirect can never go
+        # live pointing at a target page that is not yet in the origin. All three
+        # lanes agreed the target must exist before the redirect is published.
+        if: ${{ github.event_name == 'push' }}
+        run: |
+          if grep -qE 'yyyymmdd|YYYY-MM-DD|\[DEPLOY DATE\]' infra/cloudfront/redirects.json; then
+            echo "::notice title=CloudFront function not published::redirects.json still carries a placeholder date; the viewer-request function was NOT published this run. Stamp the withdrawal date to enable publish."
+          else
+            ./infra/cloudfront/deploy-viewer-request.sh
+          fi
+        env:
           AWS_REGION: us-east-1
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

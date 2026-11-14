@@ -77,9 +77,12 @@ fi
 aws cloudfront update-function \
   --name "$FUNCTION_NAME" \
   --if-match "$ETAG" \
-  --function-config "Comment=$COMMENT,Runtime=cloudfront-js-2.0" \
+  --function-config "{\"Comment\":$(COMMENT="$COMMENT" python3 -c 'import json,os;print(json.dumps(os.environ["COMMENT"]))'),\"Runtime\":\"cloudfront-js-2.0\"}" \
   --function-code "fileb://$BASELINE_PATH" \
   >/tmp/ithelp-cloudfront-function-rollback-update.json
+
+# JSON --function-config: the rollback comment contains commas, which the
+# shorthand Key=Val,Key=Val parser would split into a list (ParamValidation).
 
 PUBLISH_ETAG=$(python3 - <<'PY'
 import json
@@ -92,10 +95,14 @@ aws cloudfront publish-function \
   --if-match "$PUBLISH_ETAG" \
   >/tmp/ithelp-cloudfront-function-rollback-publish.json
 
+# PublishFunction returns only FunctionSummary (no top-level ETag). Reading
+# j['ETag'] here would crash AFTER the rollback already published — the worst
+# possible moment. Report from FunctionSummary.
 python3 - <<'PY'
 import json
 j=json.load(open('/tmp/ithelp-cloudfront-function-rollback-publish.json'))
-print('published rollback', j['FunctionSummary']['Name'], j['FunctionSummary']['Status'], j['ETag'])
+s=j['FunctionSummary']
+print('published rollback', s['Name'], s['Status'])
 PY
 
 echo "Rollback published. Verify immediately:"

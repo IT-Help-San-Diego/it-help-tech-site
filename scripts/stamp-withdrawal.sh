@@ -52,7 +52,9 @@
 # The carriers are: the register entry (identifier, heading, logged date), the
 # link in /use-policy/, the five redirect rows, and the evolution log. One
 # identifier is chosen, the next free number for the date, and written to all
-# of them. Nobody numbers anything by hand.
+# of them. Nobody numbers anything by hand. The edge function file that is
+# generated from the redirect rows is rebuilt after every stamp and unstamp,
+# and --check fails if the committed copy does not match the rows.
 set -euo pipefail
 unset CDPATH
 export STAMP_CALLER_DIR="$PWD"
@@ -75,6 +77,8 @@ ID_RE = re.compile(r"C-\d{8}-\d{2}")
 ANCHOR_RE = re.compile(r"c-\d{8}-\d{2}")
 ZONE = "America/Los_Angeles"
 PUBLISHER = "infra/cloudfront/deploy-viewer-request.sh"
+BUILDER = "infra/cloudfront/build-viewer-request.mjs"
+GENERATED = "infra/cloudfront/viewer-request.generated.js"
 LIVE_BASE = os.environ.get("STAMP_LIVE_BASE", "https://www.it-help.tech").rstrip("/")
 USAGE = ("usage: scripts/stamp-withdrawal.sh YYYY-MM-DD | --unstamp | "
          "--check [--live-page <file>] [--require-publisher] | --check-built <dir> | --check-live")
@@ -259,6 +263,37 @@ def verdict(texts, allow_own_repeat=False):
             if PH_ID in t or PH_ANCHOR in t or PH_DATE_RE.search(t):
                 raise Problem(f"a placeholder is still present in {name}")
     return ("partial" if missing else "stamped"), ident, missing
+
+
+def generated_is_current(texts):
+    """True if the committed edge function file carries exactly the redirect rows (or there is no such file)."""
+    if not os.path.isfile(GENERATED):
+        return True
+    try:
+        with open(GENERATED, encoding="utf-8") as f:
+            generated = f.read()
+        rows = json.loads(texts[REDIRECTS]).get("redirects", [])
+    except (OSError, ValueError):
+        return False
+    pairs = [json.dumps(str(r.get("from"))) + ": " + json.dumps(str(r.get("to"))) for r in rows]
+    mapped = len(re.findall(r"""(?m)^\s*"/[^"\n]*":\s*"/[^"\n]*",?\s*$""", generated))
+    return all(p in generated for p in pairs) and mapped == len(pairs)
+
+
+def rebuild_generated():
+    """Rebuild the edge function file from the redirect rows, if this tree has the builder."""
+    if not os.path.isfile(BUILDER):
+        return
+    import shutil, subprocess
+    node = shutil.which("node")
+    if not node:
+        print(f"note: node is not installed here, so {GENERATED} was not rebuilt. Run: node {BUILDER}")
+        return
+    r = subprocess.run([node, BUILDER], capture_output=True, text=True)
+    if r.returncode != 0:
+        die(f"the carriers were written, but rebuilding {GENERATED} failed: {(r.stderr or r.stdout).strip()[-300:]}. "
+            f"Fix that and run: node {BUILDER}")
+    print("rebuilt", GENERATED)
 
 
 def unknown_placeholders(texts):
@@ -459,6 +494,8 @@ def main(argv):
             kind, ident, missing = verdict(texts)
             if kind == "partial":
                 raise Problem(f"only part of the withdrawal is stamped as {ident}; still placeholders: {', '.join(missing)}")
+            if not generated_is_current(texts):
+                raise Problem(f"{GENERATED} does not match the rows in {REDIRECTS}. Run: node {BUILDER}, and commit the result.")
             if kind == "unstamped":
                 print("unstamped: every carrier still holds its placeholder")
                 return
@@ -562,6 +599,7 @@ def main(argv):
                 raise Problem(f"{ident} is also written by hand in: {', '.join(survivors)}. --unstamp would leave it there. "
                               f"Nothing was changed. Remove those mentions first.")
             write_all(texts, new)
+            rebuild_generated()
             print(f"unstamped: {ident} removed from every carrier")
             return
         if argv[0].startswith("-") or len(argv) != 1:
@@ -612,6 +650,7 @@ def main(argv):
             raise Problem("a carrier holds a placeholder this script does not know about, so the stamp could not be undone "
                           "exactly. Nothing was changed. Look at: " + "; ".join(where))
         write_all(texts, new)
+        rebuild_generated()
         print(f"{ident}, withdrawn {human(d)}: the register entry, the /use-policy/ link, "
               f"the five redirect rows and the evolution log all agree")
     except Problem as e:

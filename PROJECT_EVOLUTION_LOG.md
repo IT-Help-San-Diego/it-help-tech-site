@@ -13,6 +13,16 @@ Purpose: Track meaningful AI/developer changes with enough context to roll back 
 
 ## Entries
 
+### 2026-11-14: Link-preview descriptions and image alt text escaped once, not twice
+- Actor: AI (Claude Code). Housekeeping: no corrections entry.
+- Scope: templates only. Seven attributes on four pages change; every other built file is byte-identical.
+- Files:
+  - `templates/partials/head.html`: `og:description` and `twitter:description` resolve their fallback in a `set` and print it once. Printed directly, the template engine escaped the fallback twice, so an apostrophe reached link previews as `&#x27;`. `meta name="description"` no longer uses `safe`, so a description is escaped once like the others; no page's output changes from that today.
+  - `templates/shortcodes/img.html`, `picture.html`, `picture_simple.html`: the redundant `| escape` is removed. Autoescape already escapes each value once.
+- Pages whose HTML changes: `/corrections/`, `/privacy/` and `/billing/` (social-card descriptions), `/field-notes/the-owl-semaphore/` (one image alt).
+- Known and left alone: `og:title`, `twitter:title` and the two image-alt meta tags still print with `safe`. No current title contains a quote or an angle bracket.
+- Rollback: revert this change.
+
 ### 2026-11-14: The bug-bounty field note's withdrawal recorded; its addresses redirect to a corrections entry
 - Actor: AI (Claude Code), on the owner's two decisions of 14 November 2026: to withdraw the note, and to publish this record of it.
 - Scope: one corrections entry; six redirect rows; the script that dates and checks withdrawals. No page other than `/corrections/` changes.

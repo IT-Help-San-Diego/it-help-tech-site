@@ -13,6 +13,17 @@ Purpose: Track meaningful AI/developer changes with enough context to roll back 
 
 ## Entries
 
+### 2026-11-14 — Remove Square / bug-bounty field note from public site
+- Actor: AI (Hermes), carrying Carey's explicit "kill it" decision.
+- Scope: public content removal; no replacement note.
+- Files:
+  - `content/field-notes/bug-bounty-programs-are-a-corporate-controlled-casino.md` — deleted so Zola no longer publishes the page or its `/blog/` alias.
+  - `content/field-notes/_index.md` — removed the note from the JSON-LD `ItemList`; `numberOfItems` 8 → 7 and remaining positions renumbered.
+  - `PROJECT_EVOLUTION_LOG.md` — this entry.
+- Why: the note named a vendor that IT Help San Diego pays, carried high-carrier-color language, and no longer met the corporate site's measured, de-personalized, low-politics standard. The owner chose removal over publishing the calmer rebuild.
+- Consequences: `/field-notes/bug-bounty-programs-are-a-corporate-controlled-casino/` and its `/blog/...` alias are no longer generated. No replacement redirect is added; this is an intentional removal signal.
+- Rollback: restore the markdown from git history and restore its `ItemList` row in `content/field-notes/_index.md`.
+
 ### 2026-11-14: The Real Bot field note withdrawn; its address redirects to a corrections entry
 - Actor: AI (Claude Code, on the owner's ruling of 13 November 2026 that the note is withdrawn, not corrected in place).
 - Files added for the stamp: `scripts/stamp-withdrawal.sh`; the index shortcode stops the build on an unstamped record.

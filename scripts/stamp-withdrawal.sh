@@ -15,10 +15,12 @@
 #       zone (America/Los_Angeles), because it is the day the withdrawal goes
 #       live. STAMP_ALLOW_OTHER_DATE=1 lifts that for tests.
 #   scripts/stamp-withdrawal.sh --unstamp [C-YYYYMMDD-NN]
-#       Put one withdrawal's carriers back to their placeholders. Use this when
-#       a stamped change did not ship on its date, then stamp again on the day
-#       it does. The identifier is needed when more than one withdrawal is
-#       stamped. Never undo one whose entry is on the published page.
+#       Put the newest withdrawal's carriers back to their placeholders. Use
+#       this when a stamped change did not ship on its date, then stamp again
+#       on the day it does. Only the newest withdrawal, the last row of the
+#       table, can be undone; an identifier, if given, must be its own. Never
+#       undo one whose entry is on the published page: --check refuses a tree
+#       whose identifier differs from the published one.
 #   scripts/stamp-withdrawal.sh --check [--live-page <file>] [--require-publisher]
 #       Change nothing. For each withdrawal, fail unless every carrier is
 #       unstamped, or every carrier names the same entry and no other entry
@@ -52,10 +54,11 @@
 #     on the day it does ship.
 #   - the entry IS on it: it was published on its date. Do not unstamp. Fix
 #     whatever stopped the deploy and run the deploy again as stamped.
-# STAMP_ALREADY_PUBLISHED=1 (the repository variable of the same name, in the
-# deploy) tells --check that the entry was published before although the page
-# no longer shows it, for example after an older deploy was re-run. Set it for
-# the repair, then clear it.
+# STAMP_ALREADY_PUBLISHED=<that entry's identifier> (the repository variable of
+# the same name, in the deploy) tells --check that the entry was published
+# before although the page no longer shows it, for example after an older
+# deploy was re-run. It vouches for that one entry only. Set it for the repair,
+# then clear it.
 #
 # A withdrawal's carriers are: its register entry (identifier, heading, logged
 # date), its redirect rows, its entry in the evolution log and, for the Real
@@ -267,15 +270,13 @@ def verdict(texts, w, allow_own_repeat=False):
     if s["_status"] != "published":
         raise Problem(f'the withdrawal entry for {w["work"]!r} must have status = "published", not {s["_status"]!r}')
     ids = all_ids(texts[REGISTER])
-    repeated = sorted({i for i in ids if ids.count(i) > 1})
     mine = (s["register id"] or "").upper()
-    if repeated and not (allow_own_repeat and repeated == [mine] and ids.count(mine) == 2):
-        advice = ("If the withdrawal has not been published yet, run scripts/stamp-withdrawal.sh --unstamp and stamp "
-                  "again: it takes the next free number. If it has been published, the other entry is the newer one "
-                  "and needs its own number. If more than one other entry shares it, renumber those first."
-                  if mine in repeated else
-                  "That is not the withdrawal; give one of those entries its own number.")
-        raise Problem(f"{REGISTER} has more than one entry with the same identifier: {', '.join(repeated)}. {advice}")
+    if mine and ids.count(mine) > 1 and not (allow_own_repeat and ids.count(mine) == 2):
+        raise Problem(f"{REGISTER} has more than one entry with the same identifier: {mine}, which is the withdrawal of "
+                      f"{w['work']!r}. If this withdrawal has not been published yet, run scripts/stamp-withdrawal.sh "
+                      f"--unstamp {mine} and stamp again: it takes the next free number. If it has been published, the "
+                      f"other entry is the newer one and needs its own number. If more than one other entry shares it, "
+                      f"renumber those first.")
     id_keys = [k for k in ID_KEYS if k in s]
     anchor_keys = [k for k in ANCHOR_KEYS if k in s]
     for k in id_keys:
@@ -310,16 +311,36 @@ def verdict(texts, w, allow_own_repeat=False):
 
 def verdicts(texts):
     """One verdict per withdrawal, in the order of WITHDRAWALS, and then the rules that span them."""
+    ids = all_ids(texts[REGISTER])
+    one_at_a_time = ("The placeholders are the same text for each, so only one withdrawal may wait at a time: ship the "
+                     "one that is waiting before the next is added. A new withdrawal also needs its own row in "
+                     "WITHDRAWALS (see the comment above the table).")
+    if ids.count(PH_ID) > 1:
+        import tomllib
+        works = [repr(str(r.get("work", "an entry with no work field"))) for r in tomllib.loads(texts[REGISTER]).get("correction", [])
+                 if isinstance(r, dict) and str(r.get("id", "")).upper() == PH_ID]
+        raise Problem("more than one withdrawal is waiting for its date: " + "; ".join(works) + ". " + one_at_a_time)
     out = [verdict(texts, w) for w in WITHDRAWALS]
+    own = {ident for kind, ident, missing in out if ident}
+    repeated = sorted({i for i in ids if ids.count(i) > 1} - own)   # a withdrawal's own repeat was raised above
+    if repeated:
+        raise Problem(f"{REGISTER} has more than one entry with the same identifier: {', '.join(repeated)}. "
+                      f"That is not a withdrawal; give one of those entries its own number.")
     waiting = [w["work"] for w, (kind, ident, missing) in zip(WITHDRAWALS, out) if kind != "stamped"]
     if len(waiting) > 1:
-        raise Problem("more than one withdrawal is waiting for its date: " + "; ".join(waiting) + ". The placeholders are "
-                      "the same text for each, so only one may wait at a time. Ship one before the next is added.")
+        halves = [f"{w['work']!r} is only partly stamped as {ident} (still placeholders: {', '.join(missing)})"
+                  for w, (kind, ident, missing) in zip(WITHDRAWALS, out) if kind == "partial"]
+        if halves:
+            raise Problem("; ".join(halves) + ". Another withdrawal is waiting for its date as well, so the stamp command "
+                          "cannot finish this one. Put its carriers back as they were published (from git), then check again.")
+        raise Problem("more than one withdrawal is waiting for its date: " + "; ".join(waiting) + ". " + one_at_a_time)
     if not waiting:
         for name in CARRIERS:
             t = texts[name]
             if PH_ID in t or PH_ANCHOR in t or PH_DATE_RE.search(t):
-                raise Problem(f"a placeholder is still present in {name}")
+                raise Problem(f"a placeholder is still present in {name}, and no withdrawal in WITHDRAWALS is waiting "
+                              f"for its date. If it belongs to a new withdrawal, add that withdrawal's row to the table "
+                              f"(see the comment above it).")
     return out
 
 
@@ -379,17 +400,42 @@ def unknown_placeholders(texts):
     return found
 
 
+def log_span(text, w):
+    """(start, end) of this withdrawal's entry in the evolution log, heading included, or None."""
+    m = re.search(r"(?m)^### (?:\[DEPLOY\s+DATE\]|\d{4}-\d{2}-\d{2}): " + re.escape(w["log"]), text)
+    if not m:
+        return None
+    following = re.compile(r"(?m)^### ").search(text, m.end())
+    return m.start(), (following.start() if following else len(text))
+
+
+def own_rows(text, w, change):
+    """Apply `change` to the lines of the redirect table that hold this withdrawal's rows, and to no others."""
+    return "".join(change(line) if any(f'"{slug}' in line for slug in w["slugs"]) else line
+                   for line in text.splitlines(keepends=True))
+
+
 def apply_stamp(texts, ident, w):
-    """Fill every placeholder in. Only one withdrawal waits at a time, so every placeholder is its own."""
+    """Fill in this withdrawal's placeholders: its record, its rows, its log entry and, if it has one, its
+    /use-policy/ link. A placeholder anywhere else is left alone, and the checks that follow refuse it."""
     d = id_date(ident)
     out = {}
-    reg = PH_DATE_RE.sub(human(d), texts[REGISTER].replace(PH_ID, ident))
-    out[REGISTER] = reg.replace(f'logged = "{PH_ISO}"', f'logged = "{d.isoformat()}"')
-    out[POLICY] = PH_DATE_RE.sub(human(d), texts[POLICY].replace(PH_ANCHOR, ident.lower()))
-    out[REDIRECTS] = texts[REDIRECTS].replace(PH_ANCHOR, ident.lower())
-    log = re.sub(r"(?m)^### \[DEPLOY\s+DATE\](: " + re.escape(w["log"]) + ")",
-                 lambda m: "### " + d.isoformat() + m.group(1), texts[LOG])
-    out[LOG] = PH_DATE_RE.sub(human(d), log.replace(PH_ID, ident))
+    reg = texts[REGISTER]
+    rec = my_record(reg, w)
+    new = (PH_DATE_RE.sub(human(d), rec.replace(PH_ID, ident))
+           .replace(f'logged = "{PH_ISO}"', f'logged = "{d.isoformat()}"'))
+    out[REGISTER] = reg.replace(rec, new, 1)
+    out[POLICY] = texts[POLICY]
+    if w["policy"]:
+        out[POLICY] = PH_DATE_RE.sub(human(d), texts[POLICY].replace(PH_ANCHOR, ident.lower()))
+    out[REDIRECTS] = own_rows(texts[REDIRECTS], w, lambda line: line.replace(PH_ANCHOR, ident.lower()))
+    log = texts[LOG]
+    span = log_span(log, w)
+    if span:
+        section = re.sub(r"\A### \[DEPLOY\s+DATE\]", lambda m: "### " + d.isoformat(), log[span[0]:span[1]])
+        section = PH_DATE_RE.sub(human(d), section.replace(PH_ID, ident))
+        log = log[:span[0]] + section + log[span[1]:]
+    out[LOG] = log
     return out
 
 
@@ -406,13 +452,15 @@ def apply_unstamp(texts, ident, w):
     if w["policy"]:
         out[POLICY] = re.sub(r"\[withdrawn\s+on\s+[^\[\]]+\]\(\s*/corrections/#" + re.escape(ident.lower()) + r"\s*\)",
                              lambda m: f"[withdrawn on {PH_DATE}](/corrections/#{PH_ANCHOR})", texts[POLICY])
-    out[REDIRECTS] = "".join(
-        line.replace("/corrections/#" + ident.lower(), "/corrections/#" + PH_ANCHOR)
-        if any(f'"{slug}' in line for slug in w["slugs"]) else line
-        for line in texts[REDIRECTS].splitlines(keepends=True))
-    log = re.sub(r"(?m)^### " + re.escape(d.isoformat()) + r"(: " + re.escape(w["log"]) + ")",
-                 lambda m: "### " + PH_DATE + m.group(1), texts[LOG])
-    out[LOG] = log.replace(f"entry {ident}, the withdrawal", f"entry {PH_ID}, the withdrawal")
+    out[REDIRECTS] = own_rows(texts[REDIRECTS], w, lambda line: line.replace("/corrections/#" + ident.lower(),
+                                                                             "/corrections/#" + PH_ANCHOR))
+    log = texts[LOG]
+    span = log_span(log, w)
+    if span:
+        section = re.sub(r"\A### " + re.escape(d.isoformat()), lambda m: "### " + PH_DATE, log[span[0]:span[1]])
+        section = section.replace(f"entry {ident}, the withdrawal", f"entry {PH_ID}, the withdrawal")
+        log = log[:span[0]] + section + log[span[1]:]
+    out[LOG] = log
     return out
 
 
@@ -445,6 +493,15 @@ def section_heading(page_html, anchor):
 def is_withdrawal_heading(heading, ident, w):
     plain = heading.replace(chr(0x2019), "'")
     return w["title"] in plain and ident in plain
+
+
+def published_anchors(page_html, w):
+    """Anchors, lower case, of the entries on a corrections page whose heading names this withdrawal."""
+    found = set()
+    for m in re.finditer(r"""<section\b[^>]*\bid=["']?(c-\d{8}-\d{2})["']?[\s>]""", page_html, flags=re.I):
+        if w["title"] in section_heading(page_html, m.group(1)).replace(chr(0x2019), "'"):
+            found.add(m.group(1).lower())
+    return sorted(found)
 
 
 def section_ids(page_html, anchor):
@@ -580,6 +637,15 @@ def main(argv):
                     live = ""
             every_one_stamped = all(kind == "stamped" for kind, ident, missing in results)
             for w, (kind, ident, missing) in zip(WITHDRAWALS, results):
+                # An entry that readers can already see keeps its identifier for good: citations and the
+                # redirects point at it. So the tree must carry exactly the identifier that is published.
+                there = published_anchors(live, w) if live else []
+                if there and (kind != "stamped" or ident.lower() not in there):
+                    raise Problem(f"the published corrections page already carries the withdrawal of {w['work']!r} as "
+                                  f"{', '.join(a.upper() for a in there)}, but this tree has it "
+                                  + (f"as {ident}" if kind == "stamped" else "unstamped") + ". A published identifier is "
+                                  "never changed. Restore the stamp that was published (revert the change that removed or "
+                                  "replaced it); do not stamp again.")
                 if kind == "unstamped":
                     print(f"unstamped: every carrier of the withdrawal of {w['work']!r} still holds its placeholder")
                     continue
@@ -606,9 +672,10 @@ def main(argv):
                 if live is not None:
                     published = (len(section_ids(live, ident.lower())) == 1
                                  and is_withdrawal_heading(section_heading(live, ident.lower()), ident, w))
-                    if published or os.environ.get("STAMP_ALREADY_PUBLISHED") == "1":
+                    vouched = os.environ.get("STAMP_ALREADY_PUBLISHED", "").strip().upper() == ident
+                    if published or vouched:
                         print(f"{ident} is already on the published corrections page" if published else
-                              f"note: STAMP_ALREADY_PUBLISHED is set; treating {ident} as published before")
+                              f"note: STAMP_ALREADY_PUBLISHED names {ident}; treating it as published before")
                     elif "correction-entry" not in live:
                         # Not a corrections page at all: unreadable, empty, or an error page. A deploy
                         # must never be blocked because the site could not be read, so say so and go on.
@@ -621,7 +688,7 @@ def main(argv):
                                       f"published, run scripts/stamp-withdrawal.sh --unstamp {ident} and stamp again with "
                                       f"today's date. If it WAS published and the page has since lost it (an older deploy "
                                       f"re-run, or a restore), do not re-date it: fix the page by deploying with "
-                                      f"STAMP_ALREADY_PUBLISHED=1 set for that run.")
+                                      f"STAMP_ALREADY_PUBLISHED={ident} set for that run.")
                     else:
                         print(f"{ident} is not published yet and is dated today")
                 print(f"stamped: every carrier says {ident}, and no other entry shares it")
@@ -634,14 +701,21 @@ def main(argv):
                 if kind == "partial":
                     raise Problem(f"only part of the withdrawal of {w['work']!r} is stamped as {ident}; "
                                   f"still placeholders: {', '.join(missing)}")
+            failed = []
             for w, (kind, ident, missing) in zip(WITHDRAWALS, results):
                 if kind == "unstamped":
                     print(f"unstamped: the withdrawal of {w['work']!r} is not published yet, so there is nothing of it "
                           f"to check on the live site")
                     continue
-                check_live(ident, w)
+                try:      # one withdrawal's fault must not hide the state of the next
+                    check_live(ident, w)
+                except Problem as e:
+                    failed.append(f"[{ident}] {e}")
+                    continue
                 print(f"live site ok: the {len(w['froms'])} withdrawn addresses of {w['work']!r} answer 301 to "
                       f"{LIVE_BASE}/corrections/#{ident.lower()}, and the live corrections page has one entry under that anchor")
+            if failed:
+                raise Problem(" || ".join(failed))
             return
         if argv[0] == "--check-built":
             if len(argv) != 2:
@@ -654,31 +728,23 @@ def main(argv):
         if argv[0] == "--unstamp":
             if len(argv) > 2 or (len(argv) == 2 and not ID_RE.fullmatch(argv[1])):
                 die(USAGE)
-            # Which withdrawals carry anything other than placeholders, and under which identifiers.
-            carrying = []
-            for w in WITHDRAWALS:
-                s = inspect(texts, w)
-                named = ({s[k] for k in ID_KEYS if s.get(k)} | {s[k].upper() for k in ANCHOR_KEYS if s.get(k)})
-                if named or any(s[k] for k in s if not k.startswith("_")):
-                    carrying.append((w, named))
+            # Only the newest withdrawal, the last row of the table, can still be unpublished: the
+            # rows before it shipped before it was added. So only the newest can be undone.
+            w = WITHDRAWALS[-1]
             if len(argv) == 2:
-                chosen = [w for w, named in carrying if argv[1] in named]
-                if len(chosen) != 1:
+                holder = None
+                for o in WITHDRAWALS:
+                    s = inspect(texts, o)
+                    if argv[1] in ({s[k] for k in ID_KEYS if s.get(k)} | {s[k].upper() for k in ANCHOR_KEYS if s.get(k)}):
+                        holder = o
+                if holder is None:
                     raise Problem(f"no withdrawal is stamped as {argv[1]}. Nothing was changed.")
-                w = chosen[0]
-            elif not carrying:
-                verdicts(texts)
-                print("already unstamped; nothing to do")
-                return
-            elif len(carrying) > 1:
-                listing = "; ".join(f"{w['work']!r} as {', '.join(sorted(named)) or 'a date only'}" for w, named in carrying)
-                raise Problem(f"more than one withdrawal is stamped: {listing}. Say which one to undo, for example "
-                              f"--unstamp C-YYYYMMDD-NN. Never undo one whose entry is on the published corrections page. "
-                              f"Nothing was changed.")
-            else:
-                w = carrying[0][0]
+                if holder is not w:
+                    raise Problem(f"{argv[1]} is the withdrawal of {holder['work']!r}, which shipped before the newest "
+                                  f"withdrawal was added. A published withdrawal is never undone. Nothing was changed.")
             kind, ident, missing = verdict(texts, w, allow_own_repeat=True)
             if kind == "unstamped":
+                verdicts(texts)      # nothing to undo, but a faulty tree is still reported
                 print("already unstamped; nothing to do")
                 return
             others_waiting = [o["work"] for o in WITHDRAWALS if o is not w
@@ -734,7 +800,8 @@ def main(argv):
                               f"Nothing was changed. To change the date, run --unstamp {ident} first.")
         elif not any(id_date(i) == d for i in stamped):
             raise Problem(f"already stamped as {', '.join(stamped)}, and none of those is dated {argv[0]}. "
-                          f"Nothing was changed. To change a date, run --unstamp with that identifier first.")
+                          f"Nothing was changed. Only the newest withdrawal's date can be changed, and only while it is "
+                          f"unpublished: run --unstamp first.")
         if d != today():
             if os.environ.get("STAMP_ALLOW_OTHER_DATE") != "1":
                 raise Problem(f"the date must be today's date in {ZONE} ({today().isoformat()}), "

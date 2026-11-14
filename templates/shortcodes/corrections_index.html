@@ -8,6 +8,11 @@
 {%- endif -%}
 {%- set every = register.correction | default(value=[]) -%}
 {%- for a in every %}
+{%- if a.id is not defined %}
+{{ throw(message="corrections register: an entry has no id. Every entry needs one.") }}
+{%- endif %}
+{%- endfor %}
+{%- for a in every %}
 {%- set_global same = 0 %}
 {%- for b in every %}{% if a.id | lower == b.id | lower %}{% set_global same = same + 1 %}{% endif %}{% endfor %}
 {%- if same > 1 %}

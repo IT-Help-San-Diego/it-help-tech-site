@@ -46,9 +46,17 @@ jobs:
         # redirects must be in the tree. Runs before anything is built.
         run: |
           PUBLISHED="$RUNNER_TEMP/published-corrections.html"
-          aws s3 cp "s3://$BUCKET/corrections/index.html" "$PUBLISHED" --only-show-errors \
-            || curl -fsS --retry 3 --connect-timeout 10 --max-time 30 "https://$BUCKET/corrections/" -o "$PUBLISHED" \
-            || echo "::warning::Could not read the published corrections page from the bucket or the site; the first-publication date rule will be skipped."
+          PART="$RUNNER_TEMP/published-corrections.part"
+          rm -f "$PUBLISHED" "$PART"
+          # A download counts only if it finished: a page cut short must not be read as the page.
+          if aws s3 cp "s3://$BUCKET/corrections/index.html" "$PART" --only-show-errors; then
+            mv "$PART" "$PUBLISHED"
+          elif rm -f "$PART" && curl -fsS --retry 3 --connect-timeout 10 --max-time 30 "https://$BUCKET/corrections/" -o "$PART"; then
+            mv "$PART" "$PUBLISHED"
+          else
+            rm -f "$PART"
+            echo "::warning::Could not read the published corrections page from the bucket or the site; the first-publication date rule will be skipped."
+          fi
           bash scripts/stamp-withdrawal.sh --check --require-publisher --live-page "$PUBLISHED"
         env:
           AWS_REGION: us-east-1

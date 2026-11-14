@@ -28,8 +28,15 @@ jobs:
         # yet, a stamp dated any day but today fails here, before merge.
         run: |
           PUBLISHED="$RUNNER_TEMP/published-corrections.html"
-          curl -fsS --retry 3 --connect-timeout 10 --max-time 30 "https://www.it-help.tech/corrections/" -o "$PUBLISHED" \
-            || echo "::warning::Could not read the live corrections page; the first-publication date rule will be skipped."
+          PART="$RUNNER_TEMP/published-corrections.part"
+          rm -f "$PUBLISHED" "$PART"
+          # A download counts only if it finished: a page cut short must not be read as the page.
+          if curl -fsS --retry 3 --connect-timeout 10 --max-time 30 "https://www.it-help.tech/corrections/" -o "$PART"; then
+            mv "$PART" "$PUBLISHED"
+          else
+            rm -f "$PART"
+            echo "::warning::Could not read the live corrections page; the first-publication date rule will be skipped."
+          fi
           bash scripts/stamp-withdrawal.sh --check --live-page "$PUBLISHED"
 
       - name: Stamp this workspace if the withdrawal is still unstamped

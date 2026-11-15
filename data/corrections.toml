@@ -495,3 +495,26 @@ The note's other two findings did hold in the same measurement: none of the 38 s
 
 The note was written by a customer of the platform it discussed. It has been withdrawn rather than revised, because what would have remained after correction did not support publishing.
 """
+
+[[correction]]
+id = "C-20261115-01"
+status = "published"
+kind = "wording"
+severity = "Substantive"
+logged = "2026-11-15"
+fixed = "2026-11-15"
+work = "Star-Centric Systems, the roof page"
+work_path = "https://starcentric.systems/#roof"
+original_date = "2026-11-15"
+published = """
+In the section called "The roof", the opening paragraph said, from the page's first publication on 15 November 2026 (UTC): "The energy that anger, fraud, fundamentalism and violence give off is taken in at that door and turned into tools anyone can re-derive."
+"""
+wrong = """
+The sentence made a claim the page has no evidence for, and one word in it could be read as aimed at religious believers.
+"""
+now = """
+The paragraph now says of The Intellectual Resistance: "Its premise is that the real revolution is in the mind: better thinking early in the chain improves the logic and the machines built on it, and prevents ethical failures before they reach the noisier layers downstream." The first line of the section's sources changed to match: among the things stated by the page and not cited, it now names "the premise" where it named "where the energy goes".
+"""
+propagated = """
+When this entry was logged, on 15 November 2026 (UTC), the Internet Archive's Wayback Machine listed no capture of the page. The earlier wording remains in the history of the page's repository.
+"""

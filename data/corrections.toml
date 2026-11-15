@@ -513,8 +513,8 @@ wrong = """
 The sentence made a claim the page has no evidence for, and one word in it could be read as aimed at religious believers.
 """
 now = """
-"Its premise is that the real revolution is in the mind: better thinking early in the chain improves the logic and the machines built on it, and prevents ethical failures before they reach the noisier layers downstream."
+The paragraph now says of The Intellectual Resistance: "Its premise is that the real revolution is in the mind: better thinking early in the chain improves the logic and the machines built on it, and prevents ethical failures before they reach the noisier layers downstream." The first line of the section's sources changed to match: among the things stated by the page and not cited, it now names "the premise" where it named "where the energy goes".
 """
 propagated = """
-On 15 November 2026 no archive capture and no search-index entry of the earlier wording was found. The earlier wording remains in the history of the page's repository.
+On 15 November 2026 (UTC) the Internet Archive's Wayback Machine held no capture of the page. The earlier wording remains in the history of the page's repository.
 """

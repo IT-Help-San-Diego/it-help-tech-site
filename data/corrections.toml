@@ -24,6 +24,8 @@
 #   third-party individuals, no state of mind, no internal process material.
 # - A corrected file that keeps its URL (a .bib, a .pdf) is linked with a
 #   version query (?v=YYYYMMDD), so no browser's cached copy can answer for it.
+# - `logged` and `fixed` are Los Angeles days. `original_date` is the day the
+#   work gives for itself; where it gives none, the record says which clock.
 # - Dates are YYYY-MM-DD strings. `fixed` is the date the corrected text is
 #   published on this site.
 
@@ -517,4 +519,30 @@ The paragraph now says of The Intellectual Resistance: "Its premise is that the 
 """
 propagated = """
 When this entry was logged, on 15 November 2026 (UTC), the Internet Archive's Wayback Machine listed no capture of the page. The earlier wording remains in the history of the page's repository.
+"""
+
+[[correction]]
+id = "C-20261115-02"
+status = "published"
+kind = "wording"
+severity = "Substantive"
+logged = "2026-11-15"
+fixed = "2026-11-15"
+work = "The Intellectual Resistance, the home page"
+work_path = "https://intellectualresistance.com/"
+# The page states no publication day of its own. Its first deploy ran at
+# 05:23 UTC on 27 June 2026, which was 22:23 on 26 June in Los Angeles.
+# `published` below names both clocks.
+original_date = "2026-06-26"
+published = """
+Until 15 November 2026 the home page carried three things this entry corrects. (1) Its card for Organic Computer was headed "Deep thinking as a service" and read: "The human substrate, offered directly. Organic Computer specs the human mind like hardware (an exaflop-scale reasoner[15] running on ~20 W and a glass of water) and sells the scarcest resource in business: a single mind that will hold one hard problem for hours and reason to its foundations. It is the Intellectual Resistance turned into a practice: metacognition first, AI as instrument never author, every figure sourced." The map near the top of the page said "Organic Computer offers the human substrate directly", reference 6 said "sustained deliberate reasoning as a service", and the site's two text files for machine readers said "sustained, deliberate reasoning offered as a service. The Resistance turned into a practice." and "sold as the scarcest business resource". (2) The opening paragraph compared thinking to resistance in a circuit and said: "Thinking is the same." Neither the paragraph nor the drawing under it carried a status label, on a page that says of its frameworks: "Each is stated with its math, and labeled honestly for exactly how far it has been proven." The site's social card image carried the same sentence. (3) The drawing, a resistor between two terminals, was written with a wire on each side of the resistor, and browsers did not draw the wires. The social card image showed the same. The page first went out on 27 June 2026 (UTC), which was still 26 June in Los Angeles; the day given above for the work is the Los Angeles day.
+"""
+wrong = """
+(1) Material. These words described Organic Computer as a service for sale. That description is withdrawn: Organic Computer is a datasheet for the human brain. (2) Substantive. "Thinking is the same." states an identity where the paragraph draws an analogy, and the analogy carried no label on a page that promises one. (3) Material. Without its wires the drawing showed a resistor joined to nothing, which is an open circuit that carries no current, under a paragraph about current being made usable.
+"""
+now = """
+(1) The card is headed "Datasheet for the human brain" and reads: "The principle, pointed at the hardware you already own. Organic Computer specs the human brain the way hardware is specced (an exaflop-scale reasoner[15] running on ~20 W and a glass of water) and sets it beside an exascale supercomputer. The premise is playful. The figures are not. Metacognition first, AI as instrument never author, every figure sourced." The map says "Organic Computer is a datasheet for the human brain", reference 6 says "a datasheet for the human brain, specified the way hardware is specified, with its sources listed", and each text file carries a dated line at its top that quotes what it said before. (2) The sentence reads "Thinking has the same shape." Two sentences follow the paragraph: "And a line with no resistor at its end doesn't carry more signal - it rings: the wave reflects, returns over what is still arriving, and the receiver cannot tell the message from its own echo. That is what a mind does with its own prior when nothing stops it." Under them the page prints a status label: "Analogy: nothing is derived from it". The social card image carries the new sentence. (3) Both wires are drawn, on the page and on the social card image.
+"""
+propagated = """
+The Internet Archive's Wayback Machine holds captures of the home page, of both text files and of the social card image made between 27 June and 7 November 2026, before this correction. The earlier wording remains in the history of the page's repository. Services that keep their own copy of the social card image may show the earlier image until they fetch it again. When this entry was logged, Organic Computer's own site still carried wording that offers a service; its correction will have its own entry in this index.
 """

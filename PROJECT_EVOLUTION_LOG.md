@@ -13,6 +13,17 @@ Purpose: Track meaningful AI/developer changes with enough context to roll back 
 
 ## Entries
 
+### 2026-11-15: The corrections page states its clock; the Intellectual Resistance home page joins the index
+- Actor: AI (Claude Code), on the site owner's word of 15 November 2026.
+- Scope: the corrections page and its register. No template, style or redirect changes.
+- Files:
+  - `content/corrections.md`: one sentence says which clock the entries' days keep (logged and corrected are Los Angeles days; the day a work was first published is the day the work gives for itself). The scope sentence now names intellectualresistance.com.
+  - `data/corrections.toml`: record C-20261115-02 for the Intellectual Resistance home page; one header rule on the same clocks. Record C-20261115-01 is unchanged.
+  - `PROJECT_EVOLUTION_LOG.md`
+- Change: the clock sentence is housekeeping (it makes nothing printed false, so it has this line and no entry). The record is the entry for three corrections on intellectualresistance.com, listed with their classes inside it.
+- Why: the wording lane ruled that the index states its zone once, before its next entry, and that intellectualresistance.com is inside the family index.
+- Rollback: this pull request (`replit/corrections-index-zone`), baseline commit `af1b4ac`.
+
 ### 2026-11-14: Every redirect row is checked against the build and the live site
 - Actor: AI (Claude Code). Tooling only: no page, no entry and no redirect changes.
 - Scope: the checks that run in the pull-request job and in the deploy; one line of the live header check.

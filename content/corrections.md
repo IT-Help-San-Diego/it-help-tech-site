@@ -23,4 +23,6 @@ Typos and template defects are fixed without an entry.
 
 A claim is corrected when its warrant fails, not only when its conclusion turns out to be false. Entries are listed newest first. Each identifier is fixed when the correction is logged and is never reused, so an entry can be cited.
 
+Dates in the entries are calendar days in Los Angeles (Pacific Time), except inside quoted text; where an entry uses another clock, it names that clock beside the date.
+
 {{ corrections_index() }}

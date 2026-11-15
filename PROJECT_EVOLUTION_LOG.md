@@ -13,6 +13,17 @@ Purpose: Track meaningful AI/developer changes with enough context to roll back 
 
 ## Entries
 
+### 2026-11-15: Organic Computer joins the corrections index
+- Actor: AI (Claude Code), on the site owner's word of 15 November 2026.
+- Scope: the corrections page and its register. No template, style or redirect changes.
+- Files:
+  - `data/corrections.toml`: record C-20261115-03 for organiccomputer.me, eight items with their classes inside it. In record C-20261115-02 the capture dates in `propagated` gain the label "(UTC)"; nothing else in that record changes.
+  - `content/corrections.md`: the scope sentence now names organiccomputer.me.
+  - `PROJECT_EVOLUTION_LOG.md`
+- Change: the record is the entry the Organic Computer page already links from its footer. The clock label on C-20261115-02 is housekeeping: the dates were Coordinated Universal Time days printed bare in an index that keeps Los Angeles days, and the label makes nothing printed false.
+- Why: the wording lane ruled one record for the Organic Computer changes and placed organiccomputer.me inside the family index.
+- Rollback: this pull request (`replit/corrections-c-20261115-03`), baseline commit `82a3c53`.
+
 ### 2026-11-15: The corrections page states its clock; the Intellectual Resistance home page joins the index
 - Actor: AI (Claude Code), on the site owner's word of 15 November 2026.
 - Scope: the corrections page and its register. No template, style or redirect changes.

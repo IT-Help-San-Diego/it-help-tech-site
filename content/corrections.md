@@ -12,7 +12,7 @@ When something published here turns out to be wrong, it is corrected, and the co
 
 A work that is withdrawn is taken down, and its address redirects to its entry here, which says what the work was, when it was withdrawn and why.
 
-This covers the whole public record: this site, tetrasemaphore.systems, starcentric.systems, intellectualresistance.com, the Zenodo deposits and the SSRN paper.
+This covers the whole public record: this site, tetrasemaphore.systems, starcentric.systems, intellectualresistance.com, organiccomputer.me, the Zenodo deposits and the SSRN paper.
 
 Two kinds of error get an entry:
 

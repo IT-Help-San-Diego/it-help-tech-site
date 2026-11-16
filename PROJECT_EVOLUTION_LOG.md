@@ -13,6 +13,16 @@ Purpose: Track meaningful AI/developer changes with enough context to roll back 
 
 ## Entries
 
+### 2026-11-15: Wayback capture dates in two corrections entries are labelled UTC
+- Actor: AI (Claude Code). Not merged by its author: it rides the next deploy of this site.
+- Scope: the corrections register. No template, style or redirect changes.
+- Files:
+  - `data/corrections.toml`: in records C-20261115-02 and C-20261115-03, each date of a Wayback Machine capture gains the label "(UTC)". One header rule for editors says a date from someone else's record keeps that record's clock and is labelled.
+  - `PROJECT_EVOLUTION_LOG.md`
+- Change: housekeeping. The dates were right and are unchanged; the label says which clock they are in, so this has a line here and no entry.
+- Why: the wording lane ruled (15 November 2026) that a capture date is a third party's record of its own event, read from a service whose timestamps are UTC, so it is quoted in that clock and labelled. The index's own days stay Los Angeles days.
+- Rollback: this pull request (`replit/corrections-capture-dates-utc`), baseline commit `212c9bb`.
+
 ### 2026-11-15: The corrections page states its clock; the Intellectual Resistance home page joins the index
 - Actor: AI (Claude Code), on the site owner's word of 15 November 2026.
 - Scope: the corrections page and its register. No template, style or redirect changes.

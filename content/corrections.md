@@ -21,6 +21,8 @@ Two kinds of error get an entry:
 - **Material.** A reader acting on it is sent somewhere wrong, or cites something false.
 - **Substantive.** The claim is wrong, but no reader action turns on it.
 
+An entry that corrects more than one thing gives each its class, and its heading carries the graver one.
+
 Typos and template defects are fixed without an entry.
 
 A claim is corrected when its warrant fails, not only when its conclusion turns out to be false. Entries are listed newest first. Each identifier is fixed when the correction is logged and is never reused, so an entry can be cited.

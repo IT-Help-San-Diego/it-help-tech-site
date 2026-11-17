@@ -344,6 +344,7 @@ function renderCorrectionsIndex(register) {
     `- What was wrong: ${r.wrong.trim()}`,
     `- What it says now: ${r.now.trim()}`,
     `- Where it propagated: ${r.propagated.trim()}`,
+    ...(r.amended ? [`- Changes to this entry: ${r.amended.trim()}`] : []),
   ].join("\n")).join("\n\n");
 }
 

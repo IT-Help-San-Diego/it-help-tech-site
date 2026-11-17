@@ -13,6 +13,33 @@ Purpose: Track meaningful AI/developer changes with enough context to roll back 
 
 ## Entries
 
+### 2026-11-17: Two corrections entries take the class Material; the index says when it began; an entry no longer runs off a phone
+- Actor: AI (Claude Code). Merged only on the site owner's word, and on the day the two entries name.
+- Scope: the corrections page, its register, its two renderers and one style rule. No redirect changes.
+- Files:
+  - `data/corrections.toml`: records C-20261115-02 and C-20261115-03 change `severity` from "Substantive" to "Material". Each gains an `amended` field that says every change made to the record, quoting what it said before, with the day. Inside the records: item (3) of C-20261115-02 and items (2) and (4) of C-20261115-03 change from Material to Substantive; item (7) of C-20261115-03 names the one file that carried the booking address; the quotations under "What it says now" follow the new punctuation of the two pages. One header rule describes the field, and one says the index has a second renderer.
+  - `templates/shortcodes/corrections_index.html`: a record with `amended` renders it last, under "Changes to this entry". A record without the field renders as before.
+  - `infra/llms/build-llms-full.mjs`: the text copy of the index in `/llms-full.txt` prints the same line, so the class does not change there without the note.
+  - `content/corrections.md`: one sentence says the index began on 13 November 2026 and holds nothing corrected or taken down before that day. One sentence prints the rule the classed headings follow: where a heading gives a class and its entry corrects more than one thing, the entry gives each its class and the heading carries the graver one.
+  - `static/css/late-overrides.css`: `.correction-entry dd` lets a long unbroken word wrap.
+  - `PROJECT_EVOLUTION_LOG.md`
+- Change: the two headings gave the lesser class to entries that hold Material items. The page defines Material as the graver class ("A reader acting on it is sent somewhere wrong, or cites something false"), and each entry holds an item that fits it. Three items inside the two entries were classed Material where, by the same definition, they are Substantive, and one item named two files where one carried the address. Every change is said in the entry's own "Changes to this entry" block, on the page and in the text copy, quoting what the entry said before, so none can pass for a quiet edit. The start sentence and the rule sentence make nothing printed false.
+- Change, with the two sites: the sentence about a line with no resistor (both pages) and the sentence on Organic Computer's page for a missing address changed their punctuation the same day, in organiccomputer pull request 9 and intellectualresistance pull request 12. The entries' quotations follow them. Merge those two first, in the same sitting.
+- Change, housekeeping: entry C-20261115-03 quotes a web address as plain text, 698 px wide as one word. On a phone the whole entry took that width and the page, which hides sideways overflow, cut every line of the entry off. Measured before and after in Chromium and in Mobile Safari; the figures are in the pull request.
+- Why: the wording lane ruled (16 and 17 November 2026, UTC) that record C-20261115-03 is Material by the page's own definition, that C-20261115-02 is classed against the same definition, and that the index states when it began, so that a reader does not take the absence of earlier entries to mean that nothing was corrected earlier.
+- Note: the day in each `amended` field has to be the Los Angeles day of the merge. If this merges on another day, change both first.
+- Rollback: this pull request (`replit/corrections-capture-dates-utc`), baseline commit `d1baa8e`.
+
+### 2026-11-15: Wayback capture dates in two corrections entries are labelled UTC
+- Actor: AI (Claude Code). It causes no deploy of its own: it rides the change in the entry above.
+- Scope: the corrections register. No template, style or redirect changes.
+- Files:
+  - `data/corrections.toml`: in records C-20261115-02 and C-20261115-03, each date of a Wayback Machine capture gains the label "(UTC)". One header rule for editors says a date from someone else's record keeps that record's clock and is labelled.
+  - `PROJECT_EVOLUTION_LOG.md`
+- Change: housekeeping. The dates were right and are unchanged; the label says which clock they are in, so this has a line here and no entry.
+- Why: the wording lane ruled (15 November 2026) that a capture date is a third party's record of its own event, read from a service whose timestamps are UTC, so it is quoted in that clock and labelled. The index's own days stay Los Angeles days.
+- Rollback: this pull request (`replit/corrections-capture-dates-utc`), baseline commit `d1baa8e`.
+
 ### 2026-11-15: The corrections page states its clock; the Intellectual Resistance home page joins the index
 - Actor: AI (Claude Code), on the site owner's word of 15 November 2026.
 - Scope: the corrections page and its register. No template, style or redirect changes.

@@ -1669,8 +1669,12 @@ img.img-centered-240 {
 .correction-entry dt {
     font-weight: 700;
 }
+/* A web address quoted as plain text does not wrap on its own either.
+   Without this an entry grew as wide as the longest address in it, and the
+   page, which hides sideways overflow, cut every line of it off on a phone. */
 .correction-entry dd {
     margin: 0 0 var(--space-3);
+    overflow-wrap: anywhere;
 }
 
 /* Reference lists and corrections entries. A long web address with no

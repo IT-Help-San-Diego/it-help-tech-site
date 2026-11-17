@@ -1680,8 +1680,12 @@ img.img-centered-240 {
 /* Reference lists and corrections entries. A long web address with no
    hyphens does not wrap on its own, and the page hides sideways overflow,
    so on a phone the end of the address was cut off. Let these links break
-   anywhere so the whole address stays on screen. */
+   anywhere so the whole address stays on screen. A quotation block in an
+   entry can quote an address as plain text, which is not a link: the
+   BibTeX line in C-20261113-07 was 48 px past the edge at 320 px. The
+   block takes the same rule. */
 .footnote-definition a,
-.correction-entry a {
+.correction-entry a,
+.correction-entry blockquote {
     overflow-wrap: anywhere;
 }

@@ -287,4 +287,25 @@ a.ftr-node:hover {
     .ftr-org-dept-right      { flex: none; width: 50%; }
     .ftr-org-dept-left       { align-self: flex-start; justify-content: flex-end; }
     .ftr-org-dept-right      { align-self: flex-end; justify-content: flex-start; }
+
+    /* Pills: each hangs in one half of the screen, left or right of the
+       spine, and was held to one line. Below about 430 px the longest pill
+       is wider than its half, so it ran past the right edge and every page
+       scrolled sideways (the body hides its overflow and WebKit slides the
+       page anyway); at 320 px the pills on the left were cut off at the
+       left edge as well. Let a pill's words wrap inside its half, in
+       balanced lines, at the same type size. A pill that fits on one line
+       is drawn exactly as before, so nothing changes where the pills fit. */
+    .ftr-node                { white-space: normal; text-wrap: balance; }
+
+    /* Balanced lines would break this pill at the hyphen of "On-Site". It
+       only wraps below about 330 px, and there it breaks before its last
+       word instead. */
+    .ftr-node--project       { text-wrap: wrap; }
+
+    /* Link grid: a link was held to one line, so a column could not be
+       narrower than its longest link and the two columns could not be
+       narrower than 346 px together. Let a long link take a second line.
+       At 371 px and wider the columns already fit and nothing wraps. */
+    .ftr-link                { white-space: normal; }
 }

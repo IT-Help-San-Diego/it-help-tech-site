@@ -21,7 +21,7 @@ Two kinds of error get an entry:
 - **Material.** A reader acting on it is sent somewhere wrong, or cites something false.
 - **Substantive.** The claim is wrong, but no reader action turns on it.
 
-An entry that corrects more than one thing gives each its class, and its heading carries the graver one.
+Where a heading gives a class and its entry corrects more than one thing, the entry gives each its class and the heading carries the graver one.
 
 Typos and template defects are fixed without an entry.
 

@@ -44,6 +44,10 @@
 <dd>{{ c.now | trim | markdown(inline=true) | safe }}</dd>
 <dt>Where it propagated</dt>
 <dd>{{ c.propagated | trim | markdown(inline=true) | safe }}</dd>
+{%- if c.amended %}
+<dt>Changes to this entry</dt>
+<dd>{{ c.amended | trim | markdown(inline=true) | safe }}</dd>
+{%- endif %}
 </dl>
 {%- endif %}
 </section>

@@ -13,15 +13,28 @@ Purpose: Track meaningful AI/developer changes with enough context to roll back 
 
 ## Entries
 
+### 2026-11-17: Two corrections entries take the class Material; the index says when it began
+- Actor: AI (Claude Code). Merged only on the site owner's word, and on the day the two entries name.
+- Scope: the corrections page, its register and its index template. No style or redirect changes.
+- Files:
+  - `data/corrections.toml`: records C-20261115-02 and C-20261115-03 change `severity` from "Substantive" to "Material". Each gains an `amended` field that quotes the earlier class and gives the day of the change. One header rule describes the field.
+  - `templates/shortcodes/corrections_index.html`: a record with `amended` renders it last, under "Changes to this entry". A record without the field renders as before.
+  - `content/corrections.md`: one sentence says the index began on 13 November 2026 and holds no correction made before that day.
+  - `PROJECT_EVOLUTION_LOG.md`
+- Change: the two headings gave the lesser class to entries that hold Material items. The page defines Material as the graver class ("A reader acting on it is sent somewhere wrong, or cites something false"), and each entry holds an item that fits it. No item's text or class changed. The change is said in the entry itself, so it cannot pass for a quiet edit. The start sentence makes nothing printed false.
+- Why: the wording lane ruled (16 November 2026, UTC) that record C-20261115-03 is Material by the page's own definition, that C-20261115-02 is classed against the same definition, and that the index states when it began, so that a reader does not take the absence of earlier corrections for their absence from the record.
+- Note: the day in each `amended` field has to be the Los Angeles day of the merge. If this merges on another day, change both first.
+- Rollback: this pull request (`replit/corrections-capture-dates-utc`), baseline commit `d1baa8e`.
+
 ### 2026-11-15: Wayback capture dates in two corrections entries are labelled UTC
-- Actor: AI (Claude Code). Not merged by its author: it rides the next deploy of this site.
+- Actor: AI (Claude Code). It causes no deploy of its own: it rides the change in the entry above.
 - Scope: the corrections register. No template, style or redirect changes.
 - Files:
   - `data/corrections.toml`: in records C-20261115-02 and C-20261115-03, each date of a Wayback Machine capture gains the label "(UTC)". One header rule for editors says a date from someone else's record keeps that record's clock and is labelled.
   - `PROJECT_EVOLUTION_LOG.md`
 - Change: housekeeping. The dates were right and are unchanged; the label says which clock they are in, so this has a line here and no entry.
 - Why: the wording lane ruled (15 November 2026) that a capture date is a third party's record of its own event, read from a service whose timestamps are UTC, so it is quoted in that clock and labelled. The index's own days stay Los Angeles days.
-- Rollback: this pull request (`replit/corrections-capture-dates-utc`), baseline commit `212c9bb`.
+- Rollback: this pull request (`replit/corrections-capture-dates-utc`), baseline commit `d1baa8e`.
 
 ### 2026-11-15: The corrections page states its clock; the Intellectual Resistance home page joins the index
 - Actor: AI (Claude Code), on the site owner's word of 15 November 2026.

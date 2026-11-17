@@ -20,6 +20,10 @@
 # - status = "published" only once the fix itself has landed in the same
 #   change. Anything else ("pending") renders nowhere.
 # - Never delete the original claim: quote it in `published`.
+# - `amended` is optional. A change to a published record is said there,
+#   quoting what the record said before, with the Los Angeles day of the
+#   change. It renders last, under "Changes to this entry". A record in
+#   entry form says the same at the end of `entry`.
 # - A record describes a text and a fact, never a person. No clients, no
 #   third-party individuals, no state of mind, no internal process material.
 # - A corrected file that keeps its URL (a .bib, a .pdf) is linked with a
@@ -528,7 +532,7 @@ When this entry was logged, on 15 November 2026 (UTC), the Internet Archive's Wa
 id = "C-20261115-02"
 status = "published"
 kind = "wording"
-severity = "Substantive"
+severity = "Material"
 logged = "2026-11-15"
 fixed = "2026-11-15"
 work = "The Intellectual Resistance, the home page"
@@ -549,12 +553,15 @@ now = """
 propagated = """
 The Internet Archive's Wayback Machine holds captures of the home page, of both text files and of the social card image made between 27 June and 7 November 2026 (UTC), before this correction. The earlier wording remains in the history of the page's repository. Services that keep their own copy of the social card image may show the earlier image until they fetch it again. When this entry was logged, Organic Computer's own site still carried wording that offers a service; its correction will have its own entry in this index.
 """
+amended = """
+As first published on 15 November 2026, this entry's heading gave its class as Substantive. By this page's definition it is Material: under item (1) the page described Organic Computer as a service for sale, and it is not one. The heading was corrected on 17 November 2026. The class given to each item did not change.
+"""
 
 [[correction]]
 id = "C-20261115-03"
 status = "published"
 kind = "wording"
-severity = "Substantive"
+severity = "Material"
 logged = "2026-11-15"
 fixed = "2026-11-15"
 work = "Organic Computer, the datasheet"
@@ -574,4 +581,7 @@ now = """
 """
 propagated = """
 The Internet Archive's Wayback Machine holds two captures of the page and one of llms.txt, all made on 7 November 2026 (UTC), before this correction; when this entry was logged it listed none of llms-full.txt and none of 404.html, the page shown for a missing address. The earlier wording remains in the history of the site's repository. Results for the site on Bing and DuckDuckGo, read on 15 November 2026 (UTC), still showed the footer of an earlier revision of the page. Until its own correction, entry C-20261115-02 in this index, intellectualresistance.com described Organic Computer as a service.
+"""
+amended = """
+As first published on 15 November 2026, this entry's heading gave its class as Substantive. By this page's definition it is Material: under item (7) the site's text files sent a reader to a booking page for a service the site does not offer. The heading was corrected on 17 November 2026. The class given to each item did not change.
 """

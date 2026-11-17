@@ -13,6 +13,21 @@ Purpose: Track meaningful AI/developer changes with enough context to roll back 
 
 ## Entries
 
+### 2026-11-17: The footer and one quotation block no longer run off a phone
+- Actor: AI (Claude Code). Not merged by its author: the merge waits for the site owner's word.
+- Scope: phone layout of the site footer, on every page, and of quotation blocks inside corrections entries. Style rules only: no template, no word a reader sees, no register and no redirect changes.
+- Files:
+  - `static/css/_footer-org.css`: inside the block that already exists for screens up to 640 px, a pill of the footer's org tree (`.ftr-node`) may wrap its words, in balanced lines; the "Book On-Site Visit" pill wraps without balancing, so that it does not break at its hyphen; a link in the grid below (`.ftr-link`) may take a second line.
+  - `static/css/late-overrides.css`: `.correction-entry blockquote` joins the rule that lets a long unbroken word wrap.
+  - `PROJECT_EVOLUTION_LOG.md`
+- Change, housekeeping, the footer: each pill hangs in one half of the screen, left or right of the spine, and was held to one line. Below 430 px the longest pill ("DNS Tool (Research Platform)", 214.6 px) is wider than its half, so it ran past the right edge and every page scrolled sideways: the document was 402 px wide in a 375 px window and 416 px in a 402 px window. At 320 px the pills on the left were cut off at the left edge and the link grid, which could not be narrower than 346 px, ran past the right edge too. The pills and the links now wrap at the same type size. A pill or a link that fits on one line is drawn as before, so at 430 px and wider nothing moves.
+- Change, housekeeping, the corrections page: entry C-20261113-07 quotes a BibTeX line whose web address is plain text and not a link, so the rule for links did not reach it, and at 320 px the block was 48 px past the edge. It wraps now.
+- Why: the site owner's standing rule that a page which scrolls sideways on a phone is a defect, and that type is not made smaller to cure it. This makes nothing printed false, so it has this line and no corrections entry.
+- Not covered, found on the way and left alone: on the home page the hero's particle layer (`.tech-particles`) rotates and its dots drift, and at 640 px and narrower (700 px passes) they pass the right edge while the animation runs, so the home page can still slide sideways on a phone. On windows from 961 px to at least 1100 px wide (960 and 1120 pass) the top navigation (`nav.topbar-nav`) runs past the right edge on every page. The footer tree's connector lines (`.ftr-vline`, the arms and the bar) are not drawn at any width, because the vendored rule `div:empty { display: none }` hides them. Each is its own change.
+- Measured before and after in Chromium and in Mobile Safari; the figures are in the pull request.
+- Note: the day above is the Los Angeles day the change was written. If it merges on another day, the heading takes that day.
+- Rollback: this pull request (`replit/phone-width-footer`), baseline commit `715f449`.
+
 ### 2026-11-17: Two corrections entries take the class Material; the index says when it began; an entry no longer runs off a phone
 - Actor: AI (Claude Code). Merged only on the site owner's word, and on the day the two entries name.
 - Scope: the corrections page, its register, its two renderers and one style rule. No redirect changes.

@@ -10,7 +10,7 @@ skip_author = true
 
 When something published here turns out to be wrong, it is corrected, and the correction is recorded in an entry on this page. The original claim is not deleted. It is quoted in the entry, so a correction cannot pass for a quiet edit.
 
-This index began on 13 November 2026, and a correction made before that day has no entry in it.
+This index began on 13 November 2026, and nothing corrected or taken down before that day has an entry in it.
 
 A work that is withdrawn is taken down, and its address redirects to its entry here, which says what the work was, when it was withdrawn and why.
 

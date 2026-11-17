@@ -13,16 +13,19 @@ Purpose: Track meaningful AI/developer changes with enough context to roll back 
 
 ## Entries
 
-### 2026-11-17: Two corrections entries take the class Material; the index says when it began
+### 2026-11-17: Two corrections entries take the class Material; the index says when it began; an entry no longer runs off a phone
 - Actor: AI (Claude Code). Merged only on the site owner's word, and on the day the two entries name.
-- Scope: the corrections page, its register and its index template. No style or redirect changes.
+- Scope: the corrections page, its register, its two renderers and one style rule. No redirect changes.
 - Files:
-  - `data/corrections.toml`: records C-20261115-02 and C-20261115-03 change `severity` from "Substantive" to "Material". Each gains an `amended` field that quotes the earlier class and gives the day of the change. One header rule describes the field.
+  - `data/corrections.toml`: records C-20261115-02 and C-20261115-03 change `severity` from "Substantive" to "Material". Each gains an `amended` field that quotes the earlier class and gives the day of the change. One header rule describes the field, and one says the index has a second renderer.
   - `templates/shortcodes/corrections_index.html`: a record with `amended` renders it last, under "Changes to this entry". A record without the field renders as before.
-  - `content/corrections.md`: one sentence says the index began on 13 November 2026 and holds no correction made before that day.
+  - `infra/llms/build-llms-full.mjs`: the text copy of the index in `/llms-full.txt` prints the same line, so the class does not change there without the note.
+  - `content/corrections.md`: one sentence says the index began on 13 November 2026 and holds nothing corrected or taken down before that day.
+  - `static/css/late-overrides.css`: `.correction-entry dd` lets a long unbroken word wrap.
   - `PROJECT_EVOLUTION_LOG.md`
-- Change: the two headings gave the lesser class to entries that hold Material items. The page defines Material as the graver class ("A reader acting on it is sent somewhere wrong, or cites something false"), and each entry holds an item that fits it. No item's text or class changed. The change is said in the entry itself, so it cannot pass for a quiet edit. The start sentence makes nothing printed false.
-- Why: the wording lane ruled (16 November 2026, UTC) that record C-20261115-03 is Material by the page's own definition, that C-20261115-02 is classed against the same definition, and that the index states when it began, so that a reader does not take the absence of earlier corrections for their absence from the record.
+- Change: the two headings gave the lesser class to entries that hold Material items. The page defines Material as the graver class ("A reader acting on it is sent somewhere wrong, or cites something false"), and each entry holds an item that fits it. No item's text or class changed. The change is said in the entry itself, on the page and in the text copy, so it cannot pass for a quiet edit. The start sentence makes nothing printed false.
+- Change, housekeeping: entry C-20261115-03 quotes a web address as plain text, 698 px wide as one word. On a phone the whole entry took that width and the page, which hides sideways overflow, cut every line of the entry off. Measured before and after in Chromium and in Mobile Safari; the figures are in the pull request.
+- Why: the wording lane ruled (16 November 2026, UTC) that record C-20261115-03 is Material by the page's own definition, that C-20261115-02 is classed against the same definition, and that the index states when it began, so that a reader does not take the absence of earlier entries to mean that nothing was corrected earlier.
 - Note: the day in each `amended` field has to be the Los Angeles day of the merge. If this merges on another day, change both first.
 - Rollback: this pull request (`replit/corrections-capture-dates-utc`), baseline commit `d1baa8e`.
 

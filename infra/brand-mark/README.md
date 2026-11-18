@@ -13,6 +13,7 @@ To remake every file, from the repository root:
 
     RESVG_JS=<folder of @resvg/resvg-js 2.6.2> python3 -I infra/brand-mark/assets.py <MASTER.svg> <a work folder>
     python3 -I infra/brand-mark/mail_logo.py <MASTER.svg> static/bimi-logo.svg
+    RESVG_JS=<the same folder> python3 -I infra/brand-mark/pictures.py <MASTER.svg> <on-site.png> <remote.png> <a work folder>
 
 | tool | writes |
 |---|---|
@@ -20,5 +21,6 @@ To remake every file, from the repository root:
 | `tab_icon.py` | the simpler drawing behind the 16 and 32 px frames of `favicon.ico`; its header says exactly what is the master's and what is added |
 | `assets.py` | the hero (PNG and WebP), the four PNG icons, `favicon.ico`, the link-preview card |
 | `mail_logo.py` | `static/bimi-logo.svg` in the SVG Tiny Portable/Secure profile; its header says what the profile forces out |
+| `pictures.py` | the two "How we work" pictures of the home page (20 files), with the coin set over each of the eight owl medallions in the owner's two source pictures, which are not kept here; its header gives the method and the encoder settings |
 
 Where the coin may sit is in `STYLE_GUIDE.md`, under "Brand Mark".

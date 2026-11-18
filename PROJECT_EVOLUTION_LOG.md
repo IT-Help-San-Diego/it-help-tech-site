@@ -13,6 +13,15 @@ Purpose: Track meaningful AI/developer changes with enough context to roll back 
 
 ## Entries
 
+### 2026-11-18: The use policy no longer lists a favicon family made from the banner
+- Actor: AI (Claude Code). Words ruled by the wording lane and approved by the site owner on 17 November 2026 ("Yeah, sure. You can fix that."). Merged only on his word.
+- Files: `content/use-policy.md` (section 5, one bullet, and a second dated line at the foot), `LICENSE` (section 5, the same clause), `PROJECT_EVOLUTION_LOG.md`.
+- Change: the bullet that reserved "the IT+HELP banner cutout ... and the favicon family generated from the same source" now ends at the banner cutout, and `LICENSE` loses "and associated favicons". Since 17 November the site's icons are the METACOGNITIVE semaphore, which the bullet above already reserves wherever it identifies the company.
+- Why: the page described files that are no longer there. Housekeeping; no corrections entry. The page carries its own dated line.
+- Checked: `zola build` and both gate scripts. Page widths were not measured again: the change takes eight words out of one bullet and adds one plain sentence to a page measured the night before.
+- Note: if this merges on another Los Angeles day, the heading and the dated line take that day.
+- Rollback: this pull request (`replit/use-policy-favicon-clause`), baseline commit `c8d8891`.
+
 ### 2026-11-17: The METACOGNITIVE coin takes the owl medallion's place in the hero, the icons, the link-preview picture, the mail logo and the two home page pictures
 - Actor: AI (Claude Code), on the site owner's direction of 17 November 2026 ("That owl needs to eventually become the metacognitive circle", and the same day, "adding the metacognitive and replacing the owl"). Not merged by its author: the merge waits for the site owner's word and for the open points at the end of this entry.
 - Scope: the home page's hero picture, the five icon files and their three links, the link-preview picture, the mail logo file, the two pictures under "How we work", the thumbnail slot of the Field Notes list, the section of the brand-colors page about the mark, the words of the use policy about the mark (with `LICENSE`, `NOTICE` and `llms.txt`), the style guide, and the tools that make the pictures. No style rule, no script, no redirect, no DNS record and no corrections entry changes.

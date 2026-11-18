@@ -13,14 +13,20 @@
 <html lang="{% if lang != config.default_language %}{{ lang }}{% else %}{{ config.extra.language_code | default(value=lang) }}{% endif %}">
 <head>
   {%- include "partials/head.html" %}
-  {# Brand mark: Athenian-owl medallion. Multi-size .ico (16/32/48) for browsers,
-     plus the existing apple-touch-icon / android-chrome / mstile files which
-     have all been regenerated from the same owl source so every platform shows
-     a consistent brand mark. The legacy /red-plus.ico is kept on disk as a
-     fallback (.local/favicon-backup-pre-owl/) but is no longer referenced. #}
-  <link rel="icon" href="/favicon.ico" sizes="any">
-  <link rel="icon" href="/android-chrome-192x192.png" type="image/png" sizes="192x192">
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+  {# Brand mark: the METACOGNITIVE coin of the Tetrasemaphore (since 17 November
+     2026; an Athenian-owl medallion before that). favicon.ico holds 16, 32 and
+     48 px. The two small sizes are a simpler drawing of the coin (one ring and
+     the centre mark, emboldened), because the whole coin cannot be read that
+     small; the 48 px size and the apple-touch-icon / android-chrome / mstile
+     files are the whole coin. All of them are rendered from one layered vector
+     master by the tools in infra/brand-mark/. The three links carry the file's hash as a
+     query, as the pictures do: the site serves these files as unchanging for
+     a year, so without it a returning browser would keep the old icon. The
+     legacy /red-plus.ico is kept on disk as a fallback
+     (.local/favicon-backup-pre-owl/) but is no longer referenced. #}
+  <link rel="icon" href="{{ get_url(path='favicon.ico', trailing_slash=false, cachebust=true) | safe }}" sizes="any">
+  <link rel="icon" href="{{ get_url(path='android-chrome-192x192.png', trailing_slash=false, cachebust=true) | safe }}" type="image/png" sizes="192x192">
+  <link rel="apple-touch-icon" href="{{ get_url(path='apple-touch-icon.png', trailing_slash=false, cachebust=true) | safe }}" sizes="180x180">
   {%- block comments_init %}{%- endblock comments_init %}
 </head>
 <body>

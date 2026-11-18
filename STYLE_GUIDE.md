@@ -1,10 +1,10 @@
 # Style Guide (Living)
-Last updated: 2026-04-23
+Last updated: 2026-11-17
 
 Purpose: Keep the visual system consistent and readable across the site. Update this file whenever palette, typography, or motion choices change.
 
 ## Brand Mark
-- Primary identity element: the **Athenian owl medallion** at `/img/brand/owl-720.{webp,png}`. Greek-key border, gold owl on dark ground. Pairs with the IT+HELP wordmark across hero, topbar, polos, and collateral.
+- Primary identity element: the **METACOGNITIVE coin** of the Tetrasemaphore at `/img/brand/metacognitive-720.{webp,png}`. Greek-key border in gold, the sign σₕ and its mirror image across a gold line, on a dark ground. It sits only where a logo sits (the home page hero, the icons, the link-preview picture, the mail logo), never inline beside content: a semaphore marks how a piece of work stands, and beside content it would read as a label on that content. Rendered from the layered vector master; do not enlarge a PNG. The Athenian owl medallion was the mark until 17 November 2026.
 
 ## Brand Colors
 - IT+HELP Wordmark Gold Ramp (Athenian-Owl Banner) — **the live wordmark fill**:

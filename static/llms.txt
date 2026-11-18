@@ -33,8 +33,10 @@ redistribute, train on, or build derivative products from this site's
 content, code, or brand assets. Most material is reserved; a small set
 of field notes may be reused under CC BY 4.0 **only when the page itself
 is explicitly marked** with that license. DNS Tool software is licensed
-separately under BUSL-1.1 via its own repository. Brand, logos, owl
-marks, and trademarks are reserved.
+separately under BUSL-1.1 via its own repository. Brand, logos and
+trademarks are reserved. The artwork of the METACOGNITIVE semaphore is
+CC BY 4.0 with the Tetrasemaphore; its use to identify IT Help San
+Diego is reserved.
 
 See the full policy:
 

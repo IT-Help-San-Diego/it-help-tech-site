@@ -87,7 +87,7 @@ def ser(e):
     raise SystemExit('unexpected element ' + t)
 s = '<svg xmlns="http://www.w3.org/2000/svg" version="1.2" baseProfile="tiny-ps" width="820" height="820" viewBox="0 0 820 820">'
 s += '<title>IT Help San Diego</title>'
-s += '<desc>The METACOGNITIVE coin of the Tetrasemaphore in flat colours: field, rings, Greek-key border, the lettering METACOGNITIVE, and the sign with its mirror image across a gold line.</desc>'
+s += '<desc>The METACOGNITIVE semaphore of the Tetrasemaphore in flat colours: field, rings, Greek-key border, the lettering METACOGNITIVE, and the sign with its mirror image across a gold line.</desc>'
 s += '<path fill="#17121D" d="M0 0h820v820H0z"/><g transform="translate(410 410) scale(0.9) translate(-410 -410)">'
 s += '<circle cx="%s" cy="%s" r="%s" fill="%s"/>' % (field.get('cx'), field.get('cy'), field.get('r'), field.get('fill'))
 for c in rings: s += '<circle cx="%s" cy="%s" r="%s" fill="none" stroke="%s" stroke-width="%s"/>' % (c.get('cx'), c.get('cy'), c.get('r'), c.get('stroke'), c.get('stroke-width'))

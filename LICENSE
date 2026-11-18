@@ -71,7 +71,7 @@ When CC BY 4.0 applies, attribution should read substantially as:
   "<title>" by Carey Balboa / IT Help San Diego Inc., licensed under
   CC BY 4.0. Source: https://www.it-help.tech/field-notes/<slug>/
 
-Embedded media (photos, diagrams, screenshots, logos, owl marks) inside
+Embedded media (photos, diagrams, screenshots, logos, brand marks) inside
 a CC BY 4.0 field note remain governed by Sections 4 and 5 unless the
 caption or alt text explicitly says otherwise.
 
@@ -115,8 +115,11 @@ or used as part of any other product, mark, or training corpus without
 prior written permission:
 
   - "IT Help San Diego" and "IT Help" name and wordmarks.
-  - The Athenian-owl medallion, the IT+HELP wordmark, the red plus
-    mark, and any combination thereof.
+  - The IT+HELP wordmark, the red plus mark, and any combination of
+    them.
+  - The METACOGNITIVE semaphore when it is used with our name or
+    wordmark, or in any other way that identifies IT Help San Diego.
+    The Athenian-owl medallion, which was our mark before it.
   - The brand color system documented at /brand-colors/ insofar as it
     is applied to identify IT Help San Diego Inc.
   - Trade dress of the corporate site and DNS Tool product, including
@@ -124,9 +127,19 @@ prior written permission:
     associated favicons.
   - Photographs and likenesses of staff and clients.
 
+The METACOGNITIVE semaphore is one of the four semaphores of the
+Tetrasemaphore, and its artwork is published under CC BY 4.0
+(doi:10.5281/zenodo.23575814). That license stays in force: anyone may
+copy and adapt the artwork with credit. It does not license trademark
+rights, and it gives no permission to use the semaphore to identify
+yourself as IT Help San Diego or to suggest that we endorse you. Using
+the semaphore for what it is, a sign of how a piece of work stands,
+needs no permission from us.
+
 Trademark rights are asserted independently of, and survive, any
 content license granted elsewhere in this file. CC BY 4.0 on a field
-note does NOT license the owl, the wordmark, or the company name.
+note does NOT license the wordmark, the company name, or the use of
+the semaphore as our mark.
 
 ---------------------------------------------------------------------
 6. Third-party components — Their own licenses

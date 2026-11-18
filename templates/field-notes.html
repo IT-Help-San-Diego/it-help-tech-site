@@ -89,16 +89,18 @@
         </p>
       {%- endif %}
 
-      {# thumbnail: prefer extra.image, fallback to logo #}
-      {% set thumb = page.extra.image
-                      | default(value='images/og-home.png') %}
-      <img src="{{ get_url(path=thumb, trailing_slash=false, cachebust=true) }}"
+      {# thumbnail: only when the note has a picture of its own. Until 17 November 2026 a note
+         without one fell back to the link-preview card; the card now carries the company's mark,
+         and the mark does not sit beside a piece of work (STYLE_GUIDE.md, Brand Mark). #}
+      {% if page.extra.image %}
+      <img src="{{ get_url(path=page.extra.image, trailing_slash=false, cachebust=true) }}"
            alt="{{ page.title }} thumbnail"
            width="200"
            class="post-thumb"
            loading="lazy"
            decoding="async"
            fetchpriority="low">
+      {% endif %}
 
       <div class="post-excerpt">
         {{ page.summary | default(value=page.content | striptags | truncate(length=160)) | safe }}

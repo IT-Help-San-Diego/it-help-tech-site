@@ -78,7 +78,7 @@ When CC BY 4.0 does apply, attribution should read substantially as:
 > `https://www.it-help.tech/field-notes/<slug>/`
 
 Embedded media inside an openly licensed field note — photographs,
-diagrams, screenshots, logos, owl marks — remain governed by sections
+diagrams, screenshots, logos, brand marks — remain governed by sections
 4 and 5 below unless the caption explicitly says otherwise. An open
 licence on the text does not extend to the brand mark next to it.
 
@@ -109,22 +109,34 @@ CC BY 4.0 or any other open license, even though they appeared under
 section 2 will not be applied to these pages. Licensing or
 collaboration: `licensing@it-help.tech`.
 
-## 5. Brand, logos, owl marks, trademarks — all rights reserved
+## 5. Brand, logos, trademarks — all rights reserved
 
 Reserved unless and until we agree otherwise in writing:
 
 - The names *"IT Help San Diego"* and *"IT Help"* and their wordmarks.
-- The Athenian-owl medallion, the IT+HELP wordmark, the red plus mark,
-  and any combination thereof.
+- The IT+HELP wordmark, the red plus mark, and any combination of them.
+- The METACOGNITIVE semaphore when it is used with our name or
+  wordmark, or in any other way that identifies IT Help San Diego. The
+  Athenian-owl medallion, which was our mark before it.
 - The IT+HELP banner cutout (gold IT+HELP + red plus + silver SAN
   DIEGO) and the favicon family generated from the same source.
 - The brand colour system at [/brand-colors/](/brand-colors/) when
   used to identify IT Help San Diego Inc.
 - Photographs and likenesses of our staff and clients.
 
+The METACOGNITIVE semaphore is one of the four semaphores of the
+Tetrasemaphore, and its artwork is published under CC BY 4.0
+(doi:10.5281/zenodo.23575814). That licence stays in force: anyone may
+copy and adapt the artwork with credit. It does not license trademark
+rights, and it gives no permission to use the semaphore to identify
+yourself as IT Help San Diego or to suggest that we endorse you. Using
+the semaphore for what it is, a sign of how a piece of work stands,
+needs no permission from us.
+
 Trademark rights are asserted independently of any content licence
 elsewhere on the site, and **survive** them. A CC BY 4.0 marker on a
-field note does not license the owl, the wordmark, or the company name.
+field note does not license the wordmark, the company name, or the use
+of the semaphore as our mark.
 
 ## 6. Third-party theme and dependencies — their own licences
 
@@ -179,6 +191,10 @@ happy to talk; we are not happy to be quietly relicensed.
 This page may be updated. The version at
 `https://www.it-help.tech/use-policy/` is canonical; the repository
 `LICENSE` and `NOTICE` files are the operational summary.
+
+Changed on 17 November 2026: sections 2 and 5 name the METACOGNITIVE
+semaphore where they named the owl medallion, and say what its
+CC BY 4.0 licence covers.
 
 ---
 

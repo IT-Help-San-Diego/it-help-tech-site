@@ -21,11 +21,17 @@
      role="presentation" exists solely to silence non-WCAG-aware SEO crawlers
      (Ahrefs et al.) that traverse aria-hidden subtrees and flag empty alt
      as a defect. No accessibility-tree change. #}
+  {# 2026-11-17: the mark is the METACOGNITIVE coin of the Tetrasemaphore, in
+     place of the owl medallion (owner direction of 17 November 2026). Rendered
+     at 720 px from the layered vector master (sha256 cccfcff10dc74930...) with
+     resvg-js 2.6.2; see PROJECT_EVOLUTION_LOG.md. The class names keep the word
+     "owl" so that no style rule moves. Still decorative here: the page says in
+     words what the mark is on /brand-colors/. #}
   <div class="brand-mark" aria-hidden="true">
     <picture class="hero-owl-pic">
-      <source srcset="{{ get_url(path='img/brand/owl-720.webp', trailing_slash=false, cachebust=true) | safe }}" type="image/webp">
+      <source srcset="{{ get_url(path='img/brand/metacognitive-720.webp', trailing_slash=false, cachebust=true) | safe }}" type="image/webp">
       <img class="hero-owl"
-           src="{{ get_url(path='img/brand/owl-720.png', trailing_slash=false, cachebust=true) | safe }}"
+           src="{{ get_url(path='img/brand/metacognitive-720.png', trailing_slash=false, cachebust=true) | safe }}"
            alt=""
            role="presentation"
            width="720" height="720"

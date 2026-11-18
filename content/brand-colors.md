@@ -13,7 +13,7 @@ scripts = ["js/brand-colors.js"]
 +++
 <div class="brand-colors-page">
 <p class="brand-colors-kicker">IT Help San Diego Inc.</p>
-<p class="brand-colors-intro">Canonical palette and token reference for design, engineering, and vendor handoff. The brand is led by the <strong>Athenian owl medallion</strong> with a <strong>gold IT+HELP wordmark</strong>; blue is the action / link family. This page is public for sharing and is marked <code>noindex, nofollow</code>.</p>
+<p class="brand-colors-intro">Canonical palette and token reference for design, engineering, and vendor handoff. The brand is led by the <strong>METACOGNITIVE semaphore</strong> with a <strong>gold IT+HELP wordmark</strong>; blue is the action / link family. This page is public for sharing and is marked <code>noindex, nofollow</code>.</p>
 <div class="brand-copy-actions brand-top-actions" role="group" aria-label="Copy all values">
 <button type="button" class="brand-copy-btn" id="copy-all-hex">Copy all HEX</button>
 <button type="button" class="brand-copy-btn" id="copy-all-css">Copy all CSS vars</button>
@@ -28,15 +28,17 @@ scripts = ["js/brand-colors.js"]
 </div>
 <section class="brand-section brand-mark-section" aria-labelledby="brand-mark">
 <div class="brand-section-head">
-<h2 id="brand-mark">Brand Mark — Athenian Owl</h2>
-<p>Primary identity element. Pairs with the IT+HELP wordmark across hero, topbar, polos, and collateral.</p>
+<h2 id="brand-mark">Brand Mark: the METACOGNITIVE semaphore</h2>
+<p>Primary identity element. It heads the home page and appears on the site's icons, on its default link-preview picture and on its mail logo.</p>
+<p>This is the company's mark. It is borrowed whole from <a href="https://tetrasemaphore.systems/">the Tetrasemaphore</a>, four semaphores that mark how a piece of work stands, and it stays what it is there. The note says of it: “METACOGNITIVE keeps its stance but turns its look back to its own frame.” Used as a logo it marks the company, and says nothing about the standing of the page it sits on. An Athenian owl medallion was the mark before it.</p>
+<p>It is shown whole, with its lettering, wherever the size allows. The two smallest tab icons are a simpler drawing of the same sign, and the mail logo is in flat colours because its file format allows no others. The artwork is published with the Tetrasemaphore under CC BY 4.0 (<a href="https://doi.org/10.5281/zenodo.23575814">doi:10.5281/zenodo.23575814</a>). What is reserved is its use to identify IT Help San Diego, as the <a href="/use-policy/">use policy</a> says.</p>
 </div>
 <figure class="brand-mark-figure">
 <picture>
-<source srcset="/img/brand/owl-720.webp" type="image/webp">
-<img src="/img/brand/owl-720.png" alt="Athenian owl medallion — IT Help San Diego brand mark" width="360" height="360" loading="lazy" decoding="async" class="brand-mark-image">
+<source srcset="/img/brand/metacognitive-720.webp" type="image/webp">
+<img src="/img/brand/metacognitive-720.png" alt="The METACOGNITIVE semaphore of the Tetrasemaphore, the mark of IT Help San Diego" width="360" height="360" loading="lazy" decoding="async" class="brand-mark-image">
 </picture>
-<figcaption>Greek-key border, gold owl on dark ground. Source: <code>/img/brand/owl-720.webp</code> (WebP) and <code>/img/brand/owl-720.png</code> (PNG fallback). Reference: Athena's owl, classical iconography.</figcaption>
+<figcaption>Greek-key border in gold. On a dark ground, in the semaphore's own colour, the sign σₕ above a gold line and its mirror image below. Files: <code>/img/brand/metacognitive-720.webp</code> (WebP) and <code>/img/brand/metacognitive-720.png</code> (PNG fallback).</figcaption>
 </figure>
 </section>
 <section class="brand-section" aria-labelledby="core-brand-colors">
@@ -333,7 +335,7 @@ scripts = ["js/brand-colors.js"]
 <h2 id="brand-rules">Brand Rules</h2>
 </div>
 <ol>
-<li>The Athenian owl medallion is the primary brand mark; the IT+HELP wordmark is its lockup partner.</li>
+<li>The METACOGNITIVE semaphore is the primary brand mark; the IT+HELP wordmark is its lockup partner.</li>
 <li>IT+HELP letters render in the owl-banner gold ramp: <code>--logo-gold-mid</code> (<code>#D2B56F</code>) in dark mode, stepping down to <code>--brand-gold</code> (<code>#C2A15A</code>) in light mode for surface contrast. The legacy logo-blue ramp is retained as token aliases only and is not used on the wordmark in either theme.</li>
 <li>Red is reserved for the plus symbol — never for body text, links, or other accents.</li>
 <li>Action / link / schedule blues sit one luminance step below the wordmark gold so the lockup remains the dominant signal.</li>

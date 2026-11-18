@@ -119,7 +119,7 @@ Reserved unless and until we agree otherwise in writing:
   wordmark, or in any other way that identifies IT Help San Diego. The
   Athenian-owl medallion, which was our mark before it.
 - The IT+HELP banner cutout (gold IT+HELP + red plus + silver SAN
-  DIEGO) and the favicon family generated from the same source.
+  DIEGO).
 - The brand colour system at [/brand-colors/](/brand-colors/) when
   used to identify IT Help San Diego Inc.
 - Photographs and likenesses of our staff and clients.
@@ -195,6 +195,10 @@ This page may be updated. The version at
 Changed on 17 November 2026: sections 2 and 5 name the METACOGNITIVE
 semaphore where they named the owl medallion, and say what its
 CC BY 4.0 licence covers.
+
+Changed on 18 November 2026: Section 5 no longer lists a favicon family
+made from the banner cutout; the site's icons are the semaphore, which
+the section already covers.
 
 ---
 

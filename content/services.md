@@ -31,7 +31,7 @@ extra:
       "@id": "https://www.it-help.tech/services/#webpage",
       "url": "https://www.it-help.tech/services",
       "name": "On-site IT Services San Diego (La Jolla) | IT Help San Diego",
-      "description": "Apple-centric on-site IT services across San Diego County: Mac & Wi‑Fi troubleshooting, DNS/email deliverability, cybersecurity, and data recovery. No retainers.",
+      "description": "Apple-centric on-site IT services across San Diego County: Mac & Wi‑Fi troubleshooting, DNS/email deliverability, and cybersecurity. No retainers.",
       "inLanguage": "en-US",
       "isPartOf": {
         "@id": "https://www.it-help.tech/#website"
@@ -364,7 +364,6 @@ Seven service pillars, organized by the problem they solve. Across all seven, th
 * **Wi‑Fi and wired network design and troubleshooting** — Cat6A/Cat8, mesh design, RF measurement — across all three platforms.
 * **DNS and email-deliverability work** — SPF, DKIM, DMARC, MTA-STS, DNSSEC.
 * **Cybersecurity hardening, ethical remote support, forensic data extraction** for legal matters.
-* **Recovery of recoverable data** without sending drives to a clean room — honest scope agreed upfront.
 
 ### What this practice does not cover
 
@@ -372,7 +371,6 @@ Seven service pillars, organized by the problem they solve. Across all seven, th
 * **Hardware sales** — we do not resell devices and we do not earn affiliate commissions on what we recommend.
 * **Monthly support retainers or managed-service contracts** — see the [Managed Agent](/managed-agent/) page for the device-maintenance layer that is the closest thing this practice offers, and the math that makes it different.
 * **Same-day emergency callouts for non-clients** — by appointment only.
-* **Walk-in service** — by appointment only.
 
 For physical-screen, battery, or port work, we refer to a vetted local technician. For device replacement we offer existing clients an on-site concierge pickup-and-migrate from Apple.
 
@@ -467,6 +465,7 @@ We believe in using best-in-class tools to achieve the best security and reliabi
 * **<a href="https://www.devontechnologies.com/apps/devonagent" target="_blank" rel="noopener noreferrer" class="gold-link">DEVONagent Pro:</a>** Focused web research agent for Mac.
 * **<a href="https://www.devontechnologies.com/apps/devonsphere" target="_blank" rel="noopener noreferrer" class="gold-link">DEVONsphere Express:</a>** Mac-wide content search and indexing.
 * **<a href="https://www.devontechnologies.com/apps/devonagent" target="_blank" rel="noopener noreferrer" class="gold-link">DEVONagent Express:</a>** Lightweight DEVONagent build for ad-hoc research.
+* **<a href="https://www.eastgate.com/Tinderbox/" target="_blank" rel="noopener noreferrer" class="gold-link">Tinderbox 11:</a>** Note-taking and analysis tool for Mac, with maps, outlines, and agents for finding structure in your notes.
 
 Need expert Mac IT help to solve your tech challenges?
 <p><a class="cta-button" href="https://book.squareup.com/appointments/mwhvoaiqecb5o2/location/LA35149CK62SV/services" target="_blank" rel="noopener noreferrer">Book an on-site Appointment Now</a></p>
